@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A4B36138-8A3B-4D96-899A-D63C90466492}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B0FF2C2A-DD2B-4675-B638-DC2BF8E00A25}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{1D9D4608-6916-4854-8DCA-7595DA0049E1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "infrustracture", "infrustracture", "{CD599899-BF79-45B8-AC86-6BCB182DA981}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "presentation", "presentation", "{DE6788B9-0FE4-4DF1-A3C6-7878A1FED78E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Odatey.FleetManagementSystem.Domain", "src\core\Odatey.FleetManagementSystem.Domain\Odatey.FleetManagementSystem.Domain.csproj", "{922EDE40-2F91-4633-88E5-1A1405800100}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Odatey.FleetManagementSystem.Application", "src\core\Odatey.FleetManagementSystem.Application\Odatey.FleetManagementSystem.Application.csproj", "{C87242B5-EE9E-4B5C-B135-A2FA72461690}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Odatey.FleetManagementSystem.Api", "src\presentation\Odatey.FleetManagementSystem.Api\Odatey.FleetManagementSystem.Api.csproj", "{144CE4C6-7DCE-464D-821D-363D81939A3E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Odatey.FleetManagementSystem.Repositories", "src\infrustracture\Odatey.FleetManagementSystem.Repositories\Odatey.FleetManagementSystem.Repositories.csproj", "{EBC7807C-1C0C-42A8-9725-615FB1EAFB5F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1D9D4608-6916-4854-8DCA-7595DA0049E1} = {A4B36138-8A3B-4D96-899A-D63C90466492}
+		{CD599899-BF79-45B8-AC86-6BCB182DA981} = {A4B36138-8A3B-4D96-899A-D63C90466492}
+		{DE6788B9-0FE4-4DF1-A3C6-7878A1FED78E} = {A4B36138-8A3B-4D96-899A-D63C90466492}
+		{922EDE40-2F91-4633-88E5-1A1405800100} = {1D9D4608-6916-4854-8DCA-7595DA0049E1}
+		{C87242B5-EE9E-4B5C-B135-A2FA72461690} = {1D9D4608-6916-4854-8DCA-7595DA0049E1}
+		{144CE4C6-7DCE-464D-821D-363D81939A3E} = {DE6788B9-0FE4-4DF1-A3C6-7878A1FED78E}
+		{EBC7807C-1C0C-42A8-9725-615FB1EAFB5F} = {CD599899-BF79-45B8-AC86-6BCB182DA981}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{922EDE40-2F91-4633-88E5-1A1405800100}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{922EDE40-2F91-4633-88E5-1A1405800100}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{922EDE40-2F91-4633-88E5-1A1405800100}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{922EDE40-2F91-4633-88E5-1A1405800100}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C87242B5-EE9E-4B5C-B135-A2FA72461690}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C87242B5-EE9E-4B5C-B135-A2FA72461690}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C87242B5-EE9E-4B5C-B135-A2FA72461690}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C87242B5-EE9E-4B5C-B135-A2FA72461690}.Release|Any CPU.Build.0 = Release|Any CPU
+		{144CE4C6-7DCE-464D-821D-363D81939A3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{144CE4C6-7DCE-464D-821D-363D81939A3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{144CE4C6-7DCE-464D-821D-363D81939A3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{144CE4C6-7DCE-464D-821D-363D81939A3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBC7807C-1C0C-42A8-9725-615FB1EAFB5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBC7807C-1C0C-42A8-9725-615FB1EAFB5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBC7807C-1C0C-42A8-9725-615FB1EAFB5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBC7807C-1C0C-42A8-9725-615FB1EAFB5F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
