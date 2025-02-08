@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{BE5BF19E-D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Odatey.FleetManagementSystem.Domain.Tests", "tests\core\Odatey.FleetManagementSystem.Domain.Tests\Odatey.FleetManagementSystem.Domain.Tests.csproj", "{3D354D63-D202-4B61-AD76-2C73C9507266}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Odatey.FleetManagementSystem.Application.Tests", "tests\core\Odatey.FleetManagementSystem.Application.Tests\Odatey.FleetManagementSystem.Application.Tests.csproj", "{F338FB01-9E61-4133-921E-173CAF4CF344}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,7 @@ Global
 		{EBC7807C-1C0C-42A8-9725-615FB1EAFB5F} = {CD599899-BF79-45B8-AC86-6BCB182DA981}
 		{BE5BF19E-D96A-463E-BB3B-3BC056119BDB} = {B0FF2C2A-DD2B-4675-B638-DC2BF8E00A25}
 		{3D354D63-D202-4B61-AD76-2C73C9507266} = {BE5BF19E-D96A-463E-BB3B-3BC056119BDB}
+		{F338FB01-9E61-4133-921E-173CAF4CF344} = {BE5BF19E-D96A-463E-BB3B-3BC056119BDB}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{922EDE40-2F91-4633-88E5-1A1405800100}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -59,5 +62,9 @@ Global
 		{3D354D63-D202-4B61-AD76-2C73C9507266}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D354D63-D202-4B61-AD76-2C73C9507266}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D354D63-D202-4B61-AD76-2C73C9507266}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F338FB01-9E61-4133-921E-173CAF4CF344}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F338FB01-9E61-4133-921E-173CAF4CF344}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F338FB01-9E61-4133-921E-173CAF4CF344}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F338FB01-9E61-4133-921E-173CAF4CF344}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
