@@ -4,13 +4,13 @@ public record UpdateWorkspaceCommand(
     Guid Id,
     string Title) : ICommand;
 
-internal sealed class UpdateWorkspaceCommandHandler(IApplicationDbContext context) 
+internal sealed class UpdateWorkspaceCommandHandler(IAsyncRepository<Workspace> context) 
     : ICommandHandler<UpdateWorkspaceCommand>
 {
     public async Task<Unit> Handle(UpdateWorkspaceCommand command, CancellationToken cancellationToken)
     {
         var workspaceId = WorkspaceId.Of(command.Id);
-        var workspace = await context.Workspaces.FindAsync(workspaceId, cancellationToken);
+        var workspace = await context.GetByIdAsync(workspaceId.Value, cancellationToken);
 
         if (workspace is null)
         {
@@ -19,6 +19,7 @@ internal sealed class UpdateWorkspaceCommandHandler(IApplicationDbContext contex
         
         workspace.Update(command.Title);
         await context.SaveChangesAsync(cancellationToken);
+        
         return Unit.Value;
     }
 }

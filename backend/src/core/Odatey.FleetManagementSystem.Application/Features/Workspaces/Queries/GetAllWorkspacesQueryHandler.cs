@@ -2,23 +2,16 @@ namespace Odatey.FleetManagementSystem.Application.Features.Workspaces.Queries;
 
 public record GetAllWorkspacesQuery : IQuery<IEnumerable<WorkspaceResponse>>;
 
-internal sealed class GetAllWorkspacesQueryHandler(IApplicationDbContext context) 
+public class GetAllWorkspacesQueryHandler(IAsyncRepository<Workspace> context) 
     : IQueryHandler<GetAllWorkspacesQuery, IEnumerable<WorkspaceResponse>>
 {
     public async Task<IEnumerable<WorkspaceResponse>> Handle(GetAllWorkspacesQuery query, CancellationToken cancellationToken)
     {
         var workspaces = await context
-            .Workspaces
-            .Select(w => new WorkspaceResponse(
-                w.Id.Value,
-                w.WorkspaceTitle,
-                w.CreatedAt,
-                w.UpdatedAt,
-                w.CreatedBy,
-                w.UpdatedBy))
-            .ToListAsync(cancellationToken);
+            .ListAllAsync(cancellationToken);
         
-        return workspaces;
+        return workspaces
+            .Select(s => new WorkspaceResponse(s.Id.Value, s.WorkspaceTitle, s.CreatedAt, s.UpdatedAt, s.CreatedBy, s.UpdatedBy));
     }
 }
 

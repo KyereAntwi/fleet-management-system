@@ -2,12 +2,12 @@ namespace Odatey.FleetManagementSystem.Application.Features.Workspaces.Queries;
 
 public record GetSingleWorkspacesQuery(Guid Id) : IQuery<WorkspaceResponse>;
 
-internal sealed class GetSingleWorkspacesQueryHandler(IApplicationDbContext context) 
+internal sealed class GetSingleWorkspacesQueryHandler(IAsyncRepository<Workspace> context) 
     : IQueryHandler<GetSingleWorkspacesQuery, WorkspaceResponse>
 {
     public async Task<WorkspaceResponse> Handle(GetSingleWorkspacesQuery query, CancellationToken cancellationToken)
     {
-        var workspace = await context.Workspaces.FindAsync(query.Id, cancellationToken);
+        var workspace = await context.GetByIdAsync(query.Id, cancellationToken);
 
         if (workspace is null)
         {
