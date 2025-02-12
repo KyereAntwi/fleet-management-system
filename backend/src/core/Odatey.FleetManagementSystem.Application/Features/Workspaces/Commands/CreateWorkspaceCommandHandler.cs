@@ -2,7 +2,7 @@ namespace Odatey.FleetManagementSystem.Application.Features.Workspaces.Commands;
 
 public record CreateWorkspaceCommand(string Title) : ICommand<CreateWorkspaceResponse>;
 
-internal sealed class CreateWorkspaceCommandHandler(IAsyncRepository<Workspace> context) 
+public class CreateWorkspaceCommandHandler(IAsyncRepository<Workspace> context)
     : ICommandHandler<CreateWorkspaceCommand, CreateWorkspaceResponse>
 {
     public async Task<CreateWorkspaceResponse> Handle(CreateWorkspaceCommand command, CancellationToken cancellationToken)
@@ -10,8 +10,8 @@ internal sealed class CreateWorkspaceCommandHandler(IAsyncRepository<Workspace> 
         //TODO - check to make sure permission is granted for creating workspace
 
         var workspace = CreateWorkspace(command);
-        await context.AddAsync(workspace, cancellationToken);
-        await context.SaveChangesAsync(cancellationToken);
+        await context.AddAsync(workspace);
+        await context.SaveChangesAsync();
 
         return new CreateWorkspaceResponse(workspace.Id.Value);
     }
@@ -19,7 +19,7 @@ internal sealed class CreateWorkspaceCommandHandler(IAsyncRepository<Workspace> 
     private Workspace CreateWorkspace(CreateWorkspaceCommand command)
     {
         return Workspace.Create(
-            WorkspaceId.Of(Guid.Empty),
+            WorkspaceId.Of(Guid.NewGuid()),
             command.Title,
             Guid.NewGuid().ToString()); //TODO - Replace with tenant id
     }

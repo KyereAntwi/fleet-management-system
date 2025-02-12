@@ -2,17 +2,13 @@ namespace Odatey.FleetManagementSystem.Application.Features.Workspaces.Queries;
 
 public record GetSingleWorkspacesQuery(Guid Id) : IQuery<WorkspaceResponse>;
 
-internal sealed class GetSingleWorkspacesQueryHandler(IAsyncRepository<Workspace> context) 
+public class GetSingleWorkspacesQueryHandler(IAsyncRepository<Workspace> context)
     : IQueryHandler<GetSingleWorkspacesQuery, WorkspaceResponse>
 {
     public async Task<WorkspaceResponse> Handle(GetSingleWorkspacesQuery query, CancellationToken cancellationToken)
     {
-        var workspace = await context.GetByIdAsync(query.Id, cancellationToken);
-
-        if (workspace is null)
-        {
-            throw new NotFoundException($"Workspace with id {query.Id} does not exist.");
-        }
+        var workspace = await context.GetByIdAsync(query.Id) ??
+         throw new NotFoundException($"Workspace with id {query.Id} does not exist.");
 
         return new WorkspaceResponse(
             workspace.Id.Value,
