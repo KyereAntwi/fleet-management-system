@@ -2,6 +2,7 @@
 
 global using System.Reflection;
 global using MediatR;
+global using Microsoft.AspNetCore.Http;
 global using Microsoft.Extensions.DependencyInjection;
 global using Odatey.FleetManagementSystem.Application.Exceptions;
 global using Odatey.FleetManagementSystem.Application.Features.Vehicles.Queries;
