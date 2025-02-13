@@ -8,3 +8,7 @@ global using Shouldly;
 global using Odatey.FleetManagementSystem.Application.Exceptions;
 global using Odatey.FleetManagementSystem.Application.Features.Workspaces.Commands;
 global using MediatR;
+global using Odatey.FleetManagementSystem.Application.Features.Vehicles.Commands;
+global using Odatey.FleetManagementSystem.Domain.Exceptions;
+global using Odatey.FleetManagementSystem.Domain.Fleets;
+global using Odatey.FleetManagementSystem.Domain.Fleets.ValueObjects;

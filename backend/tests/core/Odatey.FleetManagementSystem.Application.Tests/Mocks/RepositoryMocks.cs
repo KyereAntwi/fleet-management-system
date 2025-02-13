@@ -42,4 +42,39 @@ public static class RepositoryMocks
 
         return mockWorkspaceRepository;
     }
+
+    public static Mock<IAsyncRepository<Vehicle>> GetVehicleRepositoryMock()
+    {
+        var vehicles = new List<Vehicle>
+        {
+            new()
+            {
+                VehicleId = VehicleId.Of(new Guid("11111111-1111-1111-1111-111111111111")),
+                WorkspaceId = WorkspaceId.Of(Guid.NewGuid()),
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                CreatedBy = "User1",
+                UpdatedBy = "User1",
+                BrandAndType = "Brand and Type",
+                InitialCost = 55.99,
+                MileageCovered = "Mileage Covered",
+                RoadworthyRenewalDate = DateTime.Today.AddDays(7),
+                InsuranceRenewalDate = DateTime.Today.AddDays(28)
+            }
+        };
+        
+        var mockVehicleRepository = new Mock<IAsyncRepository<Vehicle>>();
+        
+        mockVehicleRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(
+            (Guid id) => vehicles.FirstOrDefault(x => x.VehicleId.Value == id));
+        
+        mockVehicleRepository.Setup(repo => repo.AddAsync(It.IsAny<Vehicle>())).ReturnsAsync(
+            (Vehicle vehicle) =>
+            {
+                vehicles.Add(vehicle);
+                return vehicle;
+            });
+        
+        return mockVehicleRepository;
+    }
 }

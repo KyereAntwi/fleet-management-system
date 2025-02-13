@@ -16,8 +16,4 @@
       <ProjectReference Include="..\Odatey.FleetManagementSystem.Domain\Odatey.FleetManagementSystem.Domain.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Features\Vehicles\Queries\" />
-    </ItemGroup>
-
 </Project>
