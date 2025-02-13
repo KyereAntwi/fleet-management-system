@@ -30,3 +30,26 @@ public static class ExtensionMethods
         return response;
     }
 }
+
+public record VehicleDetailsQueryDto(
+    VehicleDetailsDto Vehicle, 
+    IEnumerable<FuelConsumedDto> FuelConsumed,
+    IEnumerable<MaintenanceCostDto> MaintenanceCosts,
+    IEnumerable<AccidentRepairCostDto> AccidentRepairCosts);
+
+public record VehicleDetailsDto(
+    Guid VehicleId,
+    Guid WorkspaceId,
+    string BrandAndType,
+    double InitialCost,
+    string MileageCovered,
+    DateTime? RoadworthyRenewalDate,
+    DateTime? InsuranceRenewalDate,
+    DateTime? CreatedAt,
+    DateTime? UpdatedAt,
+    string? CreatedBy,
+    string? UpdatedBy);
+    
+public record FuelConsumedDto(double FuelConsumedValue, DateTime? CreatedAt);
+public record MaintenanceCostDto (double Cost, DateTime? CreatedAt);
+public record AccidentRepairCostDto (double Cost, DateTime? CreatedAt);
