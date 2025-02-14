@@ -13,5 +13,6 @@ global using Odatey.FleetManagementSystem.Application.Utilities.Dtos;
 global using Odatey.FleetManagementSystem.Domain.Fleets;
 global using Odatey.FleetManagementSystem.Domain.Fleets.ValueObjects;
 global using Odatey.FleetManagementSystem.Domain.Tenants;
+global using Odatey.FleetManagementSystem.Domain.Tenants.Enums;
 global using Odatey.FleetManagementSystem.Domain.WorkSpaces;
 global using Odatey.FleetManagementSystem.Domain.WorkSpaces.ValueObjects;

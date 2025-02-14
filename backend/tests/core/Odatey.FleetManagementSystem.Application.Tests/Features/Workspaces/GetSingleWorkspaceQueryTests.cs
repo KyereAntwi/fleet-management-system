@@ -2,7 +2,7 @@ namespace Odatey.FleetManagementSystem.Application.Tests.Features.Workspaces;
 
 public class GetSingleWorkspaceQueryTests
 {
-    private readonly Mock<IAsyncRepository<Workspace>> _mockRepo = RepositoryMocks.GetWorkspaceRepositoryMock();
+    private readonly Mock<IAsyncRepository<Workspace>> _mockRepo = WorkspaceMock.GetWorkspaceRepositoryMock();
 
     [Fact]
     public async Task Handle_ShouldReturnSingleWorkspace()

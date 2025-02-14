@@ -1,12 +1,13 @@
-using Odatey.FleetManagementSystem.Domain.Tenants.Enums;
-
 namespace Odatey.FleetManagementSystem.Application.Features.Tenants.Commands;
 
 public record CreateATenantCommand(
     string UserId,
     Subscription Subscription) : ICommand<string>;
 
-public class CreateATenantCommandHandler(ITenantRepository repository, TenantDatabaseSettings databaseSettings) 
+public class CreateATenantCommandHandler(
+    ITenantRepository repository,
+    IAsyncRepository<Workspace> workspacesRepository,
+    TenantDatabaseSettings databaseSettings) 
     : ICommandHandler<CreateATenantCommand, string>
 {
     public async Task<string> Handle(CreateATenantCommand command, CancellationToken cancellationToken)
@@ -23,6 +24,13 @@ public class CreateATenantCommandHandler(ITenantRepository repository, TenantDat
         
         await repository.CreateAsync(newTenant);
         
+        var newWorkspace = Workspace.Create(
+            WorkspaceId.Of(Guid.NewGuid()),
+            "Default Workspace");
+            
+        await workspacesRepository.AddAsync(newWorkspace);
+        await workspacesRepository.SaveChangesAsync();
+
         return newTenant.UserId;
     }
 }

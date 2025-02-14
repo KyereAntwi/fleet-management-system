@@ -1,5 +1,3 @@
-using Odatey.FleetManagementSystem.Domain.Tenants.Enums;
-
 namespace Odatey.FleetManagementSystem.Domain.Tenants;
 
 public class Tenant : BaseEntity<TenantId>

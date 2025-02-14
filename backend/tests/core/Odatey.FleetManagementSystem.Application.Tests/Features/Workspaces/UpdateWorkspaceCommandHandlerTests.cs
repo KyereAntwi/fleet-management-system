@@ -2,7 +2,7 @@ namespace Odatey.FleetManagementSystem.Application.Tests.Features.Workspaces;
 
 public class UpdateWorkspaceCommandHandlerTests
 {
-    private readonly Mock<IAsyncRepository<Workspace>> _mockRepo = RepositoryMocks.GetWorkspaceRepositoryMock();
+    private readonly Mock<IAsyncRepository<Workspace>> _mockRepo = WorkspaceMock.GetWorkspaceRepositoryMock();
 
     [Fact]
     public async Task Handle_ShouldThrowNotFoundException_WhenWorkspaceDoesNotExist()
@@ -19,7 +19,7 @@ public class UpdateWorkspaceCommandHandlerTests
     [Fact]
     public async Task Handle_ShouldUpdateWorkspace()
     {
-        var workspace = Workspace.Create(WorkspaceId.Of(new Guid("22222222-2222-2222-2222-222222222222")), "Workspace 2", "");
+        var workspace = Workspace.Create(WorkspaceId.Of(new Guid("22222222-2222-2222-2222-222222222222")), "Workspace 2");
         _mockRepo.Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(workspace);
         var handler = new UpdateWorkspaceCommandHandler(_mockRepo.Object);
 

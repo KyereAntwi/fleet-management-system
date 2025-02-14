@@ -3,15 +3,13 @@ namespace Odatey.FleetManagementSystem.Domain.WorkSpaces;
 public class Workspace : BaseEntity<WorkspaceId>
 {
     public string WorkspaceTitle { get; set; } = string.Empty;
-    public string TenantId { get; set; } = string.Empty;
 
-    public static Workspace Create(WorkspaceId id, string workspaceTitle, string tenantId)
+    public static Workspace Create(WorkspaceId id, string workspaceTitle)
     {
         var workspace = new Workspace
         {
             Id = id,
-            WorkspaceTitle = workspaceTitle,
-            TenantId = tenantId
+            WorkspaceTitle = workspaceTitle
         };
         
         return workspace;

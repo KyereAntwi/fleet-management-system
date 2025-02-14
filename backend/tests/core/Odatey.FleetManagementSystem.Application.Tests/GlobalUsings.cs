@@ -14,3 +14,6 @@ global using Odatey.FleetManagementSystem.Application.Utilities;
 global using Odatey.FleetManagementSystem.Domain.Exceptions;
 global using Odatey.FleetManagementSystem.Domain.Fleets;
 global using Odatey.FleetManagementSystem.Domain.Fleets.ValueObjects;
+global using Odatey.FleetManagementSystem.Domain.Tenants;
+global using Odatey.FleetManagementSystem.Domain.Tenants.Enums;
+global using Odatey.FleetManagementSystem.Domain.Tenants.ValueObjects;

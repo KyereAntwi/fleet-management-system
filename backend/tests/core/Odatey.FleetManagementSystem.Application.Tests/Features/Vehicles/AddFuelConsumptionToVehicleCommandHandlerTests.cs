@@ -2,7 +2,7 @@ namespace Odatey.FleetManagementSystem.Application.Tests.Features.Vehicles;
 
 public class AddFuelConsumptionToVehicleCommandHandlerTests
 {
-    private readonly Mock<IVehicleRepository> _vehicleRepositoryMock = RepositoryMocks.GetVehicleRepositoryMock();
+    private readonly Mock<IVehicleRepository> _vehicleRepositoryMock = VehicleMock.GetVehicleRepositoryMock();
 
     [Fact]
     public async Task Handle_ShouldAddFuelConsumptionToVehicle_WithValidParameters()

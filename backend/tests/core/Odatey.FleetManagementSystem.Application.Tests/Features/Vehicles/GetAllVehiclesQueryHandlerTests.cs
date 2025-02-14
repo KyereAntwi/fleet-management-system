@@ -2,7 +2,7 @@ namespace Odatey.FleetManagementSystem.Application.Tests.Features.Vehicles;
 
 public class GetAllVehiclesQueryHandlerTests
 {
-    private readonly Mock<IVehicleRepository> _mockVehicleRepo = RepositoryMocks.GetVehicleRepositoryMock();
+    private readonly Mock<IVehicleRepository> _mockVehicleRepo = VehicleMock.GetVehicleRepositoryMock();
 
     [Fact]
     public async Task Handle_ShouldReturnAllVehicles()

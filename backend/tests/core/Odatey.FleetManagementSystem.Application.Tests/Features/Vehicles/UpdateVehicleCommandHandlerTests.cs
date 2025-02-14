@@ -2,7 +2,7 @@ namespace Odatey.FleetManagementSystem.Application.Tests.Features.Vehicles;
 
 public class UpdateVehicleCommandHandlerTests
 {
-    private readonly Mock<IVehicleRepository> _mockRepo = RepositoryMocks.GetVehicleRepositoryMock();
+    private readonly Mock<IVehicleRepository> _mockRepo = VehicleMock.GetVehicleRepositoryMock();
 
     [Fact]
     public async Task Handle_ShouldThrowNotFoundException_WhenVehicleDoesNotExist()
