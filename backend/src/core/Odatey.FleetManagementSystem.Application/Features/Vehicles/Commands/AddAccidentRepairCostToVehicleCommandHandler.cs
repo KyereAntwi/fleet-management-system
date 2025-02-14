@@ -4,7 +4,7 @@ public record AddAccidentRepairCostToVehicleCommand(
     Guid VehicleId,
     double AccidentRepairCost) : ICommand;
 
-public class AddAccidentRepairCostToVehicleCommandHandler(IAsyncRepository<Vehicle> repository) 
+public class AddAccidentRepairCostToVehicleCommandHandler(IVehicleRepository repository) 
     : ICommandHandler<AddAccidentRepairCostToVehicleCommand, Unit>
 {
     public async Task<Unit> Handle(AddAccidentRepairCostToVehicleCommand command, CancellationToken cancellationToken)

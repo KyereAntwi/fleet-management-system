@@ -11,16 +11,19 @@ public class GetAllVehiclesQueryHandler(IVehicleRepository repository)
 {
     public async Task<PagedResponse<GetAllVehicleQueryDto>> Handle(GetAllVehiclesQuery query, CancellationToken cancellationToken)
     {
-        var queryResult = await repository.GetPagedListAsync(query.WorkspaceId, query.Keyword, query.Page, query.PageSize);
+        var queryResult = await repository
+            .GetPagedListAsync(query.WorkspaceId, query.Keyword, query.Page, query.PageSize);
 
-        var list = queryResult.Item2.Select(r => new GetAllVehicleQueryDto(
-            r.VehicleId.Value,
-            r.WorkspaceId.Value,
-            r.BrandAndType ?? string.Empty,
-            r.InitialCost,
-            r.MileageCovered ?? string.Empty,
-            r.RoadworthyRenewalDate ?? DateTime.MinValue,
-            r.InsuranceRenewalDate ?? DateTime.MinValue));
+        var list = queryResult
+            .Item2
+            .Select(r => new GetAllVehicleQueryDto(
+                r.VehicleId.Value,
+                r.WorkspaceId.Value,
+                r.BrandAndType ?? string.Empty,
+                r.InitialCost,
+                r.MileageCovered ?? string.Empty,
+                r.RoadworthyRenewalDate ?? DateTime.MinValue,
+                r.InsuranceRenewalDate ?? DateTime.MinValue));
 
         return new PagedResponse<GetAllVehicleQueryDto>
         {

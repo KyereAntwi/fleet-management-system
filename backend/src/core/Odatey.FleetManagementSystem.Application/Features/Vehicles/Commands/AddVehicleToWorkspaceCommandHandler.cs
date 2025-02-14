@@ -9,7 +9,7 @@ public record AddVehicleToWorkspaceCommand(
     DateTime InsuranceRenewalDate) : ICommand<AddVehicleToWorkspaceCommandResponse>;
 
 public class AddVehicleToWorkspaceCommandHandler(
-    IAsyncRepository<Vehicle> vehicleRepository, 
+    IVehicleRepository vehicleRepository, 
     IAsyncRepository<Workspace> workspaceRepository) 
     : ICommandHandler<AddVehicleToWorkspaceCommand, AddVehicleToWorkspaceCommandResponse>
 {

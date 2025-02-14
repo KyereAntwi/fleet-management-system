@@ -43,14 +43,14 @@ public static class RepositoryMocks
         return mockWorkspaceRepository;
     }
 
-    public static Mock<IAsyncRepository<Vehicle>> GetVehicleRepositoryMock()
+    public static Mock<IVehicleRepository> GetVehicleRepositoryMock()
     {
         var vehicles = new List<Vehicle>
         {
             new()
             {
                 VehicleId = VehicleId.Of(new Guid("11111111-1111-1111-1111-111111111111")),
-                WorkspaceId = WorkspaceId.Of(Guid.NewGuid()),
+                WorkspaceId = WorkspaceId.Of(new Guid("11111111-1111-1111-1111-111111111111")),
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
                 CreatedBy = "User1",
@@ -62,19 +62,37 @@ public static class RepositoryMocks
                 InsuranceRenewalDate = DateTime.Today.AddDays(28)
             }
         };
-        
-        var mockVehicleRepository = new Mock<IAsyncRepository<Vehicle>>();
-        
+
+        var mockVehicleRepository = new Mock<IVehicleRepository>();
+
         mockVehicleRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(
             (Guid id) => vehicles.FirstOrDefault(x => x.VehicleId.Value == id));
         
+        mockVehicleRepository.Setup(repo => repo.GetVehicleWithDetailsAsync(It.IsAny<Guid>()))!
+            .ReturnsAsync((Guid id) => vehicles.FirstOrDefault(x => x.VehicleId.Value == id));
+
+        mockVehicleRepository.Setup(repo => repo
+                .GetPagedListAsync(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()))
+            .ReturnsAsync(
+                (Guid workspaceId, string searchTerm, int page, int pageSize) =>
+                {
+                    var list = vehicles
+                        .Where(v => v.WorkspaceId.Value == workspaceId)
+                        .ToList();
+
+                    if (!string.IsNullOrWhiteSpace(searchTerm))
+                        list = [.. vehicles.Where(v => v.BrandAndType!.Contains(searchTerm))];
+
+                    return (list.Count, list.Skip((page - 1) * pageSize).Take(pageSize).ToList());
+                });
+
         mockVehicleRepository.Setup(repo => repo.AddAsync(It.IsAny<Vehicle>())).ReturnsAsync(
             (Vehicle vehicle) =>
             {
                 vehicles.Add(vehicle);
                 return vehicle;
             });
-        
+
         return mockVehicleRepository;
     }
 }

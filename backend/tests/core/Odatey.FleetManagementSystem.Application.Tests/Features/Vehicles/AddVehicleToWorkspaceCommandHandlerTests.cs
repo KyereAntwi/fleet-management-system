@@ -2,7 +2,7 @@ namespace Odatey.FleetManagementSystem.Application.Tests.Features.Vehicles;
 
 public class AddVehicleToWorkspaceCommandHandlerTests
 {
-    private readonly Mock<IAsyncRepository<Vehicle>> _mockRepo = RepositoryMocks.GetVehicleRepositoryMock();
+    private readonly Mock<IVehicleRepository> _mockRepo = RepositoryMocks.GetVehicleRepositoryMock();
     private readonly Mock<IAsyncRepository<Workspace>> _mockWorkspaceRepo = RepositoryMocks.GetWorkspaceRepositoryMock();
 
     [Fact]

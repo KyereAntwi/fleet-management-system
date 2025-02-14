@@ -4,7 +4,7 @@ public record AddFuelConsumptionToVehicleCommand(
     Guid VehicleId,
     double FuelConsumptionCost) : ICommand;
 
-public class AddFuelConsumptionToVehicleCommandHandler(IAsyncRepository<Vehicle> repository) 
+public class AddFuelConsumptionToVehicleCommandHandler(IVehicleRepository repository) 
     : ICommandHandler<AddFuelConsumptionToVehicleCommand, Unit>
 {
     public async Task<Unit> Handle(AddFuelConsumptionToVehicleCommand command, CancellationToken cancellationToken)

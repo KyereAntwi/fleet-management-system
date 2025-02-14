@@ -8,7 +8,7 @@ public record UpdateVehicleCommand(
     DateTime RoadworthyRenewalDate,
     DateTime InsuranceRenewalDate) : ICommand;
 
-public class UpdateVehicleCommandHandler(IAsyncRepository<Vehicle> context) : ICommandHandler<UpdateVehicleCommand>
+public class UpdateVehicleCommandHandler(IVehicleRepository context) : ICommandHandler<UpdateVehicleCommand>
 {
     public async Task<Unit> Handle(UpdateVehicleCommand command, CancellationToken cancellationToken)
     {

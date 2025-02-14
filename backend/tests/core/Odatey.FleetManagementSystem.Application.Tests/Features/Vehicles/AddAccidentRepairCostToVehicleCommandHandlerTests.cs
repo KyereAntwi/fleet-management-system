@@ -2,7 +2,7 @@ namespace Odatey.FleetManagementSystem.Application.Tests.Features.Vehicles;
 
 public class AddAccidentRepairCostToVehicleCommandHandlerTests
 {
-    private readonly Mock<IAsyncRepository<Vehicle>> _vehicleRepositoryMock = RepositoryMocks.GetVehicleRepositoryMock();
+    private readonly Mock<IVehicleRepository> _vehicleRepositoryMock = RepositoryMocks.GetVehicleRepositoryMock();
 
     [Fact]
     public async Task Handle_ShouldAddAccidentRepairCostToVehicle_WithValidParameters()
