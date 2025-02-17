@@ -1,9 +1,11 @@
 // Global using directives
 
+global using System.Data.SqlClient;
 global using System.Reflection;
 global using MediatR;
 global using Microsoft.AspNetCore.Http;
 global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Logging;
 global using Odatey.FleetManagementSystem.Application.Exceptions;
 global using Odatey.FleetManagementSystem.Application.Features.Vehicles.Queries;
 global using Odatey.FleetManagementSystem.Application.Interfaces.Persistence;
