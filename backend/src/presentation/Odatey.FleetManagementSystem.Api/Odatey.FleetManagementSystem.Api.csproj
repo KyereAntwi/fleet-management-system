@@ -6,4 +6,18 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="FastEndpoints" Version="5.34.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\infrustracture\Odatey.FleetManagementSystem.Persistence.TenantsManagement\Odatey.FleetManagementSystem.Persistence.TenantsManagement.csproj" />
+      <ProjectReference Include="..\..\infrustracture\Odatey.FleetManagementSystem.Persistence\Odatey.FleetManagementSystem.Persistence.csproj" />
+      <ProjectReference Include="..\Odatey.FleetManagementSystem.Contracts\Odatey.FleetManagementSystem.Contracts.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Endpoints\TenantsManagement\" />
+    </ItemGroup>
+
 </Project>
