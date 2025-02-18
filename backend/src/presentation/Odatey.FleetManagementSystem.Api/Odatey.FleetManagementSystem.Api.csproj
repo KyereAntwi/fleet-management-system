@@ -8,16 +8,23 @@
 
     <ItemGroup>
       <PackageReference Include="FastEndpoints" Version="5.34.0" />
+      <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.13" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.13">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
+      <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.4" />
+      <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+      <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\infrustracture\Odatey.FleetManagementSystem.ExternalServices\Odatey.FleetManagementSystem.ExternalServices.csproj" />
       <ProjectReference Include="..\..\infrustracture\Odatey.FleetManagementSystem.Persistence.TenantsManagement\Odatey.FleetManagementSystem.Persistence.TenantsManagement.csproj" />
       <ProjectReference Include="..\..\infrustracture\Odatey.FleetManagementSystem.Persistence\Odatey.FleetManagementSystem.Persistence.csproj" />
       <ProjectReference Include="..\Odatey.FleetManagementSystem.Contracts\Odatey.FleetManagementSystem.Contracts.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Endpoints\TenantsManagement\" />
     </ItemGroup>
 
 </Project>

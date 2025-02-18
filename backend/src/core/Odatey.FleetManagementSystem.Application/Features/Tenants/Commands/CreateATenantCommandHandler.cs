@@ -20,20 +20,19 @@ public class CreateATenantCommandHandler(
             throw new BadRequestException($"Tenant '{command.UserId}' already exists.");
         }
             
-        var connectionString = $"Server={databaseSettings.Server};Database={command.UserId};User Id={databaseSettings.Username};Password={databaseSettings.Password};";
+        var connectionString = $"Host={databaseSettings.Server};Port={databaseSettings.Port};Database={command.UserId};User Id={databaseSettings.Username};Password={databaseSettings.Password};";
         var newTenant = Tenant.Create(command.UserId, connectionString, command.Subscription);
 
         try
         {
             await GenerateTenantDatabase(command.UserId);
+            await repository.CreateAsync(newTenant);
         }
         catch (Exception e)
         {
             logger.LogError(e, "Error creating new tenant");
             throw new Exception("Error creating new tenant");
         }
-        
-        await repository.CreateAsync(newTenant);
         
         var newWorkspace = Workspace.Create(
             WorkspaceId.Of(Guid.NewGuid()),

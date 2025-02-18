@@ -28,6 +28,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Odatey.FleetManagementSyste
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Odatey.FleetManagementSystem.Contracts", "src\presentation\Odatey.FleetManagementSystem.Contracts\Odatey.FleetManagementSystem.Contracts.csproj", "{C347E102-CE43-4802-BB40-8F32F1754A4D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Odatey.FleetManagementSystem.ExternalServices", "src\infrustracture\Odatey.FleetManagementSystem.ExternalServices\Odatey.FleetManagementSystem.ExternalServices.csproj", "{E27B15D4-8D43-4EBE-B4F4-3D3C76270999}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Odatey.FleetManagementSystem.ServiceDefaults", "src\presentation\Odatey.FleetManagementSystem.ServiceDefaults\Odatey.FleetManagementSystem.ServiceDefaults.csproj", "{26264765-7D80-4380-8E7D-7E79540C8423}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Odatey.FleetManagementSystem.AppHost", "src\presentation\Odatey.FleetManagementSystem.AppHost\Odatey.FleetManagementSystem.AppHost.csproj", "{1B3A3EC7-6587-4C17-B124-97E2B5CE6CF3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +52,9 @@ Global
 		{F338FB01-9E61-4133-921E-173CAF4CF344} = {BE5BF19E-D96A-463E-BB3B-3BC056119BDB}
 		{F032048A-5D27-4B98-BD75-9E3F955DBDD1} = {CD599899-BF79-45B8-AC86-6BCB182DA981}
 		{C347E102-CE43-4802-BB40-8F32F1754A4D} = {DE6788B9-0FE4-4DF1-A3C6-7878A1FED78E}
+		{E27B15D4-8D43-4EBE-B4F4-3D3C76270999} = {CD599899-BF79-45B8-AC86-6BCB182DA981}
+		{26264765-7D80-4380-8E7D-7E79540C8423} = {DE6788B9-0FE4-4DF1-A3C6-7878A1FED78E}
+		{1B3A3EC7-6587-4C17-B124-97E2B5CE6CF3} = {DE6788B9-0FE4-4DF1-A3C6-7878A1FED78E}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{922EDE40-2F91-4633-88E5-1A1405800100}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -80,5 +89,17 @@ Global
 		{C347E102-CE43-4802-BB40-8F32F1754A4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C347E102-CE43-4802-BB40-8F32F1754A4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C347E102-CE43-4802-BB40-8F32F1754A4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E27B15D4-8D43-4EBE-B4F4-3D3C76270999}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E27B15D4-8D43-4EBE-B4F4-3D3C76270999}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E27B15D4-8D43-4EBE-B4F4-3D3C76270999}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E27B15D4-8D43-4EBE-B4F4-3D3C76270999}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26264765-7D80-4380-8E7D-7E79540C8423}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26264765-7D80-4380-8E7D-7E79540C8423}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26264765-7D80-4380-8E7D-7E79540C8423}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26264765-7D80-4380-8E7D-7E79540C8423}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B3A3EC7-6587-4C17-B124-97E2B5CE6CF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B3A3EC7-6587-4C17-B124-97E2B5CE6CF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B3A3EC7-6587-4C17-B124-97E2B5CE6CF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B3A3EC7-6587-4C17-B124-97E2B5CE6CF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
