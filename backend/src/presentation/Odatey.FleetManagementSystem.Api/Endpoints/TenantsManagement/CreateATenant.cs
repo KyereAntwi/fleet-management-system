@@ -1,11 +1,7 @@
 namespace Odatey.FleetManagementSystem.Api.Endpoints.TenantsManagement;
 
-public class CreateATenant : Endpoint<CreateATenantRequest>
+public class CreateATenant(ISender sender) : Endpoint<CreateATenantRequest>
 {
-    private readonly ISender _sender;
-
-    public CreateATenant(ISender sender) => _sender = sender;
-
     public override void Configure()
     {
         Post("/api/v1/tenants");
@@ -14,7 +10,7 @@ public class CreateATenant : Endpoint<CreateATenantRequest>
     public override async Task HandleAsync(CreateATenantRequest req, CancellationToken ct)
     {
         _ = TryParse<Subscription>(req.Subscription, out var subscription);
-        await _sender.Send(new CreateATenantCommand(req.UserId, subscription), ct);
+        await sender.Send(new CreateATenantCommand(req.UserId, subscription), ct);
 
         await SendNoContentAsync(ct);
     }

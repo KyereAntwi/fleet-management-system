@@ -1,20 +1,15 @@
 namespace Odatey.FleetManagementSystem.Api.Endpoints.Workspace;
 
-public class GetSingleWorkspace : Endpoint<GetByIdRequest, BaseResponse<WorkspaceResponse>>
+public class GetSingleWorkspace(ISender sender) : Endpoint<GetByIdRequest, BaseResponse<WorkspaceResponse>>
 {
-    private readonly ISender _sender;
-
-    public GetSingleWorkspace(ISender sender) => _sender = sender;
-
     public override void Configure()
     {
         Get("/api/v1/workspaces/{workspaceId}");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(GetByIdRequest req, CancellationToken ct)
     {
-        var workspace = await _sender.Send(new GetSingleWorkspacesQuery(req.WorkspaceId), cancellationToken: ct);
+        var workspace = await sender.Send(new GetSingleWorkspacesQuery(req.WorkspaceId), cancellationToken: ct);
         
         await SendAsync(new BaseResponse<WorkspaceResponse>
         {

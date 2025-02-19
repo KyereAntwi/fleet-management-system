@@ -4,7 +4,7 @@ public static class Setup
 {
     public static WebApplication AddServices(this WebApplicationBuilder builder)
     {
-        AddSwagger(builder.Services);
+        //AddSwagger(builder.Services);
         
         var tenantDatabaseSettings = new TenantDatabaseSettings();
         builder.Configuration.GetSection("TenantDatabaseSettings").Bind(tenantDatabaseSettings);
@@ -19,6 +19,19 @@ public static class Setup
         
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.Authority = builder.Configuration["Auth0:Domain"];
+                options.Audience = builder.Configuration["Auth0:Audience"];
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    NameClaimType = ClaimTypes.NameIdentifier,
+                };
+            });
+
+        builder.Services.AddAuthorization();
 
         builder.Services.AddCors(options =>
         {
@@ -42,14 +55,26 @@ public static class Setup
                 options.RouteTemplate = "openapi/{documentName}.json";
             });
             
-            app.UseSwaggerUI(c =>
+            // app.UseSwaggerUI(c =>
+            // {
+            //     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Odatey's Fleets Management System Api");
+            //     c.RoutePrefix = string.Empty;
+            // });
+            
+            app.MapScalarApiReference(options =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Odaty's Fleets Management System Api");
-                c.RoutePrefix = string.Empty;
+                options
+                    .WithTitle("Odatey's Fleets Management System Api")
+                    .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient)
+                    .WithApiKeyAuthentication(x => x.Token = "my-api-key");
             });
         }
         
         app.UseCors("Open");
+        
+        app.UseAuthentication();
+        app.UseAuthorization();
+        
         app.UseFastEndpoints();
         
         return app;
