@@ -10,8 +10,12 @@ public class CreateWorkspace(ISender sender, IHttpContextAccessor httpContextAcc
 
     public override async Task HandleAsync(CreateWorkspaceRequest req, CancellationToken ct)
     {
-        var userId = httpContextAccessor.HttpContext?.Request.Headers["X-Tenant-Id"].ToString();
-        var result = await sender.Send(new CreateWorkspaceCommand(req.Title, userId!), ct);
+        var tenantId = httpContextAccessor.HttpContext?.Request.Headers["X-Tenant-Id"].ToString();
+        
+        if (!string.IsNullOrWhiteSpace(tenantId))
+            throw new BadRequestException("[X-Tenant-Id] was missing from the request header.");
+        
+        var result = await sender.Send(new CreateWorkspaceCommand(req.Title, tenantId!), ct);
         
         await SendCreatedAtAsync<GetSingleWorkspace>(new
         {
