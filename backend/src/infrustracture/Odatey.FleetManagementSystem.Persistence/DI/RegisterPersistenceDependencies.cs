@@ -1,6 +1,3 @@
-using Odatey.FleetManagementSystem.Repositories.Data;
-using Odatey.FleetManagementSystem.Repositories.Repositories;
-
 namespace Odatey.FleetManagementSystem.Repositories.DI;
 
 public static class RegisterPersistenceDependencies
@@ -9,6 +6,11 @@ public static class RegisterPersistenceDependencies
         IConfiguration configuration)
     {
         services.AddDbContext<ApplicationDbContext>();
+
+        services.AddDbContext<ApplicationTemplateDbContext>(options =>
+        {
+            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
+        });
         
         services.AddScoped(typeof(IAsyncRepository<>), typeof(AsyncRepository<>));
         services.AddScoped<IVehicleRepository, VehicleRepository>();

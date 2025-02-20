@@ -12,3 +12,5 @@ global using Odatey.FleetManagementSystem.Domain.Fleets;
 global using Odatey.FleetManagementSystem.Domain.Fleets.ValueObjects;
 global using Odatey.FleetManagementSystem.Domain.WorkSpaces;
 global using Odatey.FleetManagementSystem.Domain.WorkSpaces.ValueObjects;
+global using Odatey.FleetManagementSystem.Repositories.Data;
+global using Odatey.FleetManagementSystem.Repositories.Repositories;

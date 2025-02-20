@@ -1,5 +1,3 @@
-using Odatey.FleetManagementSystem.Repositories.Data;
-
 namespace Odatey.FleetManagementSystem.Repositories.Repositories;
 
 public class VehicleRepository(ApplicationDbContext dbContext) : AsyncRepository<Vehicle>(dbContext), IVehicleRepository

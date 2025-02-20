@@ -52,8 +52,10 @@ public class TenantRepository(TenantsDbContext tenantsDbContext, IServiceScopeFa
     public async Task ApplyMigrationAsync(string connectionString)
     {
         using var scope = serviceScopeFactory.CreateScope();
-        var applicationDbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        applicationDbContext.Database.SetConnectionString(connectionString);
-        await applicationDbContext.Database.MigrateAsync();
+        
+        var context = new DbContextOptionsBuilder<ApplicationTemplateDbContext>().UseSqlite(connectionString).Options;
+
+        await using var dbContext = new ApplicationTemplateDbContext(context);
+        await dbContext.Database.MigrateAsync();
     }
 }
