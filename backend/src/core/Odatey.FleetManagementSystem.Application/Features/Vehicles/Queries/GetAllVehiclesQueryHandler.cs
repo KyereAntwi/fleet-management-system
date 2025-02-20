@@ -17,7 +17,7 @@ public class GetAllVehiclesQueryHandler(IVehicleRepository repository)
         var list = queryResult
             .Item2
             .Select(r => new GetAllVehicleQueryDto(
-                r.VehicleId.Value,
+                r.Id.Value,
                 r.WorkspaceId.Value,
                 r.BrandAndType ?? string.Empty,
                 r.InitialCost,

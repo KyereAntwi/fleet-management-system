@@ -11,7 +11,6 @@ public class Vehicle : BaseEntity<VehicleId>
     private readonly Collection<AccidentRepairCost> _accidentRepairCosts = [];
     public IReadOnlyCollection<AccidentRepairCost> AccidentRepairCosts => _accidentRepairCosts.AsReadOnly();
     
-    public required VehicleId VehicleId { get; set; }
     public required WorkspaceId WorkspaceId { get; set; }
     public string? BrandAndType { get; set; }
     public double InitialCost { get; set; }
@@ -30,7 +29,7 @@ public class Vehicle : BaseEntity<VehicleId>
     {
         var vehicle = new Vehicle
         {
-            VehicleId = vehicleId,
+            Id = vehicleId,
             WorkspaceId = workspaceId,
             BrandAndType = brandAndType,
             InitialCost = initialCost,
@@ -63,7 +62,7 @@ public class Vehicle : BaseEntity<VehicleId>
             throw new DomainExceptions("Fuel consumption can not be zero or negative.");
         }
         
-        var newFuelConsumption = new FuelConsumed(VehicleId, fuelConsumptionCost);
+        var newFuelConsumption = new FuelConsumed(Id, fuelConsumptionCost);
         _fuelConsumed.Add(newFuelConsumption);
     }
 
@@ -74,7 +73,7 @@ public class Vehicle : BaseEntity<VehicleId>
             throw new DomainExceptions("Maintenance cost can not be zero or negative.");
         }
         
-        var newMaintenanceCost = new MaintenanceCost(VehicleId, maintenanceCost);
+        var newMaintenanceCost = new MaintenanceCost(Id, maintenanceCost);
         _maintenanceCosts.Add(newMaintenanceCost);
     }
 
@@ -85,7 +84,7 @@ public class Vehicle : BaseEntity<VehicleId>
             throw new DomainExceptions("Accident repair cost can not be zero or negative.");
         }
         
-        var newAccidentRepairCost = new AccidentRepairCost(VehicleId, accidentRepairCost);
+        var newAccidentRepairCost = new AccidentRepairCost(Id, accidentRepairCost);
         _accidentRepairCosts.Add(newAccidentRepairCost);
     }
 }

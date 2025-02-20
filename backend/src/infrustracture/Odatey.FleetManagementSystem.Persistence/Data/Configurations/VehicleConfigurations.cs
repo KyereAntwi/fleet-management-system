@@ -4,8 +4,8 @@ public class VehicleConfigurations : IEntityTypeConfiguration<Vehicle>
 {
     public void Configure(EntityTypeBuilder<Vehicle> builder)
     {
-        builder.HasKey(x => x.VehicleId);
-        builder.Property(x => x.VehicleId)
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.Id)
             .HasConversion(vehicleId => vehicleId.Value, dbId => VehicleId.Of(dbId));
         
         builder

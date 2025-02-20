@@ -30,7 +30,7 @@ public class VehicleRepository(ApplicationDbContext dbContext) : AsyncRepository
             .Include(v => v.AccidentRepairCosts)
             .AsSplitQuery()
             .AsNoTracking()
-            .FirstOrDefaultAsync(v => v.VehicleId.Value == vehicleId);
+            .FirstOrDefaultAsync(v => v.Id.Value == vehicleId);
     }
 
     public async Task AddRangeAsync(IEnumerable<Vehicle> vehicles)

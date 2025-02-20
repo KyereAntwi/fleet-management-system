@@ -8,7 +8,7 @@ public static class VehicleMock
         {
             new()
             {
-                VehicleId = VehicleId.Of(new Guid("11111111-1111-1111-1111-111111111111")),
+                Id = VehicleId.Of(new Guid("11111111-1111-1111-1111-111111111111")),
                 WorkspaceId = WorkspaceId.Of(new Guid("11111111-1111-1111-1111-111111111111")),
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
@@ -25,10 +25,10 @@ public static class VehicleMock
         var mockVehicleRepository = new Mock<IVehicleRepository>();
 
         mockVehicleRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(
-            (Guid id) => vehicles.FirstOrDefault(x => x.VehicleId.Value == id));
+            (Guid id) => vehicles.FirstOrDefault(x => x.Id.Value == id));
         
         mockVehicleRepository.Setup(repo => repo.GetVehicleWithDetailsAsync(It.IsAny<Guid>()))!
-            .ReturnsAsync((Guid id) => vehicles.FirstOrDefault(x => x.VehicleId.Value == id));
+            .ReturnsAsync((Guid id) => vehicles.FirstOrDefault(x => x.Id.Value == id));
 
         mockVehicleRepository.Setup(repo => repo
                 .GetPagedListAsync(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()))

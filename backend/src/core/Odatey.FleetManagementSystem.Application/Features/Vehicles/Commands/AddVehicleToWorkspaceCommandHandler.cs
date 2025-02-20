@@ -26,7 +26,7 @@ public class AddVehicleToWorkspaceCommandHandler(
         await vehicleRepository.AddAsync(newVehicle);
         await vehicleRepository.SaveChangesAsync();
         
-        return new AddVehicleToWorkspaceCommandResponse(newVehicle.VehicleId.Value);
+        return new AddVehicleToWorkspaceCommandResponse(newVehicle.Id.Value);
     }
 
     private static Vehicle CreateVehicle(AddVehicleToWorkspaceCommand command)

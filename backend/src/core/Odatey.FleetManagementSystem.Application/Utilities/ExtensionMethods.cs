@@ -10,7 +10,7 @@ public static class ExtensionMethods
 
         var response = new VehicleDetailsQueryDto(
             new VehicleDetailsDto(
-                exitingVehicle.VehicleId.Value,
+                exitingVehicle.Id.Value,
                 exitingVehicle.WorkspaceId.Value,
                 exitingVehicle.BrandAndType ?? string.Empty,
                 exitingVehicle.InitialCost,

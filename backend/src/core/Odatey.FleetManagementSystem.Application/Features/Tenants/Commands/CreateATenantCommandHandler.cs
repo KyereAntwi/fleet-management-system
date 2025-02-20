@@ -19,14 +19,19 @@ public class CreateATenantCommandHandler(
         {
             throw new BadRequestException($"Tenant '{command.UserId}' already exists.");
         }
-            
-        var connectionString = $"Host={databaseSettings.Server};Port={databaseSettings.Port};Database={command.UserId};User Id={databaseSettings.Username};Password={databaseSettings.Password};";
+
+        var newDatabase = Guid.NewGuid().ToString();
+        
+        var connectionString =
+            $"Host={databaseSettings.Server};Port={databaseSettings.Port};Database={newDatabase};User Id={databaseSettings.Username};Password={databaseSettings.Password};";
         var newTenant = Tenant.Create(command.UserId, connectionString, command.Subscription);
 
+        await repository.CreateAsync(newTenant);
+        
         try
         {
-            await GenerateTenantDatabase(command.UserId);
-            await repository.CreateAsync(newTenant);
+            await repository.GenerateTenantDatabase(newDatabase);
+            await repository.ApplyMigrationAsync(connectionString);
         }
         catch (Exception e)
         {
@@ -41,17 +46,6 @@ public class CreateATenantCommandHandler(
         await workspacesRepository.AddAsync(newWorkspace);
         await workspacesRepository.SaveChangesAsync();
 
-        return newTenant.UserId;
-    }
-
-    private async Task GenerateTenantDatabase(string tenantId)
-    {
-        var masterConnectionString = databaseSettings.MasterConnectionString;
-
-        await using var masterConnection = new SqlConnection(masterConnectionString);
-        await masterConnection.OpenAsync();
-        var command = masterConnection.CreateCommand();
-        command.CommandText = $"IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = '{tenantId}') CREATE DATABASE [{tenantId}]";
-        await command.ExecuteNonQueryAsync();
+        return newTenant.Id.Value.ToString();
     }
 }

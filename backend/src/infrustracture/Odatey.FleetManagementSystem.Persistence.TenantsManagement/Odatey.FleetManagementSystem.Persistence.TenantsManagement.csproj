@@ -15,6 +15,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\core\Odatey.FleetManagementSystem.Application\Odatey.FleetManagementSystem.Application.csproj" />
+      <ProjectReference Include="..\Odatey.FleetManagementSystem.Persistence\Odatey.FleetManagementSystem.Persistence.csproj" />
     </ItemGroup>
 
 </Project>
