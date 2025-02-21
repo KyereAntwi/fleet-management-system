@@ -55,12 +55,6 @@ public static class Setup
                 options.RouteTemplate = "openapi/{documentName}.json";
             });
             
-            // app.UseSwaggerUI(c =>
-            // {
-            //     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Odatey's Fleets Management System Api");
-            //     c.RoutePrefix = string.Empty;
-            // });
-            
             app.MapScalarApiReference(options =>
             {
                 options
@@ -69,7 +63,8 @@ public static class Setup
                     .WithApiKeyAuthentication(x => x.Token = "my-api-key");
             });
         }
-        
+
+        app.UseCustomExceptionHandler();
         app.UseCors("Open");
         
         app.UseAuthentication();

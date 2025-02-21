@@ -1,5 +1,6 @@
 namespace Odatey.FleetManagementSystem.Api.Endpoints.TenantsManagement;
 
+[Authorize]
 public class AddUserToTenant : Endpoint<AddUserToTenantRequest>
 {
     public override void Configure()

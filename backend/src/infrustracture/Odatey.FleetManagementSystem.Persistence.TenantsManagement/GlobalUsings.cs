@@ -5,6 +5,7 @@ global using Microsoft.Data.SqlClient;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 global using Microsoft.Extensions.DependencyInjection;
+global using Npgsql;
 global using Odatey.FleetManagementSystem.Application.Interfaces.Persistence;
 global using Odatey.FleetManagementSystem.Application.Utilities;
 global using Odatey.FleetManagementSystem.Domain.Abstractions;

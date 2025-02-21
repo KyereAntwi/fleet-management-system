@@ -13,7 +13,7 @@ public class CreateATenantCommandHandler(
 {
     public async Task<string> Handle(CreateATenantCommand command, CancellationToken cancellationToken)
     {
-        var existingTenant = await repository.GetTenantAsync(command.UserId);
+        var existingTenant = await repository.GetTenantByUserIdAsync(command.UserId);
 
         if (existingTenant is not null)
         {
@@ -35,16 +35,11 @@ public class CreateATenantCommandHandler(
         }
         catch (Exception e)
         {
+            await repository.DeleteTenantAsync(newTenant.Id.Value);
+            
             logger.LogError(e, "Error creating new tenant");
             throw new Exception("Error creating new tenant");
         }
-        
-        var newWorkspace = Workspace.Create(
-            WorkspaceId.Of(Guid.NewGuid()),
-            "Default Workspace");
-            
-        await workspacesRepository.AddAsync(newWorkspace);
-        await workspacesRepository.SaveChangesAsync();
 
         return newTenant.Id.Value.ToString();
     }

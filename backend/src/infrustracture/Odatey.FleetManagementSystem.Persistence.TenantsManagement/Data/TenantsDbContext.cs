@@ -16,12 +16,12 @@ public class TenantsDbContext : DbContext
             switch (entry.State)
             {
                 case EntityState.Added:
-                    entry.Entity.CreatedBy = _httpContextAccessor.HttpContext.User.Identity?.Name;
+                    entry.Entity.CreatedBy = _httpContextAccessor.HttpContext.User.Identity.Name ?? "Sample";
                     entry.Entity.CreatedAt = DateTime.UtcNow;
                     break;
                 case EntityState.Modified:
                     entry.Entity.UpdatedAt = DateTime.UtcNow;
-                    entry.Entity.UpdatedBy = _httpContextAccessor.HttpContext.User.Identity?.Name;
+                    entry.Entity.UpdatedBy = _httpContextAccessor.HttpContext.User.Identity.Name ?? "Sample";
                     break;
             }
         }

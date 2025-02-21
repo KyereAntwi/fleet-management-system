@@ -36,11 +36,11 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        var tenantId = _httpContextAccessor.HttpContext?.Request.Headers["X-Tenant-Id"].ToString();
+        var newTenantId = _httpContextAccessor.HttpContext?.Request.Headers["X-Tenant-Id"].ToString();
 
-        if (string.IsNullOrEmpty(tenantId)) throw new BadRequestException("Missing tenant id from the request headers.");
+        if (string.IsNullOrEmpty(newTenantId)) throw new BadRequestException("Missing tenant id from the request headers.");
         
-        var connectionString = _tenantRepository.GetConnectionStringAsync(tenantId).Result;
+        var connectionString = _tenantRepository.GetConnectionStringAsync(newTenantId).Result;
         optionsBuilder.UseNpgsql(connectionString);
     }
 

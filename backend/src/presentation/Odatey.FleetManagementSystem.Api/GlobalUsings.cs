@@ -1,13 +1,17 @@
 // Global using directives
 
+global using System.Net;
 global using System.Security.Claims;
+global using System.Text.Json;
 global using FastEndpoints;
 global using FluentValidation;
 global using MediatR;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
+global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.IdentityModel.Tokens;
 global using Microsoft.OpenApi.Models;
 global using Odatey.FleetManagementSystem.Api.DI;
+global using Odatey.FleetManagementSystem.Api.Middlewares;
 global using Odatey.FleetManagementSystem.Application.DI;
 global using Odatey.FleetManagementSystem.Application.Exceptions;
 global using Odatey.FleetManagementSystem.Application.Features.Tenants.Commands;

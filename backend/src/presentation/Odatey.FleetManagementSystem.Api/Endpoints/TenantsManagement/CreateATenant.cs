@@ -1,18 +1,25 @@
 namespace Odatey.FleetManagementSystem.Api.Endpoints.TenantsManagement;
 
-public class CreateATenant(ISender sender) : Endpoint<CreateATenantRequest>
+public class CreateATenant(ISender sender) : Endpoint<CreateATenantRequest, BaseResponse<string>>
 {
     public override void Configure()
     {
         Post("/api/v1/tenants");
+        AllowAnonymous();
     }
 
     public override async Task HandleAsync(CreateATenantRequest req, CancellationToken ct)
     {
         _ = TryParse<Subscription>(req.Subscription, out var subscription);
-        await sender.Send(new CreateATenantCommand(req.UserId, subscription), ct);
+        var result = await sender.Send(new CreateATenantCommand(req.UserId, subscription), ct);
 
-        await SendNoContentAsync(ct);
+        await SendAsync(new BaseResponse<string>
+        {
+            Data = result,
+            StatusCode = 200,
+            Success = true,
+            Message = "Success"
+        }, cancellation: ct);
     }
 }
 
@@ -26,7 +33,7 @@ public class CreateATenantRequestValidator : Validator<CreateATenantRequest>
         
         RuleFor(x => x.Subscription)
             .NotEmpty().WithMessage("Subscription cannot be empty")
-            .IsEnumName(typeof(Subscription), true).WithMessage("Subscription should contain valid subscription")
+            .IsEnumName(typeof(Subscription)).WithMessage("Subscription should contain valid subscription")
             .NotNull();
     }
 }

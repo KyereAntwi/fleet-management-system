@@ -5,7 +5,9 @@ public interface ITenantRepository
     Task<Tenant> CreateAsync(Tenant tenant);
     Task GenerateTenantDatabase(string database);
     Task ApplyMigrationAsync(string connectionString);
-    Task<string?> GetConnectionStringAsync(string userId);
+    Task<string?> GetConnectionStringAsync(string tenantId);
     Task<Tenant?> GetTenantAsync(string tenantId);
+    Task<Tenant?> GetTenantByUserIdAsync(string userId);
+    Task DeleteTenantAsync(Guid tenantId);
     Task SaveChangesAsync();
 }

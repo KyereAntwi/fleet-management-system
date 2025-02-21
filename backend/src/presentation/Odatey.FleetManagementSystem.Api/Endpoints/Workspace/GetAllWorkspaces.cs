@@ -1,5 +1,6 @@
 namespace Odatey.FleetManagementSystem.Api.Endpoints.Workspace;
 
+[Authorize]
 public class GetAllWorkspaces(ISender sender) : EndpointWithoutRequest<BaseResponse<IEnumerable<WorkspaceResponse>>>
 {
     public override void Configure()

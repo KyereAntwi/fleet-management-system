@@ -12,24 +12,19 @@ public class TenantRepository(TenantsDbContext tenantsDbContext, IServiceScopeFa
 
     public async Task GenerateTenantDatabase(string database)
     {
-        var query = $"IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = '{database}') CREATE DATABASE [{database}]";
+        var query = $"CREATE DATABASE \"{database}\"";
         var masterConnectionString = databaseSettings.MasterConnectionString;
 
-        await using var masterConnection = new SqlConnection(masterConnectionString);
+        await using var masterConnection = new NpgsqlConnection(masterConnectionString);
         await masterConnection.OpenAsync();
         var command = masterConnection.CreateCommand();
         command.CommandText = query;
         await command.ExecuteNonQueryAsync();
     }
 
-    public async Task<string?> GetConnectionStringAsync(string userId)
+    public async Task<string?> GetConnectionStringAsync(string tenantId)
     {
-        var tenant = await tenantsDbContext
-            .Tenants
-            .Include(t => t.ApplicationUsers)
-            .AsSplitQuery()
-            .AsNoTracking()
-            .FirstOrDefaultAsync(t => t.ApplicationUsers.Select(a => a.UserId).Contains(userId));
+        var tenant = await tenantsDbContext.Tenants.FindAsync(TenantId.of(new Guid(tenantId)));
         
         return tenant?.ConnectionString;
     }
@@ -44,6 +39,27 @@ public class TenantRepository(TenantsDbContext tenantsDbContext, IServiceScopeFa
             .FirstOrDefaultAsync(t => t.Id == TenantId.of(new Guid(tenantId)));
     }
 
+    public async Task<Tenant?> GetTenantByUserIdAsync(string userId)
+    {
+        return await tenantsDbContext
+            .Tenants
+            .Include(t => t.ApplicationUsers)
+            .AsSplitQuery()
+            .AsNoTracking()
+            .FirstOrDefaultAsync(t => t.ApplicationUsers.Select(a => a.UserId).Contains(userId));
+    }
+
+    public async Task DeleteTenantAsync(Guid tenantId)
+    {
+        var tenant = await tenantsDbContext.Tenants.FindAsync(tenantId);
+        
+        if (tenant != null)
+        {
+            tenantsDbContext.Tenants.Remove(tenant);
+            await tenantsDbContext.SaveChangesAsync();
+        }
+    }
+
     public async Task SaveChangesAsync()
     {
         await tenantsDbContext.SaveChangesAsync();
@@ -53,7 +69,7 @@ public class TenantRepository(TenantsDbContext tenantsDbContext, IServiceScopeFa
     {
         using var scope = serviceScopeFactory.CreateScope();
         
-        var context = new DbContextOptionsBuilder<ApplicationTemplateDbContext>().UseSqlite(connectionString).Options;
+        var context = new DbContextOptionsBuilder<ApplicationTemplateDbContext>().UseNpgsql(connectionString).Options;
 
         await using var dbContext = new ApplicationTemplateDbContext(context);
         await dbContext.Database.MigrateAsync();

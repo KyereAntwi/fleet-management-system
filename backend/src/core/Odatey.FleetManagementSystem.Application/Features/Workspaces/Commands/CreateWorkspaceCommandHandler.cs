@@ -1,6 +1,6 @@
 namespace Odatey.FleetManagementSystem.Application.Features.Workspaces.Commands;
 
-public record CreateWorkspaceCommand(string Title, string UserId) : ICommand<CreateWorkspaceResponse>;
+public record CreateWorkspaceCommand(string Title, string TenantId) : ICommand<CreateWorkspaceResponse>;
 
 public class CreateWorkspaceCommandHandler(
     IAsyncRepository<Workspace> context,
@@ -9,16 +9,26 @@ public class CreateWorkspaceCommandHandler(
 {
     public async Task<CreateWorkspaceResponse> Handle(CreateWorkspaceCommand command, CancellationToken cancellationToken)
     {
-        var existingTenant = await tenantRepository.GetTenantAsync(command.UserId);
+        var existingTenant = await tenantRepository.GetTenantAsync(command.TenantId);
 
         if (existingTenant == null)
         {
-            throw new NotFoundException($"Tenant {command.UserId} does not exist.");
+            throw new NotFoundException($"Tenant {command.TenantId} does not exist.");
         }
+        
+        // var existingUser = existingTenant.ApplicationUsers.FirstOrDefault(u => u.UserId == command.TenantId);
+        // if (existingUser is null)
+        // {
+        //     throw new BadRequestException($"User {command.UserId} does not belong to tenant with id {existingTenant.Id.Value}");
+        // }
 
         if (existingTenant.Subscription == Subscription.Free)
         {
-            throw new BadRequestException("You are currently on a free subscription and can only manage only one workspace.");
+            var workspaces = await context.ListAllAsync();
+            if (workspaces.Any())
+            {
+                throw new BadRequestException("You are currently on a free subscription and can manage only one workspace.");
+            }
         }
         
         var workspace = CreateWorkspace(command);
