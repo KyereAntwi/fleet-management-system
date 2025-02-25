@@ -12,10 +12,10 @@ public class GetTenant(ISender sender, IHttpContextAccessor httpContextAccessor)
     {
         var tenantId = httpContextAccessor.HttpContext?.Request.Headers["X-Tenant-Id"].ToString();
         
-        if (!string.IsNullOrWhiteSpace(tenantId))
+        if (string.IsNullOrWhiteSpace(tenantId))
             throw new BadRequestException("[X-Tenant-Id] was missing from the request header.");
         
-        var result = await sender.Send(new GetTenantQuery(tenantId!), ct);
+        var result = await sender.Send(new GetTenantQuery(tenantId), ct);
 
         await SendAsync(new BaseResponse<GetTenantQueryDto>
         {
