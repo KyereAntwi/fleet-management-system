@@ -441,6 +441,11 @@
   dependencies:
     "@chakra-ui/shared-utils" "2.0.4"
 
+"@chakra-ui/icons@^2.2.4":
+  version "2.2.4"
+  resolved "https://registry.npmjs.org/@chakra-ui/icons/-/icons-2.2.4.tgz"
+  integrity sha512-l5QdBgwrAg3Sc2BRqtNkJpfuLw/pWRDwwT58J6c4PqQT6wzXxyNa8Q0PForu1ltB5qEiFb1kxr/F/HO1EwNa6g==
+
 "@chakra-ui/image@2.0.13":
   version "2.0.13"
   resolved "https://registry.npmjs.org/@chakra-ui/image/-/image-2.0.13.tgz"
@@ -772,7 +777,7 @@
   dependencies:
     "@chakra-ui/utils" "2.0.14"
 
-"@chakra-ui/react@^2.4.6":
+"@chakra-ui/react@^2.4.6", "@chakra-ui/react@>=2.0.0":
   version "2.4.6"
   resolved "https://registry.npmjs.org/@chakra-ui/react/-/react-2.4.6.tgz"
   integrity sha512-uz9QjjxJgf81fXcOWDiVo2rU/lWfThCDKW5UMlYX2OrrHko7OnwZ3r9oMlZFU/vAS71LWhKbjXicJmOwwls42g==
