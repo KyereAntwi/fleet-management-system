@@ -21,6 +21,7 @@ import {
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { useAuth0 } from "@auth0/auth0-react";
 import UserSummary from "./UserSummary";
+import { NavLink } from "react-router";
 
 const MainNav = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -33,12 +34,12 @@ const MainNav = () => {
       as="nav"
       position="fixed"
       width="100%"
-      bg="#2d3030"
+      bgColor={colorMode === "light" ? "teal.500" : "teal.800"}
       p={4}
       zIndex="1000"
     >
       <Flex align="center" maxW="1200px" mx="auto">
-        <Heading as="h1" size="lg" color="white">
+        <Heading as={NavLink} size="lg" color="white" to="/">
           Fleets Management
         </Heading>
         <Spacer />
