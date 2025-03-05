@@ -4,9 +4,13 @@ import { createTenantAsync } from "../../../services/tenantsServices";
 
 interface Props {
   createDefaultWorkspace: () => void;
+  displayOnError: (message: string) => void;
 }
 
-export const createTenantMutation = ({ createDefaultWorkspace }: Props) => {
+export const createTenantMutation = ({
+  createDefaultWorkspace,
+  displayOnError,
+}: Props) => {
   return useMutation({
     mutationFn: async (values: CreateATenantRequest) => {
       const response = await createTenantAsync(values);
@@ -21,7 +25,7 @@ export const createTenantMutation = ({ createDefaultWorkspace }: Props) => {
     },
 
     onError: (error) => {
-      console.error(error);
+      displayOnError(error.message);
     },
   });
 };

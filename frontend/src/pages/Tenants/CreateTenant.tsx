@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Center,
   Grid,
@@ -19,6 +18,8 @@ import {
   TenantSubscription,
 } from "../../models/tenants/tenantRequests";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useState } from "react";
+import ErrorDisplay, { ErrorTypes } from "../../components/UI/Error";
 
 const CreateTenant = () => {
   const { user } = useAuth0();
@@ -26,10 +27,14 @@ const CreateTenant = () => {
     email: string;
   };
 
+  const [serverError, setServerError] = useState<string>("");
+
   const createTenant = createTenantMutation({
     createDefaultWorkspace: () => {
       console.log("Tenant created successfully");
     },
+    displayOnError: () =>
+      setServerError("An error occurred while creating the tenant"),
   });
 
   const onSubmit = async (data: CreateATenantRequest) => {
@@ -39,6 +44,9 @@ const CreateTenant = () => {
   return (
     <Center height="100vh" p={4}>
       <VStack spacing={8} textAlign="center">
+        {serverError !== "" && (
+          <ErrorDisplay type={ErrorTypes.SERVER} message={serverError} />
+        )}
         <Heading as="h1" size="2xl" fontWeight="bold">
           Create a Tenant Account
         </Heading>

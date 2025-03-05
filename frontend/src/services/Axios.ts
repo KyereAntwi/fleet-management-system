@@ -1,8 +1,7 @@
-import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 
 const config = {
-  baseUrl: import.meta.env.VITE_REACT_APP_API_URL || "",
+  baseURL: import.meta.env.VITE_REACT_APP_API_URL || "",
   headers: {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
@@ -11,11 +10,8 @@ const config = {
   },
 };
 
-const { getAccessTokenSilently } = useAuth0();
 const getAxiosConfig = async () => {
-  const token = await getAccessTokenSilently();
-
-  console.log("config", config);
+  const token = localStorage.getItem("token") || "";
 
   if (token) {
     return {
