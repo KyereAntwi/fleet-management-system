@@ -9,7 +9,7 @@ public class GetAVehicleDetailsQueryHandlerTests
     {
         var handler = new GetAVehicleDetailsQueryHandler(_mockVehicleRepo.Object);
 
-        var result = await handler.Handle(new GetAVehicleDetailsQuery(new Guid("11111111-1111-1111-1111-111111111111")),
+        var result = await handler.Handle(new GetAVehicleDetailsQuery(new GetAVehicleDetailsQueryRequest(new Guid("11111111-1111-1111-1111-111111111111"))),
             CancellationToken.None);
 
         result.ShouldNotBeNull();
@@ -25,7 +25,8 @@ public class GetAVehicleDetailsQueryHandlerTests
         var handler = new GetAVehicleDetailsQueryHandler(_mockVehicleRepo.Object);
         await Assert.ThrowsAsync<NotFoundException>(async () =>
         {
-            await handler.Handle(new GetAVehicleDetailsQuery(Guid.NewGuid()), CancellationToken.None);
+            await handler.Handle(new GetAVehicleDetailsQuery(
+                new GetAVehicleDetailsQueryRequest(Guid.NewGuid())), CancellationToken.None);
         });
     }
 }
