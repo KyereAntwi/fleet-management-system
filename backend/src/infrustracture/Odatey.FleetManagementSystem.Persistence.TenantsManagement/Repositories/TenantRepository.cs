@@ -22,9 +22,14 @@ public class TenantRepository(TenantsDbContext tenantsDbContext, IServiceScopeFa
         await command.ExecuteNonQueryAsync();
     }
 
-    public async Task<string?> GetConnectionStringAsync(string tenantId)
+    public async Task<string?> GetConnectionStringAsync(string userId)
     {
-        var tenant = await tenantsDbContext.Tenants.FindAsync(TenantId.of(new Guid(tenantId)));
+        var tenant = await tenantsDbContext
+            .Tenants
+            .Include(t => t.ApplicationUsers)
+            .AsSingleQuery()
+            .AsNoTracking()
+            .FirstOrDefaultAsync(t => t.ApplicationUsers.Any(u => u.UserId == userId));
         
         return tenant?.ConnectionString;
     }

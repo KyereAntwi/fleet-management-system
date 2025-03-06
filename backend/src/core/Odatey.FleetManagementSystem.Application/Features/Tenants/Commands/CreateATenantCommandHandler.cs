@@ -1,30 +1,31 @@
+using Odatey.FleetManagementSystem.Application.Interfaces.Services;
+
 namespace Odatey.FleetManagementSystem.Application.Features.Tenants.Commands;
 
 public record CreateATenantCommand(
-    string UserId,
     Subscription Subscription) : ICommand<string>;
 
 public class CreateATenantCommandHandler(
     ITenantRepository repository,
-    IAsyncRepository<Workspace> workspacesRepository,
     TenantDatabaseSettings databaseSettings,
-    ILogger<CreateATenantCommandHandler> logger) 
+    ILogger<CreateATenantCommandHandler> logger,
+    IAuthenticatedUser authenticatedUser) 
     : ICommandHandler<CreateATenantCommand, string>
 {
     public async Task<string> Handle(CreateATenantCommand command, CancellationToken cancellationToken)
     {
-        var existingTenant = await repository.GetTenantByUserIdAsync(command.UserId);
+        var existingTenant = await repository.GetTenantByUserIdAsync(authenticatedUser.UserId!);
 
         if (existingTenant is not null)
         {
-            throw new BadRequestException($"Tenant '{command.UserId}' already exists.");
+            throw new BadRequestException($"Tenant '{authenticatedUser.UserId}' already exists.");
         }
 
-        var newDatabase = Guid.NewGuid().ToString();
+        var newDatabase = authenticatedUser.UserId!;
         
         var connectionString =
             $"Host={databaseSettings.Server};Port={databaseSettings.Port};Database={newDatabase};User Id={databaseSettings.Username};Password={databaseSettings.Password};";
-        var newTenant = Tenant.Create(command.UserId, connectionString, command.Subscription);
+        var newTenant = Tenant.Create(authenticatedUser.UserId!, connectionString, command.Subscription);
 
         await repository.CreateAsync(newTenant);
         

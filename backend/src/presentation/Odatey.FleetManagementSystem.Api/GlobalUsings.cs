@@ -29,5 +29,7 @@ global using Odatey.FleetManagementSystem.Repositories.DI;
 global using Scalar.AspNetCore;
 global using Serilog;
 global using Odatey.FleetManagementSystem.Application.Features.Vehicles.Commands;
+global using Odatey.FleetManagementSystem.Application.Features.Vehicles.Queries;
+global using Odatey.FleetManagementSystem.Application.Utilities.Dtos;
 global using Odatey.FleetManagementSystem.Contracts.Requests.Vehicles;
 global using static System.Enum;

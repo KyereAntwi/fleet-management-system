@@ -1,16 +1,22 @@
-import { AxiosError, AxiosResponse } from "axios";
-import createAxiosInstance from "./Axios";
+import { AxiosError, AxiosResponse } from 'axios';
+import createAxiosInstance from './Axios';
 
 export type ErrorResponse = AxiosError<BaseResponse<string>>;
 
 const axiosInstance = await createAxiosInstance();
+
+axiosInstance.interceptors.response.use((config) => {
+  const tenantId = localStorage.getItem('tenantId') || '';
+  config.headers['X-Tenant-Id'] = tenantId;
+  return config;
+});
 
 const apiClient = {
   async get<TResponse>(
     url: string
   ): Promise<AxiosResponse<BaseResponse<TResponse>>> {
     return await axiosInstance.get<BaseResponse<TResponse>>(url, {
-      method: "GET",
+      method: 'GET',
     });
   },
 
@@ -23,7 +29,7 @@ const apiClient = {
       url,
       data,
       options ?? {
-        method: "POST",
+        method: 'POST',
       }
     );
   },
@@ -37,14 +43,14 @@ const apiClient = {
       url,
       data,
       options ?? {
-        method: "PUT",
+        method: 'PUT',
       }
     );
   },
 
   async delete<T>(url: string): Promise<AxiosResponse<BaseResponse<T>>> {
     return await axiosInstance.delete<BaseResponse<T>>(url, {
-      method: "DELETE",
+      method: 'DELETE',
     });
   },
 };

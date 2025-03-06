@@ -36,7 +36,7 @@ public class UpdateVehicleExpenditureValidator : Validator<UpdateVehicleExpendit
     public UpdateVehicleExpenditureValidator()
     {
         RuleFor(w => w.Cost)
-            .GreaterThan(0).WithMessage("Cost should be greaterthan 0.0")
+            .GreaterThan(0).WithMessage("Cost should be greater than 0.0")
             .NotNull();
 
         RuleFor(w => w.ExpenditureType)

@@ -27,7 +27,7 @@ public static class Setup
                 options.Audience = builder.Configuration["Auth0:Audience"];
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    NameClaimType = ClaimTypes.NameIdentifier,
+                    NameClaimType = ClaimTypes.NameIdentifier
                 };
             });
 

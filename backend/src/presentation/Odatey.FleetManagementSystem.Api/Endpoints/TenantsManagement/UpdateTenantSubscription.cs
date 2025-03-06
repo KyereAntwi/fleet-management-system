@@ -1,9 +1,6 @@
-﻿
-using Microsoft.AspNetCore.Http;
+﻿namespace Odatey.FleetManagementSystem.Api.Endpoints.TenantsManagement;
 
-namespace Odatey.FleetManagementSystem.Api.Endpoints.TenantsManagement;
-
-public class UpdateTenantSubscription(ISender sender, IHttpContextAccessor httpContextAccessor) 
+public class UpdateTenantSubscription(ISender sender) 
     : Endpoint<UpdateTenantSubscriptionRequest>
 {
     public override void Configure()
@@ -13,14 +10,9 @@ public class UpdateTenantSubscription(ISender sender, IHttpContextAccessor httpC
 
     public override async Task HandleAsync(UpdateTenantSubscriptionRequest req, CancellationToken ct)
     {
-        var tenantId = httpContextAccessor.HttpContext?.Request.Headers["X-Tenant-Id"].ToString();
-
-        if (string.IsNullOrWhiteSpace(tenantId))
-            throw new BadRequestException("[X-Tenant-Id] was missing from the request header.");
-
         _ = TryParse<Subscription>(req.Subscription, out var subscription);
 
-        await sender.Send(new UpdateTenantSubscriptionCommand(subscription, tenantId), ct);
+        await sender.Send(new UpdateTenantSubscriptionCommand(subscription), ct);
 
         await SendNoContentAsync(ct);
     }

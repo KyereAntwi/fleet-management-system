@@ -1,6 +1,5 @@
 namespace Odatey.FleetManagementSystem.Api.Endpoints.Workspace;
 
-[Authorize]
 public class GetSingleWorkspace(ISender sender) : Endpoint<GetByIdRequest, BaseResponse<WorkspaceResponse>>
 {
     public override void Configure()

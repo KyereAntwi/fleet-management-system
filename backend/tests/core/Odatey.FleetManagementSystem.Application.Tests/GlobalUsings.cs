@@ -10,6 +10,7 @@ global using Odatey.FleetManagementSystem.Application.Features.Workspaces.Comman
 global using MediatR;
 global using Odatey.FleetManagementSystem.Application.Features.Vehicles.Commands;
 global using Odatey.FleetManagementSystem.Application.Features.Vehicles.Queries;
+global using Odatey.FleetManagementSystem.Application.Interfaces.Services;
 global using Odatey.FleetManagementSystem.Application.Utilities;
 global using Odatey.FleetManagementSystem.Domain.Exceptions;
 global using Odatey.FleetManagementSystem.Domain.Fleets;

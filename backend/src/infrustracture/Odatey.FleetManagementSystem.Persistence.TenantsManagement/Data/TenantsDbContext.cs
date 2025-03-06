@@ -1,3 +1,5 @@
+using System.Security.Claims;
+
 namespace Odatey.FleetManagementSystem.Persistence.TenantsManagement.Data;
 
 public class TenantsDbContext : DbContext
@@ -16,12 +18,12 @@ public class TenantsDbContext : DbContext
             switch (entry.State)
             {
                 case EntityState.Added:
-                    entry.Entity.CreatedBy = _httpContextAccessor.HttpContext.User.Identity.Name ?? "Sample";
+                    entry.Entity.CreatedBy = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
                     entry.Entity.CreatedAt = DateTime.UtcNow;
                     break;
                 case EntityState.Modified:
                     entry.Entity.UpdatedAt = DateTime.UtcNow;
-                    entry.Entity.UpdatedBy = _httpContextAccessor.HttpContext.User.Identity.Name ?? "Sample";
+                    entry.Entity.UpdatedBy = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
                     break;
             }
         }

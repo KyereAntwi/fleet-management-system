@@ -11,7 +11,7 @@ public class CreateATenant(ISender sender) : Endpoint<CreateATenantRequest, Base
     public override async Task HandleAsync(CreateATenantRequest req, CancellationToken ct)
     {
         _ = TryParse<Subscription>(req.Subscription, out var subscription);
-        var result = await sender.Send(new CreateATenantCommand(req.UserId, subscription), ct);
+        var result = await sender.Send(new CreateATenantCommand(subscription), ct);
 
         await SendAsync(new BaseResponse<string>
         {

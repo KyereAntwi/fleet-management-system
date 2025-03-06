@@ -1,17 +1,19 @@
+using Odatey.FleetManagementSystem.Application.Interfaces.Services;
+
 namespace Odatey.FleetManagementSystem.Repositories.Data;
 
 public class ApplicationDbContext : DbContext
 {
     private readonly ITenantRepository _tenantRepository;
-    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IAuthenticatedUser _authenticatedUser;
 
     public ApplicationDbContext(
         DbContextOptions<ApplicationDbContext> options,
         ITenantRepository tenantRepository,
-        IHttpContextAccessor httpContextAccessor) : base(options)
+        IAuthenticatedUser authenticatedUser) : base(options)
     {
         _tenantRepository = tenantRepository;
-        _httpContextAccessor = httpContextAccessor;
+        _authenticatedUser = authenticatedUser;
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
@@ -21,12 +23,12 @@ public class ApplicationDbContext : DbContext
             switch (entry.State)
             {
                 case EntityState.Added:
-                    entry.Entity.CreatedBy = _httpContextAccessor.HttpContext.User.Identity?.Name;
+                    entry.Entity.CreatedBy = _authenticatedUser.UserId;
                     entry.Entity.CreatedAt = DateTime.UtcNow;
                     break;
                 case EntityState.Modified:
                     entry.Entity.UpdatedAt = DateTime.UtcNow;
-                    entry.Entity.UpdatedBy = _httpContextAccessor.HttpContext.User.Identity?.Name;
+                    entry.Entity.UpdatedBy = _authenticatedUser.UserId;
                     break;
             }
         }
@@ -36,11 +38,11 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        var newTenantId = _httpContextAccessor.HttpContext?.Request.Headers["X-Tenant-Id"].ToString();
+        var userId = _authenticatedUser.UserId;
 
-        if (string.IsNullOrEmpty(newTenantId)) throw new BadRequestException("Missing tenant id from the request headers.");
+        if (string.IsNullOrEmpty(userId)) throw new BadRequestException("Missing User id from the request headers.");
         
-        var connectionString = _tenantRepository.GetConnectionStringAsync(newTenantId).Result;
+        var connectionString = _tenantRepository.GetConnectionStringAsync(userId).Result;
         optionsBuilder.UseNpgsql(connectionString);
     }
 

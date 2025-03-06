@@ -1,24 +1,18 @@
+using Odatey.FleetManagementSystem.Application.Interfaces.Services;
+
 namespace Odatey.FleetManagementSystem.Api.Endpoints.Workspace;
 
-public class CreateWorkspace(ISender sender, IHttpContextAccessor httpContextAccessor)
+public class CreateWorkspace(ISender sender, IAuthenticatedUser authenticatedUser)
     : Endpoint<CreateWorkspaceRequest, BaseResponse<CreateWorkspaceResponse>>
 {
     public override void Configure()
     {
         Post("/api/v1/workspaces");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(CreateWorkspaceRequest req, CancellationToken ct)
     {
-        var tenantId = httpContextAccessor.HttpContext?.Request.Headers["X-Tenant-Id"].ToString();
-
-        if (string.IsNullOrWhiteSpace(tenantId))
-        {
-            throw new BadRequestException("[X-Tenant-Id] was missing from the request header.");
-        }
-        
-        var result = await sender.Send(new CreateWorkspaceCommand(req.Title, tenantId), ct);
+        var result = await sender.Send(new CreateWorkspaceCommand(req.Title), ct);
         
         await SendCreatedAtAsync<GetSingleWorkspace>(new
         {

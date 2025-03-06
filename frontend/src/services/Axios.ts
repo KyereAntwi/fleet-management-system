@@ -1,17 +1,16 @@
-import axios from "axios";
+import axios from 'axios';
 
 const config = {
-  baseURL: import.meta.env.VITE_REACT_APP_API_URL || "",
+  baseURL: import.meta.env.VITE_REACT_APP_API_URL || '',
   headers: {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Credentials": true,
-    "X-Tenant-Id": localStorage.getItem("tenantId") || "",
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Credentials': true,
   },
 };
 
 const getAxiosConfig = async () => {
-  const token = localStorage.getItem("token") || "";
+  const token = localStorage.getItem('token') || '';
 
   if (token) {
     return {

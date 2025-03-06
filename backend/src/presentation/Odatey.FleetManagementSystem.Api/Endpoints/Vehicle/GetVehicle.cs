@@ -1,6 +1,4 @@
-﻿using Odatey.FleetManagementSystem.Application.Features.Vehicles.Queries;
-
-namespace Odatey.FleetManagementSystem.Api.Endpoints.Vehicle;
+﻿namespace Odatey.FleetManagementSystem.Api.Endpoints.Vehicle;
 
 public class GetVehicle(ISender sender) : Endpoint<GetAVehicleDetailsQueryRequest, BaseResponse<VehicleDetailsQueryDto>>
 {

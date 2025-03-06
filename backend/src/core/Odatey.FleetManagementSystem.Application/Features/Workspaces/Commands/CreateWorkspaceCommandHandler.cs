@@ -1,26 +1,23 @@
+using Odatey.FleetManagementSystem.Application.Interfaces.Services;
+
 namespace Odatey.FleetManagementSystem.Application.Features.Workspaces.Commands;
 
-public record CreateWorkspaceCommand(string Title, string TenantId) : ICommand<CreateWorkspaceResponse>;
+public record CreateWorkspaceCommand(string Title) : ICommand<CreateWorkspaceResponse>;
 
 public class CreateWorkspaceCommandHandler(
     IAsyncRepository<Workspace> context,
-    ITenantRepository tenantRepository)
+    ITenantRepository tenantRepository,
+    IAuthenticatedUser authenticatedUser)
     : ICommandHandler<CreateWorkspaceCommand, CreateWorkspaceResponse>
 {
     public async Task<CreateWorkspaceResponse> Handle(CreateWorkspaceCommand command, CancellationToken cancellationToken)
     {
-        var existingTenant = await tenantRepository.GetTenantAsync(command.TenantId);
+        var existingTenant = await tenantRepository.GetTenantByUserIdAsync(authenticatedUser.UserId!);
 
         if (existingTenant == null)
         {
-            throw new NotFoundException($"Tenant {command.TenantId} does not exist.");
+            throw new NotFoundException($"Tenant {authenticatedUser.TenantId} does not exist.");
         }
-        
-        // var existingUser = existingTenant.ApplicationUsers.FirstOrDefault(u => u.UserId == command.TenantId);
-        // if (existingUser is null)
-        // {
-        //     throw new BadRequestException($"User {command.UserId} does not belong to tenant with id {existingTenant.Id.Value}");
-        // }
 
         if (existingTenant.Subscription == Subscription.Free)
         {

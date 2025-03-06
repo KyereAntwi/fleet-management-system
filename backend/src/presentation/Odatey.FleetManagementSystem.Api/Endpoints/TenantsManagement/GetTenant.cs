@@ -1,16 +1,16 @@
 namespace Odatey.FleetManagementSystem.Api.Endpoints.TenantsManagement;
 
 public class GetTenant(ISender sender) 
-    : Endpoint<GetTenantRequest, BaseResponse<GetTenantQueryDto>>
+    : EndpointWithoutRequest<BaseResponse<GetTenantQueryDto>>
 {
     public override void Configure()
     {
-        Get("/api/v1/tenants/{userId}");
+        Get("/api/v1/tenants");
     }
 
-    public override async Task HandleAsync(GetTenantRequest req, CancellationToken ct)
+    public override async Task HandleAsync(CancellationToken ct)
     {
-        var result = await sender.Send(new GetTenantQuery(req.UserId), ct);
+        var result = await sender.Send(new GetTenantQuery(), ct);
 
         await SendAsync(new BaseResponse<GetTenantQueryDto>
         {
