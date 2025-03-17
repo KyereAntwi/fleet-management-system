@@ -7,6 +7,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
 import Workspaces from "./pages/Workspaces/Workspaces";
 import WorkspaceSettings from "./pages/Workspaces/WorkspaceSettings";
+import WorkspaceDashboard from "./pages/Workspaces/WorkspaceManagement/WorkspaceDashboard";
+import PageNotFound from "./pages/PageNotFound";
 
 function App() {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
@@ -28,10 +30,15 @@ function App() {
           <Route path="/get-started" element={<CreateTenant />} />
           <Route path="/workspaces" element={<Workspaces />} />
           <Route
+            path="/workspace/:id/dashboard"
+            element={<WorkspaceDashboard />}
+          />
+          <Route
             path="/workspaces/:id/settings"
             element={<WorkspaceSettings />}
           />
           <Route path="/fleets" element={<Home />} />
+          <Route path="*" element={<PageNotFound />} />
         </Route>
       </Routes>
     </>

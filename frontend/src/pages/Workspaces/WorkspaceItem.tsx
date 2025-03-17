@@ -47,7 +47,13 @@ const WorkspaceItem = ({ workspace }: Props) => {
             variant="outline"
           />
           <MenuList>
-            <MenuItem icon={<ViewIcon />}>Manage Workspace</MenuItem>
+            <MenuItem
+              icon={<ViewIcon />}
+              as={NavLink}
+              to={`/workspaces/${workspace.id}/dashboard`}
+            >
+              Manage Workspace
+            </MenuItem>
             <MenuItem
               as={NavLink}
               to={`/workspaces/${workspace.id}/settings`}
