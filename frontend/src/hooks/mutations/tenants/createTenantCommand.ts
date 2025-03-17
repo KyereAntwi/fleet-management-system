@@ -1,7 +1,7 @@
-import { useMutation } from '@tanstack/react-query';
-import { CreateATenantRequest } from '../../../models/tenants/tenantRequests';
-import { createTenantAsync } from '../../../services/tenantsServices';
-import { AxiosError } from 'axios';
+import { useMutation } from "@tanstack/react-query";
+import { CreateATenantRequest } from "../../../models/tenants/tenantRequests";
+import { createTenantAsync } from "../../../services/tenantsServices";
+import { AxiosError } from "axios";
 
 interface Props {
   createDefaultWorkspace: () => void;
@@ -21,20 +21,20 @@ export const createTenantMutation = ({
     },
 
     onMutate: () => {
-      displayOnProcessing('Creating tenant...');
+      displayOnProcessing("Creating tenant...");
     },
 
     onSuccess: (response: BaseResponse<string>) => {
       if (response.success) {
-        localStorage.setItem('tenantId', response.data!);
+        localStorage.setItem("tenantId", response.data!);
         createDefaultWorkspace();
-        displayOnProcessing('');
+        displayOnProcessing("");
       }
     },
 
     onError: (error: AxiosError<BaseResponse<string>>) => {
       displayOnError(error.response?.data.errors[0]!);
-      displayOnProcessing('');
+      displayOnProcessing("");
     },
   });
 };

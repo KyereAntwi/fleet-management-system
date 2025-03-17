@@ -10,10 +10,10 @@ import {
   Input,
   ModalFooter,
   Button,
-} from '@chakra-ui/react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { CreateWorkspaceRequest } from '../../models/workspaces/workspaceRequests';
-import { createWorkspaceMutation } from '../../hooks/mutations/workspaces/createWorkspaceCommand';
+} from "@chakra-ui/react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { CreateWorkspaceRequest } from "../../models/workspaces/workspaceRequests";
+import { createWorkspaceMutation } from "../../hooks/mutations/workspaces/createWorkspaceCommand";
 
 interface Props {
   isOpen: boolean;
@@ -48,17 +48,17 @@ const AddWorkspaceForm = ({ isOpen, onClose }: Props) => {
             <FormControl>
               <FormLabel>Workspace Title</FormLabel>
               <Input
-                {...register('title')}
-                placeholder='Workspace title here ...'
+                {...register("title")}
+                placeholder="Workspace title here ..."
               />
             </FormControl>
           </ModalBody>
 
           <ModalFooter>
             <Button
-              colorScheme='blue'
+              colorScheme="blue"
               mr={3}
-              type='submit'
+              type="submit"
               isLoading={createWorkspace.isPending}
             >
               Save
