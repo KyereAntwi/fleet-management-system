@@ -14,6 +14,7 @@ public static class RegisterPersistenceDependencies
         
         services.AddScoped(typeof(IAsyncRepository<>), typeof(AsyncRepository<>));
         services.AddScoped<IVehicleRepository, VehicleRepository>();
+        services.AddScoped<IWorkspaceRepository, WorkspaceRepository>();
         
         return services;
     }

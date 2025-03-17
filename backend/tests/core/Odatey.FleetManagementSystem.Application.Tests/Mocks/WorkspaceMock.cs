@@ -30,8 +30,8 @@ public static class WorkspaceMock
 
         mockWorkspaceRepository.Setup(repo => repo.ListAllAsync()).ReturnsAsync(workspaces);
 
-        mockWorkspaceRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(
-            (Guid id) => workspaces.FirstOrDefault(x => x.Id.Value == id));
+        // mockWorkspaceRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(
+        //     (Guid id) => workspaces.FirstOrDefault(x => x.Id.Value == id));
 
         mockWorkspaceRepository.Setup(repo => repo.AddAsync(It.IsAny<Workspace>())).ReturnsAsync(
             (Workspace workspace) =>

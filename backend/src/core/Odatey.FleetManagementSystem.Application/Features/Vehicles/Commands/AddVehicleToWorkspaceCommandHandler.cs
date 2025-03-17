@@ -10,7 +10,7 @@ public record AddVehicleToWorkspaceCommand(
 
 public class AddVehicleToWorkspaceCommandHandler(
     IVehicleRepository vehicleRepository, 
-    IAsyncRepository<Workspace> workspaceRepository) 
+    IWorkspaceRepository workspaceRepository) 
     : ICommandHandler<AddVehicleToWorkspaceCommand, AddVehicleToWorkspaceCommandResponse>
 {
     public async Task<AddVehicleToWorkspaceCommandResponse> Handle(AddVehicleToWorkspaceCommand command, CancellationToken cancellationToken)

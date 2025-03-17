@@ -21,12 +21,8 @@ public class GetSingleWorkspace(ISender sender) : Endpoint<GetByIdRequest, BaseR
     }
 }
 
-public class GetSingleWorkspaceValidator : Validator<GetByIdRequest>
+public record GetByIdRequest
 {
-    public GetSingleWorkspaceValidator()
-    {
-        RuleFor(w => w.WorkspaceId)
-            .NotEmpty().WithMessage("Workspace Id cannot be empty.")
-            .NotNull();
-    }
+    [FromRoute]
+    public Guid WorkspaceId { get; set; }
 }

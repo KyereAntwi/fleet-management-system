@@ -3,11 +3,6 @@ namespace Odatey.FleetManagementSystem.Repositories.Repositories;
 public class AsyncRepository<T>(ApplicationDbContext dbContext) : IAsyncRepository<T>
     where T : class
 {
-    public async Task<T?> GetByIdAsync(Guid id)
-    {
-        return await dbContext.Set<T>().FindAsync(id);
-    }
-
     public async Task<IReadOnlyList<T>> ListAllAsync()
     {
         return await dbContext.Set<T>().AsNoTracking().ToListAsync();

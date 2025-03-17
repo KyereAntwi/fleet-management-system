@@ -4,13 +4,13 @@ public record UpdateWorkspaceCommand(
     Guid Id,
     string Title) : ICommand;
 
-public class UpdateWorkspaceCommandHandler(IAsyncRepository<Workspace> context)
+public class UpdateWorkspaceCommandHandler(IAsyncRepository<Workspace> context, IWorkspaceRepository workspaceRepository)
     : ICommandHandler<UpdateWorkspaceCommand>
 {
     public async Task<Unit> Handle(UpdateWorkspaceCommand command, CancellationToken cancellationToken)
     {
         var workspaceId = WorkspaceId.Of(command.Id);
-        var workspace = await context.GetByIdAsync(workspaceId.Value);
+        var workspace = await workspaceRepository.GetByIdAsync(workspaceId.Value);
 
         if (workspace is null)
         {

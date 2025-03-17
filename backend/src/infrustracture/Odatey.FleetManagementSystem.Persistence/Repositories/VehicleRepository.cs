@@ -36,4 +36,9 @@ public class VehicleRepository(ApplicationDbContext dbContext) : AsyncRepository
         _dbContext.AddRange(vehicles);
         await Task.CompletedTask;
     }
+
+    public Task<Vehicle?> GetByIdAsync(Guid id)
+    {
+        return _dbContext.Vehicles.FirstOrDefaultAsync(v => v.Id.Value == id);
+    }
 }

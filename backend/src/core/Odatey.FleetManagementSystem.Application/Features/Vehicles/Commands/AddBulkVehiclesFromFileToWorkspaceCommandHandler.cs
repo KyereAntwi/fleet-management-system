@@ -8,7 +8,7 @@ public record AddBulkVehiclesFromFileToWorkspaceCommand(
 
 public class AddBulkVehiclesFromFileToWorkspaceCommandHandler(
     IVehicleRepository repository, 
-    IAsyncRepository<Workspace> workspacesRepository,
+    IWorkspaceRepository workspacesRepository,
     ICsvService csvService) 
     : ICommandHandler<AddBulkVehiclesFromFileToWorkspaceCommand, Unit>
 {

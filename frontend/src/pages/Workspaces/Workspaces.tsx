@@ -7,21 +7,18 @@ import {
   TableContainer,
   Tbody,
   useDisclosure,
-} from '@chakra-ui/react';
-import getWorkspacesQuery from '../../hooks/queries/workspaces/getWorkspacesQuery';
-import FullPageLoading from '../../components/UI/FullPageLoading';
-import Error, { ErrorTypes } from '../../components/UI/Error';
-import { useNavigate } from 'react-router';
-import WorkspaceItem from './WorkspaceItem';
-import AddWorkspaceForm from './AddWorkspaceForm';
-import React from 'react';
+} from "@chakra-ui/react";
+import getWorkspacesQuery from "../../hooks/queries/workspaces/getWorkspacesQuery";
+import FullPageLoading from "../../components/UI/FullPageLoading";
+import Error, { ErrorTypes } from "../../components/UI/Error";
+import { useNavigate } from "react-router";
+import WorkspaceItem from "./WorkspaceItem";
+import AddWorkspaceForm from "./AddWorkspaceForm";
 
 export default function Workspaces() {
   const { data, isLoading, isError, error } = getWorkspacesQuery();
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const initialRef = React.useRef(null);
 
   if (isLoading) {
     return <FullPageLoading />;
@@ -29,8 +26,8 @@ export default function Workspaces() {
 
   if (isError) {
     return (
-      <Flex flexDirection='column'>
-        <HStack w={'80%'} mx={'auto'} justifyContent={'space-between'}>
+      <Flex flexDirection="column">
+        <HStack w={"80%"} mx={"auto"} justifyContent={"space-between"}>
           <Error message={error?.message} type={ErrorTypes.SERVER} />
         </HStack>
       </Flex>
@@ -38,27 +35,27 @@ export default function Workspaces() {
   }
 
   if (data?.data?.length === 0) {
-    navigate('/get-started');
+    navigate("/get-started");
   }
 
   return (
     <>
-      <Flex as={'section'} flexDirection='column' w='full' pt={20}>
+      <Flex as={"section"} flexDirection="column" w="full" pt={20}>
         <HStack
-          as={'section'}
-          w={'80%'}
-          justifyContent={'right'}
-          mx={'auto'}
+          as={"section"}
+          w={"80%"}
+          justifyContent={"right"}
+          mx={"auto"}
           my={5}
         >
           <Button
-            variant={'solid'}
+            variant={"solid"}
             size={{
-              base: 'sm',
-              md: 'md',
+              base: "sm",
+              md: "md",
             }}
-            bg={'teal.400'}
-            color={'white'}
+            bg={"teal.400"}
+            color={"white"}
             onClick={onOpen}
           >
             Create a new workspace
@@ -67,8 +64,8 @@ export default function Workspaces() {
 
         <Divider my={3} />
 
-        <TableContainer as={'section'} w={'80%'} mx={'auto'}>
-          <Table variant={'simple'}>
+        <TableContainer as={"section"} w={"80%"} mx={"auto"}>
+          <Table variant={"simple"}>
             <Tbody>
               {data &&
                 data.data?.map((workspace) => (
