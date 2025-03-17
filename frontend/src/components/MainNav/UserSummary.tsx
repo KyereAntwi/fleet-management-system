@@ -13,6 +13,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import {NavLink} from "react-router";
 
 const UserSummary = () => {
   const { logout, user } = useAuth0();
@@ -43,7 +44,7 @@ const UserSummary = () => {
           </MenuGroup>
           <MenuDivider />
           <MenuGroup title="Settings">
-            <MenuItem>Workspaces</MenuItem>
+            <MenuItem as={NavLink} to={'/workspaces'}>Workspaces</MenuItem>
           </MenuGroup>
           <MenuDivider />
           <MenuGroup>

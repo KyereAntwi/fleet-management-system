@@ -1,19 +1,20 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { CreateWorkspaceRequest } from '../../../models/workspaces/workspaceRequests';
 import { createWorkspaceAsync } from '../../../services/workspaceServices';
-import { useNavigate } from 'react-router';
 import { AxiosError } from 'axios';
 
 interface Props {
   displayOnError: (message: string) => void;
   displayOnProcessing: (message: string) => void;
+  onSuccess?: () => void;
 }
 
 export const createWorkspaceMutation = ({
   displayOnError,
   displayOnProcessing,
+  onSuccess,
 }: Props) => {
-  const navigation = useNavigate();
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (values: CreateWorkspaceRequest) => {
@@ -26,7 +27,12 @@ export const createWorkspaceMutation = ({
     onSuccess: (response: BaseResponse<string>) => {
       if (response.success) {
         displayOnProcessing('');
-        navigation(`/workspaces`);
+
+        queryClient.invalidateQueries({ queryKey: ['workspaces'] });
+
+        if (onSuccess) {
+          onSuccess();
+        }
       }
     },
     onError: (error: AxiosError<BaseResponse<string>>) => {

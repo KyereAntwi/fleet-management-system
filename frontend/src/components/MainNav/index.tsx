@@ -37,6 +37,7 @@ const MainNav = () => {
       bgColor={colorMode === "light" ? "teal.500" : "teal.800"}
       p={4}
       zIndex="1000"
+      mb={5}
     >
       <Flex align="center" maxW="1200px" mx="auto">
         <Heading as={NavLink} size="lg" color="white" to="/">

@@ -13,5 +13,5 @@ export interface UpdateTenantSubscription {
 
 export enum TenantSubscription {
     Free = 'Free',
-    Payed = 'Payed'
+    Payed = 'Standard',
 }
