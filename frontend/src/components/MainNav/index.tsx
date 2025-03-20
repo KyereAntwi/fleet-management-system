@@ -76,7 +76,7 @@ const MainNav = () => {
                   {!isLoading && data?.data!.map((workspace: Workspace) => (
                       <MenuItem key={workspace.id} onClick={() => {
                         setSelectedWorkspace(workspace)
-                        navigation(`/workspaces/${workspace.id}/dashboard`)
+                        navigation(`/workspaces/${workspace.id}/management/dashboard`)
                       }}>{workspace.workspaceTitle}</MenuItem>
                   )) }
                 </MenuList>
@@ -131,7 +131,7 @@ const MainNav = () => {
                       {!isLoading && data?.data!.map((workspace: Workspace) => (
                           <MenuItem key={workspace.id} onClick={() => {
                             setSelectedWorkspace(workspace)
-                            navigation(`/workspaces/${workspace.id}/dashboard`)
+                            navigation(`/workspaces/${workspace.id}/management/dashboard`)
                           }}>{workspace.workspaceTitle}</MenuItem>
                       )) }
                     </MenuList>

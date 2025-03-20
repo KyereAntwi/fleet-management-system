@@ -29,7 +29,7 @@ const WorkspaceItem = ({ workspace }: Props) => {
 
   const handleViewWorkspaceDetails = () => {
     setSelectedWorkspace(workspace);
-    navigation(`\workspaces\${workspace.id}\dashboard`);
+    navigation(`/workspaces/${workspace.id}/management/dashboard`);
   };
 
   return (

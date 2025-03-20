@@ -1,5 +1,5 @@
 const WorkspaceDashboard = () => {
-  return <></>;
+  return <>Dashboard</>;
 };
 
 export default WorkspaceDashboard;
