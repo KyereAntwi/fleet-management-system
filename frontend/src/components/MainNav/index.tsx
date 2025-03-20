@@ -16,28 +16,33 @@ import {
   VStack,
   FormControl,
   FormLabel,
-  Switch,
+  Switch, MenuButton, Menu, MenuList, MenuItem,
 } from '@chakra-ui/react';
-import { HamburgerIcon } from '@chakra-ui/icons';
+import {ChevronDownIcon, HamburgerIcon} from '@chakra-ui/icons';
 import { useAuth0 } from '@auth0/auth0-react';
 import UserSummary from './UserSummary';
-import { NavLink } from 'react-router';
+import {NavLink, useNavigate} from 'react-router';
 import useSelectedWorkspaceStore from '../../store/selectedWorkspaceStore';
 import { useEffect, useState } from 'react';
 import getWorkspacesQuery from '../../hooks/queries/workspaces/getWorkspacesQuery';
+import {Workspace} from "../../models/workspaces/workspace";
 
 const MainNav = () => {
   const [loadWorkspaces, setLoadWorkspaces] = useState<boolean>(false);
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigation = useNavigate();
 
   const { loginWithRedirect, isAuthenticated } = useAuth0();
 
-  const selectedWorkspace = useSelectedWorkspaceStore(
-    (state) => state.workspace
+  const selectedWorkspace: Workspace = useSelectedWorkspaceStore(
+    (state: any) => state.workspace
   );
-
-  const { data: workspaces, isLoading } = getWorkspacesQuery(loadWorkspaces);
+  const setSelectedWorkspace = useSelectedWorkspaceStore(
+      (state) => state.setSelectedWorkspace
+  )
+  
+  const { data, isLoading } = getWorkspacesQuery(loadWorkspaces);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -55,16 +60,28 @@ const MainNav = () => {
       zIndex='1000'
       mb={5}
     >
-      <Flex align='center' maxW='1200px' mx='auto'>
+      <Flex w='80%' mx='auto'>
         <Heading as={NavLink} size='lg' color='white' to='/'>
           Fleets Management
         </Heading>
         <Spacer />
-        <Flex display={{ base: 'none', md: 'flex' } as const}>
+        <Flex flexDirection={'row'} alignItems={'center'} justifyContent={'end'} display={{ base: 'none', md: 'flex' } as const}>
           {selectedWorkspace && (
-            <Button colorScheme='teal' variant='outline' mr={4}>
-              Workspace Dashboard
-            </Button>
+            <>
+              <Menu>
+                <MenuButton w={'lg'} as={Button} variant={'outline'} rightIcon={<ChevronDownIcon />} mr={4}>
+                  {selectedWorkspace.workspaceTitle}
+                </MenuButton>
+                <MenuList>
+                  {!isLoading && data?.data!.map((workspace: Workspace) => (
+                      <MenuItem onClick={() => {
+                        setSelectedWorkspace(workspace)
+                        navigation(`/workspaces/${workspace.id}/dashboard`)
+                      }}>{workspace.workspaceTitle}</MenuItem>
+                  )) }
+                </MenuList>
+              </Menu>
+            </>
           )}
           {isAuthenticated ? (
             <UserSummary />

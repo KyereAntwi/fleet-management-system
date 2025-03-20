@@ -13,7 +13,8 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import {NavLink} from "react-router";
+import {useNavigate} from "react-router";
+import useSelectedWorkspaceStore from "../../store/selectedWorkspaceStore";
 
 const UserSummary = () => {
   const { logout, user } = useAuth0();
@@ -22,6 +23,11 @@ const UserSummary = () => {
     picture: string;
     email: string;
   };
+
+  const navigation = useNavigate();
+  const restoreSelectedWorkspace = useSelectedWorkspaceStore(
+      (state) => state.resetSelectedWorkspace
+  );
 
   return (
     <Box mr={4}>
@@ -44,7 +50,10 @@ const UserSummary = () => {
           </MenuGroup>
           <MenuDivider />
           <MenuGroup title="Settings">
-            <MenuItem as={NavLink} to={'/workspaces'}>Workspaces</MenuItem>
+            <MenuItem onClick={() => {
+              restoreSelectedWorkspace()
+              navigation('/workspaces')
+            }}>Workspaces</MenuItem>
           </MenuGroup>
           <MenuDivider />
           <MenuGroup>
