@@ -30,7 +30,7 @@ function App() {
           <Route path="/get-started" element={<CreateTenant />} />
           <Route path="/workspaces" element={<Workspaces />} />
           <Route
-            path="/workspace/:id/dashboard"
+            path="/workspaces/:id/dashboard"
             element={<WorkspaceDashboard />}
           />
           <Route

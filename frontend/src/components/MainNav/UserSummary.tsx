@@ -16,7 +16,11 @@ import {
 import {useNavigate} from "react-router";
 import useSelectedWorkspaceStore from "../../store/selectedWorkspaceStore";
 
-const UserSummary = () => {
+interface Props {
+  drawerState: boolean
+}
+
+const UserSummary = ({drawerState}: Props) => {
   const { logout, user } = useAuth0();
   const { name, picture, email } = user as {
     name: string;
@@ -33,7 +37,12 @@ const UserSummary = () => {
     <Box mr={4}>
       <Menu>
         <MenuButton>
-          <Avatar src={picture} name={name} />
+          {drawerState ? (
+              <HStack>
+                <Avatar mr={2} src={picture} name={name} />
+                <Text>{name}</Text>
+              </HStack>
+          ) : <Avatar src={picture} name={name} />}
         </MenuButton>
         <MenuList>
           <MenuGroup title="Profile">

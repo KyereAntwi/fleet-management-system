@@ -74,7 +74,7 @@ const MainNav = () => {
                 </MenuButton>
                 <MenuList>
                   {!isLoading && data?.data!.map((workspace: Workspace) => (
-                      <MenuItem onClick={() => {
+                      <MenuItem key={workspace.id} onClick={() => {
                         setSelectedWorkspace(workspace)
                         navigation(`/workspaces/${workspace.id}/dashboard`)
                       }}>{workspace.workspaceTitle}</MenuItem>
@@ -84,7 +84,7 @@ const MainNav = () => {
             </>
           )}
           {isAuthenticated ? (
-            <UserSummary />
+            <UserSummary drawerState={false} />
           ) : (
             <Button
               colorScheme='teal'
@@ -121,15 +121,35 @@ const MainNav = () => {
           <DrawerCloseButton />
           <DrawerHeader>Menu</DrawerHeader>
           <DrawerBody>
+            {selectedWorkspace && (
+                <>
+                  <Menu>
+                    <MenuButton as={Button} variant={'outline'} rightIcon={<ChevronDownIcon />} my={4}>
+                      {selectedWorkspace.workspaceTitle}
+                    </MenuButton>
+                    <MenuList>
+                      {!isLoading && data?.data!.map((workspace: Workspace) => (
+                          <MenuItem key={workspace.id} onClick={() => {
+                            setSelectedWorkspace(workspace)
+                            navigation(`/workspaces/${workspace.id}/dashboard`)
+                          }}>{workspace.workspaceTitle}</MenuItem>
+                      )) }
+                    </MenuList>
+                  </Menu>
+                </>
+            )}
             <VStack spacing={4}>
-              <Button
-                w='100%'
-                colorScheme='teal'
-                variant='outline'
-                onClick={() => loginWithRedirect()}
-              >
-                Login
-              </Button>
+              {isAuthenticated ? (
+                  <UserSummary drawerState={true} />
+              ) : (
+                  <Button
+                      colorScheme='teal'
+                      variant='outline'
+                      onClick={() => loginWithRedirect()}
+                  >
+                    Login
+                  </Button>
+              )}
               <Button
                 w='100%'
                 onClick={toggleColorMode}
