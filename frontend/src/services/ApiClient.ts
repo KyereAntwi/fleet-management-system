@@ -1,4 +1,4 @@
-import { AxiosError, AxiosResponse } from 'axios';
+import {AxiosError, AxiosResponse} from 'axios';
 import createAxiosInstance from './Axios';
 
 export type ErrorResponse = AxiosError<BaseResponse<string>>;
@@ -6,14 +6,14 @@ export type ErrorResponse = AxiosError<BaseResponse<string>>;
 const axiosInstance = await createAxiosInstance();
 
 axiosInstance.interceptors.response.use((config) => {
-  const tenantId = localStorage.getItem('tenantId') || '';
-  config.headers['X-Tenant-Id'] = tenantId;
+  config.headers['X-Tenant-Id'] = localStorage.getItem('tenantId') || '';
   return config;
 });
 
 const apiClient = {
-  async get<TResponse>(
-    url: string
+  async get<TRequest, TResponse>(
+    url: string,
+    data?: TRequest
   ): Promise<AxiosResponse<BaseResponse<TResponse>>> {
     return await axiosInstance.get<BaseResponse<TResponse>>(url, {
       method: 'GET',

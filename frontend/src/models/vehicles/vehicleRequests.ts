@@ -18,3 +18,10 @@ export enum VehicleExpenditureType {
     Maintenance = 'Maintenance',
     AccidentRepair = 'AccidentRepair'
 }
+
+export interface GetVehiclesRequest {
+    workspaceId: string;
+    keyword: string;
+    page: number;
+    pageSize: number;
+}

@@ -1,12 +1,10 @@
 import {NavLink, Outlet} from "react-router";
-import {Box, Button, Flex, Heading, Spacer, useColorMode} from "@chakra-ui/react";
+import {Box, Button, Flex, Heading, Spacer} from "@chakra-ui/react";
 import {Workspace} from "../../../models/workspaces/workspace";
 import useSelectedWorkspaceStore from "../../../store/selectedWorkspaceStore";
 import {ButtonGroup} from "@chakra-ui/icons";
 
 const WorkspaceManagementLayout = () => {
-    const { colorMode } = useColorMode();
-    
     const selectedWorkspace: Workspace = useSelectedWorkspaceStore(
         (state: any) => state.workspace
     );
