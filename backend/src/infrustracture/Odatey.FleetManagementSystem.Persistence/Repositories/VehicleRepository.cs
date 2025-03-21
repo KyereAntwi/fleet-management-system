@@ -6,17 +6,25 @@ public class VehicleRepository(ApplicationDbContext dbContext) : AsyncRepository
 
     public async Task<(int, IReadOnlyList<Vehicle>)> GetPagedListAsync(Guid workspaceId, string queryKey, int page, int size)
     {
-        var query = _dbContext.Vehicles.Where(v => v.WorkspaceId.Value == workspaceId).AsNoTracking().AsQueryable();
+        var query = _dbContext.Vehicles.Where(v => v.WorkspaceId == WorkspaceId.Of(workspaceId)).AsNoTracking().AsQueryable();
 
         if (!string.IsNullOrEmpty(queryKey))
         {
             query = query.Where(v => v.BrandAndType != null && v.BrandAndType.ToLower().Contains(queryKey.ToLower()));
         }
         
-        var pagedLis = query.OrderBy(v => v.CreatedAt).Skip((page - 1) * size).Take(size).ToList();
-        var totalCount = await query.CountAsync();
+        try
+        {
+            var pagedLis = query.OrderBy(v => v.CreatedAt).Skip((page - 1) * size).Take(size);
+            var totalCount = await query.CountAsync();
         
-        return (totalCount, pagedLis);
+            return (totalCount, await pagedLis.ToListAsync());
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public async Task<Vehicle?> GetVehicleWithDetailsAsync(Guid vehicleId)
