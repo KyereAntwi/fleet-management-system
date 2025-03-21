@@ -1,20 +1,34 @@
-import {NavLink, Outlet} from "react-router";
-import {Box, Button, Flex, Heading, Spacer} from "@chakra-ui/react";
-import {Workspace} from "../../../models/workspaces/workspace";
+import {NavLink, Outlet, useParams} from "react-router";
+import {Box, Button, Flex, Heading, SkeletonText, Spacer} from "@chakra-ui/react";
 import useSelectedWorkspaceStore from "../../../store/selectedWorkspaceStore";
 import {ButtonGroup} from "@chakra-ui/icons";
+import {getAWorkspaceQuery} from "../../../hooks/queries/workspaces/getAWorkspaceQuery";
 
 const WorkspaceManagementLayout = () => {
-    const selectedWorkspace: Workspace = useSelectedWorkspaceStore(
-        (state: any) => state.workspace
+    const {workspaceId} = useParams();
+
+    const setSelectedWorkspace = useSelectedWorkspaceStore(
+        (state) => state.setSelectedWorkspace
     );
+    
+    const {data, isLoading} = getAWorkspaceQuery({
+        id: workspaceId!
+    });
+    
+    if (data) {
+        setSelectedWorkspace(data?.data!);
+    }
+    
     return (
         <>
             <Box bgColor={'white'} mb={5} as='nav' position='fixed' width='100%'>
                 <Flex w='80%' mx='auto' flexDirection={'row'} py={4} >
-                    <Heading color={'teal.500'} size='lg'>
-                        {selectedWorkspace.workspaceTitle}
-                    </Heading>
+                    {isLoading && (<SkeletonText noOfLines={1} skeletonHeight='2' />)}
+                    {data && (
+                        <Heading color={'teal.500'} size='lg'>
+                            {data?.data?.workspaceTitle}
+                        </Heading>
+                    )}
                     <Spacer />
                     <Flex flexDirection={'row'} alignItems={'center'} justifyContent={'end'} display={{ base: 'none', md: 'flex' } as const}>
                         <ButtonGroup variant={'solid'} colorScheme={'teal'} isAttached>

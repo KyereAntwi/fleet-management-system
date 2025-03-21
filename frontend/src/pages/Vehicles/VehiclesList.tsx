@@ -8,26 +8,28 @@ import {
     MenuItem,
     MenuList,
     Spacer, Table,
-    TableContainer
+    TableContainer, Tbody, useDisclosure
 } from "@chakra-ui/react";
 import {AddIcon, AttachmentIcon, SettingsIcon} from "@chakra-ui/icons";
 import {getVehiclesQuery} from "../../hooks/queries/vehicles/getVehiclesQuery";
 import FullPageLoading from "../../components/UI/FullPageLoading";
 import InfoBanner from "../../components/UI/InfoBanner";
-import {Workspace} from "../../models/workspaces/workspace";
-import useSelectedWorkspaceStore from "../../store/selectedWorkspaceStore";
+import {useParams} from "react-router";
+import {Vehicle} from "../../models/vehicles/vehicle";
+import VehicleItem from "./VehicleItem";
+import AddVehicleForm from "./AddVehicleForm";
 
 const VehiclesList = () => {
-    const selectedWorkspace: Workspace = useSelectedWorkspaceStore(
-        (state: any) => state.workspace
-    );
+    const {workspaceId} = useParams();
     
     const {data, isLoading, error} = getVehiclesQuery({
-        workspaceId: selectedWorkspace.id!,
+        workspaceId: workspaceId!,
         page: 1,
         pageSize: 20,
         keyword: ''
     });
+    
+    const {isOpen, onOpen, onClose} = useDisclosure();
     
     if (isLoading) {
         return <FullPageLoading />
@@ -54,10 +56,10 @@ const VehiclesList = () => {
                         bg={'teal.400'}
                     >Add a new vehicle</MenuButton>
                     <MenuList>
-                        <MenuItem icon={<AddIcon />} command='⌘T'>
+                        <MenuItem icon={<AddIcon />} onClick={onOpen}>
                             Add single manually
                         </MenuItem>
-                        <MenuItem icon={<AttachmentIcon />} command='⌘N'>
+                        <MenuItem icon={<AttachmentIcon />}>
                             Import an Excel file
                         </MenuItem>
                     </MenuList>
@@ -74,11 +76,17 @@ const VehiclesList = () => {
                 {data?.data?.count! > 0 && (
                     <TableContainer w={'full'}>
                         <Table variant={'simple'}>
-                            
+                            <Tbody>
+                                {data?.data?.data.map((vehicle: Vehicle) => (
+                                    <VehicleItem vehicle={vehicle} />
+                                ))}
+                            </Tbody>
                         </Table>
                     </TableContainer>
                 )}
             </Flex>
+            
+            <AddVehicleForm isOpen={isOpen} onClose={onClose} />
         </>
     )
 }
