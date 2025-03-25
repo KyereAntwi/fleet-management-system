@@ -22,3 +22,7 @@ export const getVehicleDetailsAsync = async (vehicleId: string, workspaceId: str
 export const updateVehicleExpenditureAsync = async (workspaceId: string, request: UpdateVehicleExpenditureRequest) => {
     return await apiClient.put(`/workspaces/${workspaceId}/vehicles/${request.vehicleId}/expenditure`, request);
 }
+
+export const deleteVehicleAsync = async (workspaceId: string, vehicleId: string) => {
+    return await apiClient.delete(`/workspaces/${workspaceId}/vehicles/${vehicleId}`);
+}

@@ -27,6 +27,9 @@ import FuelConsumptionExpenses from "./FuelConsumptionExpenses";
 import MaintenanceExpenses from "./MaintenanceExpenses";
 import AccidentRepairExpenses from "./AccidentRepairExpenses";
 import AddVehicleExpenseForm from "./AddVehicleExpenseForm";
+import {useDeleteVehicleCommand} from "../../../hooks/mutations/vehicles/useDeleteVehicleCommand";
+import Swal from 'sweetalert2';
+import {deleteWorkspaceAsync} from "../../../services/workspaceServices";
 
 const VehicleDetails = () => {
     const {vehicleId, workspaceId} = useParams();
@@ -37,6 +40,49 @@ const VehicleDetails = () => {
         error
     } = useGetVehicleDetails(vehicleId!, workspaceId!);
     const {isOpen, onClose, onOpen} = useDisclosure();
+    
+    const deleteMutation = useDeleteVehicleCommand({
+        vehicleId: vehicleId!,
+        workspaceId: workspaceId!,
+    })
+    const handleDelete = async () => {
+        if (data && (
+            data?.data?.accidentRepairCosts?.length! > 0 || 
+            data?.data?.maintenanceCosts?.length! > 0 || 
+            data?.data?.fuelConsumed?.length! > 0)) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'This vehicle contains related data. Do you still want to proceed?',
+                showDenyButton: true,
+                confirmButtonText: 'Yes',
+                denyButtonText: `Cancel`,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    doDelete()
+                } else if (result.isDenied) {
+                    return;
+                }
+            });
+        } else {
+            doDelete()
+        }
+    }
+    
+    const doDelete = () => {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Are you sure you want to delete this vehicle and related data completely?',
+            showDenyButton: true,
+            confirmButtonText: 'Yes',
+            denyButtonText: `Cancel`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                return deleteMutation.mutateAsync()
+            } else if (result.isDenied) {
+                return;
+            }
+        });
+    }
     
     if (isLoading) {
         return (
@@ -71,7 +117,7 @@ const VehicleDetails = () => {
                                             <MenuList>
                                                 <MenuItem onClick={onOpen}>Make an expense</MenuItem>
                                                 <MenuDivider />
-                                                <MenuItem color={'red'}>Delete this vehicle</MenuItem>
+                                                <MenuItem color={'red'} onClick={handleDelete}>Delete this vehicle</MenuItem>
                                             </MenuList>
                                         </Menu>
                                     </HStack>

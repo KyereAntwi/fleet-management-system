@@ -17,12 +17,13 @@ const ExpensesItem = ({item} : {item: FuelConsumed}) => {
         <Tr>
             <Td>{item.fuelConsumedValue}</Td>
             <Td>{new Date(item.createdAt).toLocaleDateString()}</Td>
-            <Td>
+            <Td float={'right'}>
                 <IconButton
                     size={'sm'}
                     aria-label={'remove expense'}
                     icon={<DeleteIcon />}
                     title={'Delete expense'}
+                    colorScheme={'red'}
                     onClick={handleRemoveExpense}
                 />
             </Td>

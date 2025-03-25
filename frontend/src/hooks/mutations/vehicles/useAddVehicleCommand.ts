@@ -20,17 +20,23 @@ export const useAddVehicleCommand = ({onClose}: Props) => {
         
         onSuccess: (response: BaseResponse<string>) => {
             queryClient.invalidateQueries({ queryKey: ['vehicles', {workspaceId: response.data}] });
-            toast.call({
-                type: "success",
-                title: `Vehicles added successfully.`,
+            toast({
+                title: 'Success.',
+                description: "Vehicle added successfully.",
+                status: 'success',
+                duration: 9000,
+                isClosable: true,
             });
             onClose();
         },
         
         onError: (error: AxiosError<BaseResponse<string>>) => {
-            toast.call({
-                type: "error",
-                title: `${error?.response?.data?.errors[0] ?? error.message}`,
+            toast({
+                title: 'Error.',
+                description: error.response?.data.errors[0] ?? error.message,
+                status: 'error',
+                duration: 9000,
+                isClosable: true,
             });
         }
     })

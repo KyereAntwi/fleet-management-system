@@ -31,10 +31,11 @@ const formSchema: ZodType<AddVehicleRequest> = z.object({
 
 const AddVehicleForm = ({isOpen, onClose, workspaceId}: Props) => {
     const mutation = useAddVehicleCommand({onClose: onClose});
-    const {register, handleSubmit, formState: {errors, isValid}, setValue} = useForm<AddVehicleRequest>({ resolver: zodResolver(formSchema) });
+    const {register, handleSubmit, formState: {errors, isValid}, reset, setValue} = useForm<AddVehicleRequest>({ resolver: zodResolver(formSchema) });
     
     const onSubmit = handleSubmit(data => {
-        mutation.mutateAsync(data)
+        mutation.mutateAsync(data);
+        reset();
     });
     
     useEffect(() => {
