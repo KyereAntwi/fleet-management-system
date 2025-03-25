@@ -70,6 +70,11 @@ public class TenantRepository(TenantsDbContext tenantsDbContext, IServiceScopeFa
         await tenantsDbContext.SaveChangesAsync();
     }
 
+    public async Task<IReadOnlyList<Tenant>> GetAllTenantIdsAsync()
+    {
+        return await tenantsDbContext.Tenants.ToListAsync();
+    }
+
     public async Task ApplyMigrationAsync(string connectionString)
     {
         using var scope = serviceScopeFactory.CreateScope();

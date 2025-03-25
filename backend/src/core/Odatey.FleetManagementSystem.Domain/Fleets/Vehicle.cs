@@ -3,13 +3,13 @@ namespace Odatey.FleetManagementSystem.Domain.Fleets;
 public class Vehicle : BaseEntity<VehicleId>
 {
     private readonly Collection<FuelConsumed> _fuelConsumed = [];
-    public IReadOnlyCollection<FuelConsumed> FuelConsumptions => _fuelConsumed.AsReadOnly();
+    public IReadOnlyList<FuelConsumed> FuelConsumptions => _fuelConsumed;
     
     private readonly Collection<MaintenanceCost> _maintenanceCosts = [];
-    public IReadOnlyCollection<MaintenanceCost> MaintenanceCosts => _maintenanceCosts.AsReadOnly();
+    public IReadOnlyList<MaintenanceCost> MaintenanceCosts => _maintenanceCosts;
     
     private readonly Collection<AccidentRepairCost> _accidentRepairCosts = [];
-    public IReadOnlyCollection<AccidentRepairCost> AccidentRepairCosts => _accidentRepairCosts.AsReadOnly();
+    public IReadOnlyList<AccidentRepairCost> AccidentRepairCosts => _accidentRepairCosts;
     
     public required WorkspaceId WorkspaceId { get; set; }
     public string? BrandAndType { get; set; }
@@ -55,36 +55,36 @@ public class Vehicle : BaseEntity<VehicleId>
         InsuranceRenewalDate = insuranceRenewalDate;
     }
 
-    public void AddFuelConsumption(double fuelConsumptionCost)
+    public void AddFuelConsumption(double fuelConsumptionCost, DateTime? createdAt)
     {
         if (fuelConsumptionCost <= 0)
         {
             throw new DomainExceptions("Fuel consumption can not be zero or negative.");
         }
         
-        var newFuelConsumption = new FuelConsumed(Id, fuelConsumptionCost);
+        var newFuelConsumption = new FuelConsumed(Id, fuelConsumptionCost, createdAt!);
         _fuelConsumed.Add(newFuelConsumption);
     }
 
-    public void AddMaintenanceCost(double maintenanceCost)
+    public void AddMaintenanceCost(double maintenanceCost, DateTime? createdAt)
     {
         if (maintenanceCost <= 0)
         {
             throw new DomainExceptions("Maintenance cost can not be zero or negative.");
         }
         
-        var newMaintenanceCost = new MaintenanceCost(Id, maintenanceCost);
+        var newMaintenanceCost = new MaintenanceCost(Id, maintenanceCost, createdAt);
         _maintenanceCosts.Add(newMaintenanceCost);
     }
 
-    public void AddAccidentRepairCost(double accidentRepairCost)
+    public void AddAccidentRepairCost(double accidentRepairCost, DateTime? createdAt)
     {
         if (accidentRepairCost <= 0)
         {
             throw new DomainExceptions("Accident repair cost can not be zero or negative.");
         }
         
-        var newAccidentRepairCost = new AccidentRepairCost(Id, accidentRepairCost);
+        var newAccidentRepairCost = new AccidentRepairCost(Id, accidentRepairCost, createdAt);
         _accidentRepairCosts.Add(newAccidentRepairCost);
     }
 }

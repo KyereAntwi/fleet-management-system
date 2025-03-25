@@ -13,12 +13,26 @@ public class VehicleRepository(ApplicationDbContext dbContext) : AsyncRepository
             query = query.Where(v => v.BrandAndType != null && v.BrandAndType.ToLower().Contains(queryKey.ToLower()));
         }
         
+        var pagedLis = query.OrderBy(v => v.CreatedAt).Skip((page - 1) * size).Take(size);
+        var totalCount = await query.CountAsync();
+        
+        return (totalCount, await pagedLis.ToListAsync());
+    }
+
+    public async Task<Vehicle?> GetVehicleWithDetailsAsync(Guid vehicleId)
+    {
         try
         {
-            var pagedLis = query.OrderBy(v => v.CreatedAt).Skip((page - 1) * size).Take(size);
-            var totalCount = await query.CountAsync();
-        
-            return (totalCount, await pagedLis.ToListAsync());
+            var vehicle = await _dbContext
+                .Vehicles
+                .Include(v => v.FuelConsumptions)
+                .Include(v => v.MaintenanceCosts)
+                .Include(v => v.AccidentRepairCosts)
+                .AsSplitQuery()
+                .AsNoTracking()
+                .FirstOrDefaultAsync(v => v.Id == VehicleId.Of(vehicleId));
+            
+            return vehicle;
         }
         catch (Exception e)
         {
@@ -27,26 +41,14 @@ public class VehicleRepository(ApplicationDbContext dbContext) : AsyncRepository
         }
     }
 
-    public async Task<Vehicle?> GetVehicleWithDetailsAsync(Guid vehicleId)
-    {
-        return await _dbContext
-            .Vehicles
-            .Include(v => v.FuelConsumptions)
-            .Include(v => v.MaintenanceCosts)
-            .Include(v => v.AccidentRepairCosts)
-            .AsSplitQuery()
-            .AsNoTracking()
-            .FirstOrDefaultAsync(v => v.Id.Value == vehicleId);
-    }
-
     public async Task AddRangeAsync(IEnumerable<Vehicle> vehicles)
     {
         _dbContext.AddRange(vehicles);
         await Task.CompletedTask;
     }
 
-    public Task<Vehicle?> GetByIdAsync(Guid id)
+    public async Task<Vehicle?> GetByIdAsync(Guid id)
     {
-        return _dbContext.Vehicles.FirstOrDefaultAsync(v => v.Id.Value == id);
+        return await _dbContext.Vehicles.FindAsync(VehicleId.Of(id));
     }
 }

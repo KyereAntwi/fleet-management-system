@@ -7,5 +7,6 @@ public class FuelConsumedConfigurations : IEntityTypeConfiguration<FuelConsumed>
         builder.HasKey(x => x.Id);
         builder.Property(a => a.Id)
             .HasConversion(a => a.Value, dbId => FuelConsumedId.Of(dbId));
+        builder.Property(a => a.VehicleId).HasConversion(a => a.Value, dbId => VehicleId.Of(dbId));
     }
 }

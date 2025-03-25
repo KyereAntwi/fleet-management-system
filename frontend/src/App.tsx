@@ -11,6 +11,7 @@ import WorkspaceDashboard from "./pages/Workspaces/WorkspaceManagement/Workspace
 import PageNotFound from "./pages/PageNotFound";
 import WorkspaceManagementLayout from "./pages/Workspaces/WorkspaceManagement/WorkspaceManagementLayout";
 import VehiclesList from "./pages/Vehicles/VehiclesList";
+import VehicleDetails from "./pages/Vehicles/VehicleDetails/VehicleDetails";
 
 function App() {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
@@ -34,6 +35,7 @@ function App() {
           <Route path="/workspaces/:workspaceId/management" element={<WorkspaceManagementLayout />}>
             <Route index={true} path={"dashboard"} element={<WorkspaceDashboard />} />
             <Route path={"vehicles"} element={<VehiclesList />} />
+            <Route path={"vehicles/:vehicleId"} element={<VehicleDetails />} />
           </Route>
           <Route
             path="/workspaces/:id/settings"

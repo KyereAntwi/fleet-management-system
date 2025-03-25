@@ -10,9 +10,13 @@ export interface Vehicle {
     updatedAt?: string;
     createdBy?: string;
     updatedBy?: string;
-    fuelConsumptions?: FuelConsumed[];
+}
+
+export interface VehicleDetails {
+    vehicle: Vehicle;
+    fuelConsumed?: FuelConsumed[];
     maintenanceCosts?: MaintenanceCost[];
-    AccidentRepairCosts?: AccidentRepairCost[];
+    accidentRepairCosts?: AccidentRepairCost[];
 }
 
 export interface FuelConsumed {

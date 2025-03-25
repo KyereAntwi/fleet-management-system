@@ -4,11 +4,12 @@ public class AccidentRepairCost : BaseEntity<AccidentRepairCostId>
 {
     protected AccidentRepairCost() {}
 
-    internal AccidentRepairCost(VehicleId vehicleId, double cost)
+    internal AccidentRepairCost(VehicleId vehicleId, double cost, DateTime? createdAt)
     {
         Id = AccidentRepairCostId.Of(Guid.NewGuid());
         VehicleId = vehicleId;
         Cost = cost;
+        CreatedAt = createdAt;
     }
     
     public VehicleId VehicleId { get; protected set; }

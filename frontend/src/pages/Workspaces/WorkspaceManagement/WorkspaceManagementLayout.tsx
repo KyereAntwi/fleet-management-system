@@ -7,17 +7,17 @@ import {getAWorkspaceQuery} from "../../../hooks/queries/workspaces/getAWorkspac
 const WorkspaceManagementLayout = () => {
     const {workspaceId} = useParams();
 
-    const setSelectedWorkspace = useSelectedWorkspaceStore(
-        (state) => state.setSelectedWorkspace
-    );
+    // const setSelectedWorkspace = useSelectedWorkspaceStore(
+    //     (state) => state.setSelectedWorkspace
+    // );
     
     const {data, isLoading} = getAWorkspaceQuery({
         id: workspaceId!
     });
     
-    if (data) {
-        setSelectedWorkspace(data?.data!);
-    }
+    // if (data) {
+    //     setSelectedWorkspace(data?.data!);
+    // }
     
     return (
         <>
@@ -25,7 +25,7 @@ const WorkspaceManagementLayout = () => {
                 <Flex w='80%' mx='auto' flexDirection={'row'} py={4} >
                     {isLoading && (<SkeletonText noOfLines={1} skeletonHeight='2' />)}
                     {data && (
-                        <Heading color={'teal.500'} size='lg'>
+                        <Heading color={'teal.500'} size='lg' as={NavLink} to={`/workspaces/${workspaceId}/management/vehicles`}>
                             {data?.data?.workspaceTitle}
                         </Heading>
                     )}

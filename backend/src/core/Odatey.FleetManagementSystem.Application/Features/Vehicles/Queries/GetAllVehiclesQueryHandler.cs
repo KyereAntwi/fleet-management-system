@@ -23,7 +23,8 @@ public class GetAllVehiclesQueryHandler(IVehicleRepository repository)
                 r.InitialCost,
                 r.MileageCovered ?? string.Empty,
                 r.RoadworthyRenewalDate ?? DateTime.MinValue,
-                r.InsuranceRenewalDate ?? DateTime.MinValue));
+                r.InsuranceRenewalDate ?? DateTime.MinValue,
+                r.CreatedAt ?? DateTime.MinValue));
 
         return new PagedResponse<GetAllVehicleQueryDto>
         {
@@ -42,4 +43,5 @@ public record GetAllVehicleQueryDto(
     double InitialCost,
     string MileageCovered,
     DateTime RoadworthyRenewalDate,
-    DateTime InsuranceRenewalDate);
+    DateTime InsuranceRenewalDate,
+    DateTime CreatedAt);

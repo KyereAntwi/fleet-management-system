@@ -55,7 +55,7 @@ namespace Odatey.FleetManagementSystem.Repositories.Data.Migrations
 
                     b.HasIndex("VehicleId");
 
-                    b.ToTable("AccidentRepairCosts");
+                    b.ToTable("AccidentRepairCosts", (string)null);
                 });
 
             modelBuilder.Entity("Odatey.FleetManagementSystem.Domain.Fleets.FuelConsumed", b =>
@@ -91,7 +91,7 @@ namespace Odatey.FleetManagementSystem.Repositories.Data.Migrations
 
                     b.HasIndex("VehicleId");
 
-                    b.ToTable("FuelConsumptions");
+                    b.ToTable("FuelConsumptions", (string)null);
                 });
 
             modelBuilder.Entity("Odatey.FleetManagementSystem.Domain.Fleets.MaintenanceCost", b =>
@@ -127,7 +127,7 @@ namespace Odatey.FleetManagementSystem.Repositories.Data.Migrations
 
                     b.HasIndex("VehicleId");
 
-                    b.ToTable("MaintenanceCosts");
+                    b.ToTable("MaintenanceCosts", (string)null);
                 });
 
             modelBuilder.Entity("Odatey.FleetManagementSystem.Domain.Fleets.Vehicle", b =>
@@ -173,7 +173,7 @@ namespace Odatey.FleetManagementSystem.Repositories.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Vehicles");
+                    b.ToTable("Vehicles", (string)null);
                 });
 
             modelBuilder.Entity("Odatey.FleetManagementSystem.Domain.WorkSpaces.Workspace", b =>
@@ -206,7 +206,7 @@ namespace Odatey.FleetManagementSystem.Repositories.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Workspaces");
+                    b.ToTable("Workspaces", (string)null);
                 });
 
             modelBuilder.Entity("Odatey.FleetManagementSystem.Domain.Fleets.AccidentRepairCost", b =>

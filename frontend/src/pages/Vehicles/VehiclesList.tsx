@@ -2,7 +2,7 @@ import {
     Button,
     Divider,
     Flex,
-    Heading,
+    Heading, Input, InputGroup, InputLeftElement,
     Menu,
     MenuButton,
     MenuItem,
@@ -10,7 +10,7 @@ import {
     Spacer, Table,
     TableContainer, Tbody, useDisclosure
 } from "@chakra-ui/react";
-import {AddIcon, AttachmentIcon, SettingsIcon} from "@chakra-ui/icons";
+import {AddIcon, AttachmentIcon, ButtonGroup, SearchIcon, SettingsIcon, Th, Thead} from "@chakra-ui/icons";
 import {getVehiclesQuery} from "../../hooks/queries/vehicles/getVehiclesQuery";
 import FullPageLoading from "../../components/UI/FullPageLoading";
 import InfoBanner from "../../components/UI/InfoBanner";
@@ -18,15 +18,20 @@ import {useParams} from "react-router";
 import {Vehicle} from "../../models/vehicles/vehicle";
 import VehicleItem from "./VehicleItem";
 import AddVehicleForm from "./AddVehicleForm";
+import {useState} from "react";
 
 const VehiclesList = () => {
     const {workspaceId} = useParams();
     
+    const [keyword, setKeyword] = useState<string>('')
+    const [pageSize, setPageSize] = useState<number>(20)
+    const [page, setPage] = useState<number>(1)
+    
     const {data, isLoading, error} = getVehiclesQuery({
         workspaceId: workspaceId!,
-        page: 1,
-        pageSize: 20,
-        keyword: ''
+        page: page,
+        pageSize: pageSize,
+        keyword: keyword
     });
     
     const {isOpen, onOpen, onClose} = useDisclosure();
@@ -74,19 +79,49 @@ const VehiclesList = () => {
                 )}
 
                 {data?.data?.count! > 0 && (
-                    <TableContainer w={'full'}>
-                        <Table variant={'simple'}>
-                            <Tbody>
-                                {data?.data?.data.map((vehicle: Vehicle) => (
-                                    <VehicleItem vehicle={vehicle} />
-                                ))}
-                            </Tbody>
-                        </Table>
-                    </TableContainer>
+                    <>
+                        <Flex flexDirection={'row'} w={'full'} mx={'auto'} py={4} alignItems={'space-between'}>
+                            <InputGroup size={'sm'} mr={4}>
+                                <InputLeftElement pointerEvents='none'>
+                                    <SearchIcon color='gray.300' />
+                                </InputLeftElement>
+                                <Input 
+                                    type='tel' 
+                                    placeholder='search vehicle here ...'
+                                    onChange={(e) => setKeyword(e.target.value)}
+                                />
+                            </InputGroup>
+                            
+                            <Spacer />
+                            
+                            <ButtonGroup size={'sm'} isAttached>
+                                <Button>Prev</Button>
+                                <Button>Next</Button>
+                            </ButtonGroup>
+                        </Flex>
+                        
+                        <TableContainer w={'full'}>
+                            <Table variant={'simple'}>
+                                <Thead>
+                                    <Th>Created At</Th>
+                                    <Th>Type and Brand</Th>
+                                    <Th>Initial Cost</Th>
+                                    <Th>Insurance Renewal Date</Th>
+                                    <Th>Mileage Covered</Th>
+                                    <Th>Road Worthy Renewal Date</Th>
+                                </Thead>
+                                <Tbody>
+                                    {data?.data?.data.map((vehicle: Vehicle) => (
+                                        <VehicleItem vehicle={vehicle} />
+                                    ))}
+                                </Tbody>
+                            </Table>
+                        </TableContainer>
+                    </>
                 )}
             </Flex>
             
-            <AddVehicleForm isOpen={isOpen} onClose={onClose} />
+            <AddVehicleForm isOpen={isOpen} onClose={onClose} workspaceId={workspaceId!} />
         </>
     )
 }

@@ -4,11 +4,12 @@ public class FuelConsumed : BaseEntity<FuelConsumedId>
 {
     protected FuelConsumed() { }
     
-    internal FuelConsumed(VehicleId vehicleId, double fuelConsumed)
+    internal FuelConsumed(VehicleId vehicleId, double fuelConsumed, DateTime? createdAt)
     {
         Id = FuelConsumedId.Of(Guid.NewGuid());
         VehicleId = vehicleId;
         FuelConsumedValue = fuelConsumed;
+        CreatedAt = createdAt;
     }
     
     public VehicleId VehicleId { get; protected set; }

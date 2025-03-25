@@ -25,7 +25,7 @@ public class AddVehicleToWorkspaceCommandHandler(
         var newVehicle = CreateVehicle(command);
         await vehicleRepository.AddAsync(newVehicle);
         await vehicleRepository.SaveChangesAsync();
-        
+
         return new AddVehicleToWorkspaceCommandResponse(newVehicle.Id.Value);
     }
 
@@ -36,8 +36,8 @@ public class AddVehicleToWorkspaceCommandHandler(
             command.BrandAndType,
             command.InitialCost,
             command.MileageCovered,
-            command.RoadWorthyRenewalDate,
-            command.InsuranceRenewalDate);
+            command.RoadWorthyRenewalDate.ToUniversalTime(),
+            command.InsuranceRenewalDate.ToUniversalTime());
 }
 
 public record AddVehicleToWorkspaceCommandResponse(Guid Id);

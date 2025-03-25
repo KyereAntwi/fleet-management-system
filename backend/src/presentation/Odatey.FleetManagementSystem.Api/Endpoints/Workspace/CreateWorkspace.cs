@@ -1,5 +1,3 @@
-using Odatey.FleetManagementSystem.Application.Interfaces.Services;
-
 namespace Odatey.FleetManagementSystem.Api.Endpoints.Workspace;
 
 public class CreateWorkspace(ISender sender, IAuthenticatedUser authenticatedUser)

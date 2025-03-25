@@ -7,5 +7,6 @@ public class MaintenanceCostConfigurations : IEntityTypeConfiguration<Maintenanc
         builder.HasKey(x => x.Id);
         builder.Property(a => a.Id)
             .HasConversion(a => a.Value, dbId => MaintenanceCostId.Of(dbId));
+        builder.Property(a => a.VehicleId).HasConversion(a => a.Value, dbId => VehicleId.Of(dbId));
     }
 }

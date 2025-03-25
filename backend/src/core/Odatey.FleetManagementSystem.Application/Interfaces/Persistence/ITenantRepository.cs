@@ -10,4 +10,5 @@ public interface ITenantRepository
     Task<Tenant?> GetTenantByUserIdAsync(string userId);
     Task DeleteTenantAsync(Guid tenantId);
     Task SaveChangesAsync();
+    Task<IReadOnlyList<Tenant>> GetAllTenantIdsAsync();
 }

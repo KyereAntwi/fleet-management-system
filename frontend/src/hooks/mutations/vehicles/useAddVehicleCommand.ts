@@ -22,7 +22,7 @@ export const useAddVehicleCommand = ({onClose}: Props) => {
             queryClient.invalidateQueries({ queryKey: ['vehicles', {workspaceId: response.data}] });
             toast.call({
                 type: "success",
-                message: `Vehicles added successfully.`,
+                title: `Vehicles added successfully.`,
             });
             onClose();
         },
@@ -30,7 +30,7 @@ export const useAddVehicleCommand = ({onClose}: Props) => {
         onError: (error: AxiosError<BaseResponse<string>>) => {
             toast.call({
                 type: "error",
-                message: `${error?.response?.data?.errors[0] ?? error.message}`,
+                title: `${error?.response?.data?.errors[0] ?? error.message}`,
             });
         }
     })

@@ -16,7 +16,7 @@ public class AddFuelConsumptionToVehicleCommandHandler(IVehicleRepository reposi
             throw new NotFoundException($"Vehicle with id {command.VehicleId} does not exist");
         }
         
-        vehicle.AddFuelConsumption(command.FuelConsumptionCost);
+        vehicle.AddFuelConsumption(command.FuelConsumptionCost, DateTime.UtcNow);
         await repository.SaveChangesAsync();
         
         return Unit.Value;

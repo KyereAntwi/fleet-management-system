@@ -10,7 +10,7 @@ public class UpdateVehicleExpenditure(ISender sender) : Endpoint<UpdateVehicleEx
 
     public override async Task HandleAsync(UpdateVehicleExpenditureRequest req, CancellationToken ct)
     {
-        VehicleExpenditureType expenditureType = (VehicleExpenditureType)Enum.Parse(typeof(VehicleExpenditureType), req.ExpenditureType);
+        var expenditureType = (VehicleExpenditureType)Enum.Parse(typeof(VehicleExpenditureType), req.ExpenditureType);
 
         switch(expenditureType)
         {

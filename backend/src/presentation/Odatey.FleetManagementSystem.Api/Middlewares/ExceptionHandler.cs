@@ -1,3 +1,5 @@
+using Odatey.FleetManagementSystem.Domain.Exceptions;
+
 namespace Odatey.FleetManagementSystem.Api.Middlewares;
 
 public class ExceptionHandler
@@ -38,7 +40,7 @@ public class ExceptionHandler
                     StatusCode = 422,
                     Success = false,
                     Message = "Client error.",
-                    Erross = [..new string[] { badFileExtensionException.Message }]
+                    Erross = [..new[] { badFileExtensionException.Message }]
                 });
                 break;
             
@@ -49,7 +51,7 @@ public class ExceptionHandler
                     StatusCode = 400,
                     Success = false,
                     Message = "Client error.",
-                    Erross = [..new string[] { badRequestException.Message }]
+                    Erross = [..new[] { badRequestException.Message }]
                 });
                 break;
             
@@ -60,10 +62,20 @@ public class ExceptionHandler
                     StatusCode = 404,
                     Success = false,
                     Message = "Client error.",
-                    Erross = [..new string[] { notFoundException.Message }]
+                    Erross = [..new[] { notFoundException.Message }]
                 });
                 break;
             
+            case DomainExceptions domainException:
+                httpStatusCode = HttpStatusCode.UnprocessableEntity;
+                result = JsonSerializer.Serialize(new BaseResponse<string>
+                {
+                    StatusCode = (int)HttpStatusCode.UnprocessableEntity,
+                    Success = false,
+                    Message = "Client error",
+                    Erross = [..new[] { domainException.Message }]
+                });
+                break;
             default:
                 httpStatusCode = HttpStatusCode.InternalServerError;
                 result = JsonSerializer.Serialize(new BaseResponse<string>
@@ -71,7 +83,7 @@ public class ExceptionHandler
                     StatusCode = 500,
                     Success = false,
                     Message = "Server Error.",
-                    Erross = [..new string[] { exception.Message }]
+                    Erross = [..new[] { exception.Message }]
                 });
                 break;
         }

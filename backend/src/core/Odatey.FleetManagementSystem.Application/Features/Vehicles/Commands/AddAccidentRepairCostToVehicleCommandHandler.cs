@@ -16,7 +16,7 @@ public class AddAccidentRepairCostToVehicleCommandHandler(IVehicleRepository rep
             throw new NotFoundException($"Vehicle with id {command.VehicleId} does not exist");
         }
         
-        vehicle.AddAccidentRepairCost(command.AccidentRepairCost);
+        vehicle.AddAccidentRepairCost(command.AccidentRepairCost, DateTime.UtcNow);
         await repository.SaveChangesAsync();
         
         return Unit.Value;

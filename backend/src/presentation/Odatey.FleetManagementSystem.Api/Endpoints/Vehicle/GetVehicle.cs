@@ -1,21 +1,17 @@
 ﻿namespace Odatey.FleetManagementSystem.Api.Endpoints.Vehicle;
 
-public class GetVehicle(ISender sender) : Endpoint<GetAVehicleDetailsQueryRequest, BaseResponse<VehicleDetailsQueryDto>>
+public class GetVehicle(ISender sender) : Endpoint<GetVehicleDetailsRequest, BaseResponse<VehicleDetailsQueryDto>>
 {
     public override void Configure()
     {
-        Get("/api/v1/workspaces/{WorkspaceId}/vehicles/{Id}");
+        Get("/api/v1/workspaces/{WorkspaceId}/vehicles/{VehicleId}");
     }
 
-    public override async Task HandleAsync(GetAVehicleDetailsQueryRequest req, CancellationToken ct)
+    public override async Task HandleAsync(GetVehicleDetailsRequest req, CancellationToken ct)
     {
-        var vehicle = await sender.Send(new GetAVehicleDetailsQuery(req), ct);
-
-        if (vehicle is null)
-        {
-            await SendNotFoundAsync(ct);
-            return;
-        }
+        var vehicle = await sender.Send(new GetAVehicleDetailsQuery(
+            new GetAVehicleDetailsQueryRequest(req.VehicleId)), ct);
+        
         await SendOkAsync(new BaseResponse<VehicleDetailsQueryDto>
         {
             Success = true,
@@ -25,3 +21,5 @@ public class GetVehicle(ISender sender) : Endpoint<GetAVehicleDetailsQueryReques
         }, ct);
     }
 }
+
+public record GetVehicleDetailsRequest ([FromRoute] Guid WorkspaceId, [FromRoute] Guid VehicleId);
