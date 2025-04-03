@@ -15,6 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\presentation\Odatey.FleetManagementSystem.Contracts\Odatey.FleetManagementSystem.Contracts.csproj" />
       <ProjectReference Include="..\Odatey.FleetManagementSystem.Domain\Odatey.FleetManagementSystem.Domain.csproj" />
     </ItemGroup>
 

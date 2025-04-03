@@ -23,6 +23,13 @@ public class AddBulkVehiclesFromFileValidator : Validator<AddBulkVehiclesRequest
     {
         RuleFor(w => w.File)
             .NotEmpty().WithMessage("No file uploaded")
-            .NotNull();
+            .NotNull()
+            .Must(file =>
+            {
+                var extension = Path.GetExtension(file.FileName);
+                return 
+                    extension.Equals(".csv", StringComparison.OrdinalIgnoreCase);
+            })
+            .WithMessage("File must be a CSV or Excel file");
     }
 }

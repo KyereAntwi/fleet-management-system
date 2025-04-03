@@ -10,7 +10,7 @@ public class CvsImportResult
     public int VehicleID { get; set; }
     public double VehicleCost { get; set; }
     public double AnnualDepreciation { get; set; }
-    public int MileageCovered { get; set; }
+    public string? MileageCovered { get; set; }
     public double FuelConsumed { get; set; }
     public double MaintenanceCost { get; set; }
     public double AccidentRepairCost { get; set; }

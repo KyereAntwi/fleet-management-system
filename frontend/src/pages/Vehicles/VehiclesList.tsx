@@ -19,6 +19,7 @@ import {Vehicle} from "../../models/vehicles/vehicle";
 import VehicleItem from "./VehicleItem";
 import AddVehicleForm from "./AddVehicleForm";
 import {useState} from "react";
+import AddVehicleBulkForm from "./AddVehicleBulkForm";
 
 const VehiclesList = () => {
     const {workspaceId} = useParams();
@@ -35,6 +36,7 @@ const VehiclesList = () => {
     });
     
     const {isOpen, onOpen, onClose} = useDisclosure();
+    const {isOpen: isOpenBulk, onOpen: onOpenBulk, onClose: onCloseBulk} = useDisclosure();
     
     if (isLoading) {
         return <FullPageLoading />
@@ -64,7 +66,7 @@ const VehiclesList = () => {
                         <MenuItem icon={<AddIcon />} onClick={onOpen}>
                             Add single manually
                         </MenuItem>
-                        <MenuItem icon={<AttachmentIcon />}>
+                        <MenuItem icon={<AttachmentIcon />} onClick={onOpenBulk}>
                             Import an Excel file
                         </MenuItem>
                     </MenuList>
@@ -122,6 +124,7 @@ const VehiclesList = () => {
             </Flex>
             
             <AddVehicleForm isOpen={isOpen} onClose={onClose} workspaceId={workspaceId!} />
+            <AddVehicleBulkForm workspaceId={workspaceId!} isOpen={isOpenBulk} onClose={onCloseBulk} />
         </>
     )
 }

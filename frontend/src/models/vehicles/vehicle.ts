@@ -22,14 +22,17 @@ export interface VehicleDetails {
 export interface FuelConsumed {
     fuelConsumedValue: number;
     createdAt: string;
+    id: string;
 }
 
 export interface MaintenanceCost {
     cost: number;
     createdAt: string;
+    id: string;
 }
 
 export interface AccidentRepairCost {
     cost: number;
     createdAt: string;
+    id: string;
 }

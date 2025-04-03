@@ -21,27 +21,42 @@ public class AddBulkVehiclesFromFileToWorkspaceCommandHandler(
             throw new NotFoundException($"Workspace with id {command.WorkspaceId} does not exist");
         }
 
-        var hashSet = new HashSet<string> { ".csv", ".xlsx", ".xls", ".xlsm" };
-        var fileExtension = Path.GetExtension(command.File.FileName).ToLowerInvariant();
-        if (!hashSet.Contains(fileExtension))
-        {
-            throw new BadFileExtensionException($"File extension {fileExtension} is not supported");
-        }
-        
-        var list = csvService.ImportVehicles(command.File);
+        IEnumerable<CvsImportResult> list;
 
-        var newVehicles = list.Select(v => Vehicle.Create(
-            VehicleId.Of(Guid.NewGuid()),
-            WorkspaceId.Of(command.WorkspaceId),
-            "",
-            v.VehicleCost,
-            v.MileageCovered.ToString(),
-            v.RoadworthyRenewalDate,
-            v.InsuranceRenewalDate));
+        try
+        {
+            list = csvService.ImportVehicles(command.File);
+        }
+        catch (Exception e)
+        {
+            throw new BadRequestException(e.Message);
+        }
+
+        List<Vehicle> newVehicles = [];
+
+        foreach (var item in list)
+        {
+            var vehicle = Vehicle.Create(
+                VehicleId.Of(Guid.NewGuid()),
+                WorkspaceId.Of(command.WorkspaceId),
+                "",
+                item.VehicleCost,
+                item.MileageCovered!,
+                item.RoadworthyRenewalDate,
+                item.InsuranceRenewalDate);
+            
+            vehicle.AddFuelConsumption(item.FuelConsumed, DateTime.UtcNow);
+            vehicle.AddMaintenanceCost(item.MaintenanceCost, DateTime.UtcNow);
+            vehicle.AddAccidentRepairCost(item.AccidentRepairCost, DateTime.UtcNow);
+            
+            newVehicles.Add(vehicle);
+        }
+
+        if (newVehicles.Count <= 0) return Unit.Value;
         
         await repository.AddRangeAsync(newVehicles);
         await repository.SaveChangesAsync();
-        
+
         return Unit.Value;
     }
 }

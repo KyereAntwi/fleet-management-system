@@ -2,7 +2,7 @@ import {
     Box,
     Card,
     CardBody,
-    CardHeader,
+    CardHeader, Divider,
     Flex,
     Grid,
     GridItem,
@@ -10,7 +10,7 @@ import {
     HStack, IconButton,
     Menu,
     MenuButton, MenuDivider, MenuItem, MenuList,
-    Spacer, useDisclosure
+    Spacer, Table, TableContainer, Tbody, Td, Text, Tr, useDisclosure
 } from "@chakra-ui/react";
 import {
     Accordion,
@@ -29,7 +29,6 @@ import AccidentRepairExpenses from "./AccidentRepairExpenses";
 import AddVehicleExpenseForm from "./AddVehicleExpenseForm";
 import {useDeleteVehicleCommand} from "../../../hooks/mutations/vehicles/useDeleteVehicleCommand";
 import Swal from 'sweetalert2';
-import {deleteWorkspaceAsync} from "../../../services/workspaceServices";
 
 const VehicleDetails = () => {
     const {vehicleId, workspaceId} = useParams();
@@ -122,8 +121,44 @@ const VehicleDetails = () => {
                                         </Menu>
                                     </HStack>
                                 </CardHeader>
+                                <Divider />
                                 <CardBody>
-
+                                    <TableContainer>
+                                        <Table size={'sm'}>
+                                            <Tbody>
+                                                <Tr>
+                                                    <Td>
+                                                        <Text fontWeight={'bold'}>Created At:</Text>
+                                                    </Td>
+                                                    <Td>{new Date(data?.data?.vehicle?.createdAt!).toLocaleDateString()}</Td>
+                                                </Tr>
+                                                <Tr>
+                                                    <Td>
+                                                        <Text fontWeight={'bold'}>Initial Cost:</Text>
+                                                    </Td>
+                                                    <Td>GHC {data?.data?.vehicle?.initialCost!}</Td>
+                                                </Tr>
+                                                <Tr>
+                                                    <Td>
+                                                        <Text fontWeight={'bold'}>Insurance Renewal Date:</Text>
+                                                    </Td>
+                                                    <Td>{new Date(data?.data?.vehicle?.insuranceRenewalDate!).toLocaleDateString()}</Td>
+                                                </Tr>
+                                                <Tr>
+                                                    <Td>
+                                                        <Text fontWeight={'bold'}>Mileage Covered:</Text>
+                                                    </Td>
+                                                    <Td>{data?.data?.vehicle?.mileageCovered!}</Td>
+                                                </Tr>
+                                                <Tr>
+                                                    <Td>
+                                                        <Text fontWeight={'bold'}>Road Worthy Renewal Date:</Text>
+                                                    </Td>
+                                                    <Td>{new Date(data?.data?.vehicle?.roadWorthyRenewalDate!).toLocaleDateString()}</Td>
+                                                </Tr>
+                                            </Tbody>
+                                        </Table>
+                                    </TableContainer>
                                 </CardBody>
                             </Card>
                         )}

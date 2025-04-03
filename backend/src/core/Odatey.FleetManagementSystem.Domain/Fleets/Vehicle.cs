@@ -10,11 +10,15 @@ public class Vehicle : BaseEntity<VehicleId>
     
     private readonly Collection<AccidentRepairCost> _accidentRepairCosts = [];
     public IReadOnlyList<AccidentRepairCost> AccidentRepairCosts => _accidentRepairCosts;
+
+    private readonly Collection<HirePayment> _hirePayments = [];
+    public IReadOnlyList<HirePayment> HirePayments => _hirePayments;
     
     public required WorkspaceId WorkspaceId { get; set; }
     public string? BrandAndType { get; set; }
     public double InitialCost { get; set; }
     public string? MileageCovered { get; set; }
+    public decimal AnnualDepreciation { get; set; }
     public DateTime? RoadworthyRenewalDate { get; set; }
     public DateTime? InsuranceRenewalDate { get; set; }
 
@@ -25,7 +29,8 @@ public class Vehicle : BaseEntity<VehicleId>
         double initialCost, 
         string mileageCovered,
         DateTime roadworthyRenewalDate,
-        DateTime insuranceRenewalDate)
+        DateTime insuranceRenewalDate,
+        decimal annualDepreciation = 0)
     {
         var vehicle = new Vehicle
         {
@@ -35,7 +40,8 @@ public class Vehicle : BaseEntity<VehicleId>
             InitialCost = initialCost,
             MileageCovered = mileageCovered,
             RoadworthyRenewalDate = roadworthyRenewalDate,
-            InsuranceRenewalDate = insuranceRenewalDate
+            InsuranceRenewalDate = insuranceRenewalDate,
+            AnnualDepreciation = annualDepreciation
         };
         
         return vehicle;
@@ -46,13 +52,15 @@ public class Vehicle : BaseEntity<VehicleId>
         double initialCost,
         string mileageCovered,
         DateTime roadworthyRenewalDate,
-        DateTime insuranceRenewalDate)
+        DateTime insuranceRenewalDate,
+        decimal annualDepreciation = 0)
     {
         BrandAndType = brandAndType;
         InitialCost = initialCost;
         MileageCovered = mileageCovered;
         RoadworthyRenewalDate = roadworthyRenewalDate;
         InsuranceRenewalDate = insuranceRenewalDate;
+        AnnualDepreciation = annualDepreciation;
     }
 
     public void AddFuelConsumption(double fuelConsumptionCost, DateTime? createdAt)
@@ -86,5 +94,40 @@ public class Vehicle : BaseEntity<VehicleId>
         
         var newAccidentRepairCost = new AccidentRepairCost(Id, accidentRepairCost, createdAt);
         _accidentRepairCosts.Add(newAccidentRepairCost);
+    }
+
+    public void AddHirePayment(double payment, DateTime? createdAt)
+    {
+        if (payment <= 0)
+        {
+            throw new DomainExceptions("Hire payment can not be zero or negative.");
+        }
+        
+        var newHirePayment = new HirePayment(Id, payment, createdAt);
+        _hirePayments.Add(newHirePayment);
+    }
+    
+    public void RemoveHirePayment(Guid hirePaymentId)
+    {
+        var hirePayment = _hirePayments.First(hp => hp.Id == HirePaymentId.Of(hirePaymentId));
+        _hirePayments.Remove(hirePayment);
+    }
+
+    public void RemoveFuelConsumption(Guid fuelConsumptionId)
+    {
+        var fuelConsumption = _fuelConsumed.First(fc => fc.Id == FuelConsumedId.Of(fuelConsumptionId));
+        _fuelConsumed.Remove(fuelConsumption);
+    }
+
+    public void RemoveMaintenance(Guid maintenanceCostId)
+    {
+        var maintenanceCost = _maintenanceCosts.First(mc => mc.Id == MaintenanceCostId.Of(maintenanceCostId));
+        _maintenanceCosts.Remove(maintenanceCost);
+    }
+
+    public void RemoveAccidentRepairCost(Guid accidentRepairCostId)
+    {
+        var accidentRepairCost = _accidentRepairCosts.First(ar => ar.Id == AccidentRepairCostId.Of(accidentRepairCostId));
+        _accidentRepairCosts.Remove(accidentRepairCost);
     }
 }

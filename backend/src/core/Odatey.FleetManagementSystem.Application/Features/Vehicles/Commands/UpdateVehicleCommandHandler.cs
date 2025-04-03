@@ -12,8 +12,7 @@ public class UpdateVehicleCommandHandler(IVehicleRepository context) : ICommandH
 {
     public async Task<Unit> Handle(UpdateVehicleCommand command, CancellationToken cancellationToken)
     {
-        var vehicleId = VehicleId.Of(command.Id);
-        var vehicle = await context.GetByIdAsync(vehicleId.Value);
+        var vehicle = await context.GetByIdAsync(command.Id);
 
         if (vehicle is null)
         {
