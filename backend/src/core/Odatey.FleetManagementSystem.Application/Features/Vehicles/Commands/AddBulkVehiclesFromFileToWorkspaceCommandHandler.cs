@@ -42,8 +42,8 @@ public class AddBulkVehiclesFromFileToWorkspaceCommandHandler(
                 "",
                 item.VehicleCost,
                 item.MileageCovered!,
-                item.RoadworthyRenewalDate,
-                item.InsuranceRenewalDate);
+                DateTime.SpecifyKind(item.RoadworthyRenewalDate, DateTimeKind.Utc), 
+                DateTime.SpecifyKind(item.InsuranceRenewalDate, DateTimeKind.Utc));
             
             vehicle.AddFuelConsumption(item.FuelConsumed, DateTime.UtcNow);
             vehicle.AddMaintenanceCost(item.MaintenanceCost, DateTime.UtcNow);
@@ -54,8 +54,16 @@ public class AddBulkVehiclesFromFileToWorkspaceCommandHandler(
 
         if (newVehicles.Count <= 0) return Unit.Value;
         
-        await repository.AddRangeAsync(newVehicles);
-        await repository.SaveChangesAsync();
+        try
+        {
+            await repository.AddRangeAsync(newVehicles);
+            await repository.SaveChangesAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
 
         return Unit.Value;
     }

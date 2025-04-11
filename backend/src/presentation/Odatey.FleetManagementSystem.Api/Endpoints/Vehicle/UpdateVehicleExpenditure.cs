@@ -23,6 +23,9 @@ public class UpdateVehicleExpenditure(ISender sender) : Endpoint<UpdateVehicleEx
             case VehicleExpenditureType.AccidentRepair:
                 await sender.Send(new AddAccidentRepairCostToVehicleCommand(req.VehicleId, req.Cost), ct);
                 break;
+            case VehicleExpenditureType.HirePayment:
+                await sender.Send(new AddHirePaymentCommand(req.VehicleId, req.Cost), ct);
+                break;
             default:
                 throw new BadRequestException("Invalid ExpenditureType");
         }

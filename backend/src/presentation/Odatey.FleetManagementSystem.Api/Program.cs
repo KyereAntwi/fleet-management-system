@@ -13,24 +13,25 @@ builder
 
 var app = builder.AddServices().AddPipeline();
 
-//ApplyMigrations(app);
+ApplyMigrations(app);
 
 app.Run();
+return;
 
 void ApplyMigrations(IHost host)
 {
     using var scope = host.Services.CreateScope();
     var services = scope.ServiceProvider;
     var tenantRepository = services.GetRequiredService<ITenantRepository>();
-    var authenticatedUser = services.GetRequiredService<IAuthenticatedUser>();
 
     var tenants = tenantRepository.GetAllTenantIdsAsync().Result;
     foreach (var tenant in tenants)
     {
-        var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+        var optionsBuilder = new DbContextOptionsBuilder<ApplicationTemplateDbContext>();
         optionsBuilder.UseNpgsql(tenant.ConnectionString);
 
-        using var context = new ApplicationDbContext(optionsBuilder.Options, tenantRepository, authenticatedUser);
+        //using var context = new ApplicationDbContext(optionsBuilder.Options, tenantRepository, null);
+        using var context = new ApplicationTemplateDbContext(optionsBuilder.Options);
         context.Database.Migrate();
     }
 }

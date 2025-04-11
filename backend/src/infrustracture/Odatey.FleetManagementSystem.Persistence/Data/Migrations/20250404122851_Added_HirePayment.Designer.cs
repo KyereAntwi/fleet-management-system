@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Odatey.FleetManagementSystem.Repositories.Data;
@@ -11,9 +12,11 @@ using Odatey.FleetManagementSystem.Repositories.Data;
 namespace Odatey.FleetManagementSystem.Repositories.Data.Migrations
 {
     [DbContext(typeof(ApplicationTemplateDbContext))]
-    partial class ApplicationTemplateDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250404122851_Added_HirePayment")]
+    partial class Added_HirePayment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

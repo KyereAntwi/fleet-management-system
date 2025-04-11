@@ -9,5 +9,6 @@ public enum VehicleExpenditureType
 {
     FuelConsumption,
     Maintenance,
-    AccidentRepair
+    AccidentRepair,
+    HirePayment
 }

@@ -9,7 +9,6 @@ public class FuelConsumed : BaseEntity<FuelConsumedId>
         Id = FuelConsumedId.Of(Guid.NewGuid());
         VehicleId = vehicleId;
         FuelConsumedValue = fuelConsumed;
-        CreatedAt = createdAt;
     }
     
     public VehicleId VehicleId { get; protected set; }

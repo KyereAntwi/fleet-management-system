@@ -4,7 +4,7 @@ export interface Vehicle {
     brandAndType: string;
     initialCost: number;
     mileageCovered: string;
-    roadWorthyRenewalDate: string;
+    roadworthyRenewalDate: string;
     insuranceRenewalDate: string;
     createdAt?: string;
     updatedAt?: string;

@@ -9,7 +9,7 @@ public class GetAllWorkspacesQueryHandler(IAsyncRepository<Workspace> context)
     {
         var workspaces = await context
             .ListAllAsync();
-
+            
         return workspaces
             .OrderByDescending(w => w.CreatedAt)
             .Select(s => new WorkspaceResponse(s.Id.Value, s.WorkspaceTitle, s.CreatedAt, s.UpdatedAt, s.CreatedBy, s.UpdatedBy));

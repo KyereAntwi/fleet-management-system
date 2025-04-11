@@ -9,7 +9,6 @@ public class MaintenanceCost : BaseEntity<MaintenanceCostId>
         Id = MaintenanceCostId.Of(Guid.NewGuid());
         VehicleId = vehicleId;
         Cost = cost;
-        CreatedAt = createdAt;
     }
 
     public VehicleId VehicleId { get; protected set; }

@@ -27,5 +27,10 @@ public class VehicleConfigurations : IEntityTypeConfiguration<Vehicle>
             .HasMany(v => v.AccidentRepairCosts)
             .WithOne()
             .HasForeignKey(a => a.VehicleId);
+        
+        builder
+            .HasMany(v => v.HirePayments)
+            .WithOne()
+            .HasForeignKey(a => a.VehicleId);
     }
 }

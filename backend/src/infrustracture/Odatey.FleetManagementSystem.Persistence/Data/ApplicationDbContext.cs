@@ -1,5 +1,3 @@
-using Odatey.FleetManagementSystem.Application.Interfaces.Services;
-
 namespace Odatey.FleetManagementSystem.Repositories.Data;
 
 public class ApplicationDbContext : DbContext
@@ -23,12 +21,12 @@ public class ApplicationDbContext : DbContext
             switch (entry.State)
             {
                 case EntityState.Added:
-                    entry.Entity.CreatedBy = _authenticatedUser.UserId;
+                    entry.Entity.CreatedBy = _authenticatedUser?.UserId;
                     entry.Entity.CreatedAt = DateTime.UtcNow;
                     break;
                 case EntityState.Modified:
                     entry.Entity.UpdatedAt = DateTime.UtcNow;
-                    entry.Entity.UpdatedBy = _authenticatedUser.UserId;
+                    entry.Entity.UpdatedBy = _authenticatedUser?.UserId;
                     break;
             }
         }
@@ -38,7 +36,7 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        var userId = _authenticatedUser.UserId;
+        var userId = _authenticatedUser?.UserId;
 
         if (string.IsNullOrEmpty(userId)) throw new BadRequestException("Missing User id from the request headers.");
         
@@ -57,4 +55,5 @@ public class ApplicationDbContext : DbContext
     public DbSet<AccidentRepairCost> AccidentRepairCosts => Set<AccidentRepairCost>();
     public DbSet<FuelConsumed> FuelConsumptions => Set<FuelConsumed>();
     public DbSet<MaintenanceCost> MaintenanceCosts => Set<MaintenanceCost>();
+    public DbSet<HirePayment> HirePayments => Set<HirePayment>();
 }

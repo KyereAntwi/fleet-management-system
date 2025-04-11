@@ -7,6 +7,7 @@ global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
 global using Odatey.FleetManagementSystem.Application.Exceptions;
 global using Odatey.FleetManagementSystem.Application.Interfaces.Persistence;
+global using Odatey.FleetManagementSystem.Application.Interfaces.Services;
 global using Odatey.FleetManagementSystem.Domain.Abstractions;
 global using Odatey.FleetManagementSystem.Domain.Fleets;
 global using Odatey.FleetManagementSystem.Domain.Fleets.ValueObjects;

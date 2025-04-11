@@ -12,12 +12,14 @@ const VehicleItem = ({vehicle}: Props) => {
         <Tr>
             <Td>{new Date(vehicle.createdAt!).toLocaleDateString()}</Td>
             <Td fontWeight={'bold'}>
-                <Text as={NavLink} to={`/workspaces/${workspaceId!}/management/vehicles/${vehicle.vehicleId}`}>{vehicle.brandAndType}</Text>
+                <Text as={NavLink} to={`/workspaces/${workspaceId!}/management/vehicles/${vehicle.vehicleId}`}>
+                    {vehicle.brandAndType || vehicle.vehicleId}
+                </Text>
             </Td>
             <Td>GHC {vehicle.initialCost}</Td>
             <Td>{new Date(vehicle.insuranceRenewalDate).toLocaleDateString()}</Td>
             <Td>{vehicle.mileageCovered}</Td>
-            <Td>{new Date(vehicle.roadWorthyRenewalDate).toLocaleDateString()}</Td>
+            <Td>{new Date(vehicle.roadworthyRenewalDate).toLocaleDateString()}</Td>
         </Tr>
     )
 }
