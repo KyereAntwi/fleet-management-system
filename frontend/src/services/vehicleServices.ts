@@ -42,3 +42,8 @@ export const deleteVehicleAsync = async (workspaceId: string, vehicleId: string)
 export const removeConsumptionCostAsync = async (workspaceId: string, vehicleId: string, id: string, expenditureType: VehicleExpenditureType) => {
     return await apiClient.delete(`/workspaces/${workspaceId}/vehicles/${vehicleId}/expenditure/${id}?type=${expenditureType}`,)
 }
+
+export const getVehiclesDueForRoadworthyRenewalsPerWorkspace = async (workspaceId: string) => {
+    const response =  await apiClient.get(`/workspaces/${workspaceId}/reports/getRoadworthyRenewals`);
+    return response.data;
+};

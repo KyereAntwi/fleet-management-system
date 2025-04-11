@@ -51,4 +51,13 @@ public class VehicleRepository(ApplicationDbContext dbContext) : AsyncRepository
     {
         return await _dbContext.Vehicles.FindAsync(VehicleId.Of(id));
     }
+
+    public async Task<IReadOnlyList<Vehicle>> GetVehiclesDueForRoadworthyRenewalAsync(Guid workspaceId)
+    {
+        return await _dbContext
+            .Vehicles
+            .Where(v => v.WorkspaceId == WorkspaceId.Of(workspaceId) && 
+                        v.RoadworthyRenewalDate!.Value.Date == DateTime.UtcNow.Date)
+            .ToListAsync();
+    }
 }

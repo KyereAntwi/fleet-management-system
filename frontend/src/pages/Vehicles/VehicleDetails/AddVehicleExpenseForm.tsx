@@ -87,6 +87,7 @@ const AddVehicleExpenseForm = ({isOpen, onClose, vehicleId, workspaceId}: Props)
                                 <option value={VehicleExpenditureType.FuelConsumption}>Fuel Consumption</option>
                                 <option value={VehicleExpenditureType.AccidentRepair}>Accident Repair Cost</option>
                                 <option value={VehicleExpenditureType.Maintenance}>Maintenance</option>
+                                <option value={VehicleExpenditureType.HirePayment}>Hire Payment</option>
                             </Select>
                         </FormControl>
                     </ModalBody>

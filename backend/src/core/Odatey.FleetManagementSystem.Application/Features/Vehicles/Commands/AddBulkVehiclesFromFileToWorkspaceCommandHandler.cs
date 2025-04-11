@@ -54,16 +54,8 @@ public class AddBulkVehiclesFromFileToWorkspaceCommandHandler(
 
         if (newVehicles.Count <= 0) return Unit.Value;
         
-        try
-        {
-            await repository.AddRangeAsync(newVehicles);
-            await repository.SaveChangesAsync();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        await repository.AddRangeAsync(newVehicles);
+        await repository.SaveChangesAsync();
 
         return Unit.Value;
     }

@@ -18,7 +18,7 @@ import {
     AccordionIcon,
     AccordionItem,
     AccordionPanel,
-    HamburgerIcon
+    HamburgerIcon, Tag
 } from "@chakra-ui/icons";
 import {useParams} from "react-router";
 import {useGetVehicleDetails} from "../../../hooks/queries/vehicles/useGetVehicleDetails";
@@ -29,6 +29,7 @@ import AccidentRepairExpenses from "./AccidentRepairExpenses";
 import AddVehicleExpenseForm from "./AddVehicleExpenseForm";
 import {useDeleteVehicleCommand} from "../../../hooks/mutations/vehicles/useDeleteVehicleCommand";
 import Swal from 'sweetalert2';
+import HirePayments from "./HirePayments";
 
 const VehicleDetails = () => {
     const {vehicleId, workspaceId} = useParams();
@@ -109,7 +110,12 @@ const VehicleDetails = () => {
                             <Card w={'full'}>
                                 <CardHeader>
                                     <HStack>
-                                        <Heading color={'teal.500'} size='md'>{data?.data?.vehicle.brandAndType}</Heading>
+                                        {!data?.data?.vehicle?.brandAndType && (
+                                            <Tag size={'sm'} variant='solid' p={2}>
+                                                Brand and Type not set
+                                            </Tag>
+                                        )}
+                                        <Heading color={'teal.500'} size='md'>{data?.data?.vehicle.brandAndType || data?.data?.vehicle?.vehicleId}</Heading>
                                         <Spacer />
                                         <Menu>
                                             <MenuButton as={IconButton} aria-label='Open operations' icon={<HamburgerIcon />} />
@@ -154,7 +160,7 @@ const VehicleDetails = () => {
                                                     <Td>
                                                         <Text fontWeight={'bold'}>Road Worthy Renewal Date:</Text>
                                                     </Td>
-                                                    <Td>{new Date(data?.data?.vehicle?.roadWorthyRenewalDate!).toLocaleDateString()}</Td>
+                                                    <Td>{new Date(data?.data?.vehicle?.roadworthyRenewalDate!).toLocaleDateString()}</Td>
                                                 </Tr>
                                             </Tbody>
                                         </Table>
@@ -204,6 +210,20 @@ const VehicleDetails = () => {
                                 </h2>
                                 <AccordionPanel pb={4}>
                                     <AccidentRepairExpenses expenses={data?.data?.accidentRepairCosts!} />
+                                </AccordionPanel>
+                            </AccordionItem>
+
+                            <AccordionItem>
+                                <h2>
+                                    <AccordionButton>
+                                        <Box as='span' flex='1' textAlign='left' fontWeight={'bold'}>
+                                            Hire Payments Received
+                                        </Box>
+                                        <AccordionIcon />
+                                    </AccordionButton>
+                                </h2>
+                                <AccordionPanel pb={4}>
+                                    <HirePayments expenses={data?.data?.hirePayments!} />
                                 </AccordionPanel>
                             </AccordionItem>
                         </Accordion>

@@ -6,4 +6,5 @@ public interface IVehicleRepository : IAsyncRepository<Vehicle>
     Task<Vehicle?> GetVehicleWithDetailsAsync(Guid vehicleId);
     Task AddRangeAsync(IEnumerable<Vehicle> vehicles);
     Task<Vehicle?> GetByIdAsync(Guid id);
+    Task<IReadOnlyList<Vehicle>> GetVehiclesDueForRoadworthyRenewalAsync(Guid workspaceId);
 }

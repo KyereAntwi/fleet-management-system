@@ -21,7 +21,8 @@ export interface UpdateVehicleExpenditureRequest {
 export enum VehicleExpenditureType {
     FuelConsumption = 'FuelConsumption',
     Maintenance = 'Maintenance',
-    AccidentRepair = 'AccidentRepair'
+    AccidentRepair = 'AccidentRepair',
+    HirePayment = 'HirePayment',
 }
 
 export interface GetVehiclesRequest {

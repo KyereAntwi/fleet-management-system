@@ -17,6 +17,7 @@ export interface VehicleDetails {
     fuelConsumed?: FuelConsumed[];
     maintenanceCosts?: MaintenanceCost[];
     accidentRepairCosts?: AccidentRepairCost[];
+    hirePayments?: HirePayment[];
 }
 
 export interface FuelConsumed {
@@ -32,6 +33,12 @@ export interface MaintenanceCost {
 }
 
 export interface AccidentRepairCost {
+    cost: number;
+    createdAt: string;
+    id: string;
+}
+
+export interface HirePayment {
     cost: number;
     createdAt: string;
     id: string;
