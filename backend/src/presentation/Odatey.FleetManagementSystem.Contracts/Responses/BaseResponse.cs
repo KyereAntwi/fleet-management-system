@@ -1,6 +1,6 @@
 namespace Odatey.FleetManagementSystem.Contracts.Responses;
 
-public class BaseResponse<TResponse> where TResponse : class
+public class BaseResponse<TResponse> where TResponse : notnull
 {
     public bool Success { get; set; }
     public TResponse Data { get; set; }

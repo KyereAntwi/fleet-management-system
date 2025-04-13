@@ -14,12 +14,16 @@ import Error, { ErrorTypes } from '../../components/UI/Error';
 import { useNavigate } from 'react-router';
 import WorkspaceItem from './WorkspaceItem';
 import AddWorkspaceForm from './AddWorkspaceForm';
+import getTenantQuery from "../../hooks/queries/tenants/getTenantQuery";
+import {TenantSubscription} from "../../models/tenants/tenantRequests";
 
 export default function Workspaces() {
   const { data, isLoading, isError, error } = getWorkspacesQuery(true);
+  const {data: tenant, isLoading: tenantLoading} = getTenantQuery();
+    
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  
   if (isLoading) {
     return <FullPageLoading />;
   }
@@ -54,6 +58,8 @@ export default function Workspaces() {
           bg={'teal.400'}
           color={'white'}
           onClick={onOpen}
+          isLoading={tenantLoading}
+          isDisabled={tenant?.data?.subscriptionType === TenantSubscription.Free}
         >
           Create a new workspace
         </Button>

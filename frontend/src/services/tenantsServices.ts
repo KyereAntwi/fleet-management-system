@@ -1,8 +1,8 @@
 import { CreateATenantRequest } from "../models/tenants/tenantRequests";
 import apiClient from "./ApiClient";
 
-export const getTenant = async (userId: string) => {
-  const response = await apiClient.get(`/tenants/${userId}`);
+export const getTenant = async () => {
+  const response = await apiClient.get(`/tenants`);
   return response.data;
 };
 

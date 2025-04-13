@@ -7,6 +7,16 @@ export interface AddVehicleRequest {
     insuranceRenewalDate: string;
 }
 
+export interface UpdateVehicleRequest {
+    vehicleId: string;
+    workspaceId: string;
+    brandAndType: string;
+    initialCost: number;
+    mileageCovered: string;
+    roadWorthyRenewalDate: string;
+    insuranceRenewalDate: string;
+}
+
 export interface UploadVehicleRequest {
     workspaceId: string;
     file: File;

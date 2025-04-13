@@ -18,4 +18,5 @@ public class ApplicationTemplateDbContext : DbContext
     public DbSet<FuelConsumed> FuelConsumptions => Set<FuelConsumed>();
     public DbSet<MaintenanceCost> MaintenanceCosts => Set<MaintenanceCost>();
     public DbSet<HirePayment> HirePayments => Set<HirePayment>();
+    public DbSet<Location> Locations => Set<Location>();
 }

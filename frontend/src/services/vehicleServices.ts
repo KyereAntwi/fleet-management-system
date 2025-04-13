@@ -2,7 +2,7 @@ import apiClient from "./ApiClient";
 import {
     AddVehicleRequest,
     GetVehiclesRequest,
-    UpdateVehicleExpenditureRequest, VehicleExpenditureType
+    UpdateVehicleExpenditureRequest, UpdateVehicleRequest, VehicleExpenditureType
 } from "../models/vehicles/vehicleRequests";
 
 export const getWorkspaceVehiclesAsync = async (request: GetVehiclesRequest) => {
@@ -12,6 +12,10 @@ export const getWorkspaceVehiclesAsync = async (request: GetVehiclesRequest) => 
 
 export const addVehicleAsync = async (request: AddVehicleRequest) => {
     return await apiClient.post(`/workspaces/${request.workspaceId}/vehicles`, request);
+}
+
+export const updateVehicleAsync = async (request: UpdateVehicleRequest) => {
+    return await apiClient.put(`/workspaces/${request.workspaceId}/vehicles/${request.vehicleId}`, request);
 }
 
 export const addBulkVehicleAsync = async (workspaceId: string, file: File) => {
@@ -43,7 +47,60 @@ export const removeConsumptionCostAsync = async (workspaceId: string, vehicleId:
     return await apiClient.delete(`/workspaces/${workspaceId}/vehicles/${vehicleId}/expenditure/${id}?type=${expenditureType}`,)
 }
 
-export const getVehiclesDueForRoadworthyRenewalsPerWorkspace = async (workspaceId: string) => {
-    const response =  await apiClient.get(`/workspaces/${workspaceId}/reports/getRoadworthyRenewals`);
+export const getVehiclesDueForRoadworthyRenewalsPerWorkspaceAsync = async (workspaceId: string, period?: string) => {
+    const response =  await apiClient.get(`/workspaces/${workspaceId}/reports/roadworthy-renewals?Period=${period || ''}`);
     return response.data;
 };
+
+export const getVehiclesDueForInsuranceRenewalsPerWorkspaceAsync = async (workspaceId: string, period?: string) => {
+    const response =  await apiClient.get(`/workspaces/${workspaceId}/reports/insurance-renewals?Period=${period || ''}`);
+    return response.data;
+}
+
+export const getTotalCostOfFleetsAsync = async (
+    workspaceId: string,
+    FromDate: string,
+    ToDate: string) => {
+    const response = await 
+        apiClient.get(`/workspaces/${workspaceId}/reports/total-cost-of-fleets?fromDate=${FromDate}&toDate=${ToDate}`);
+    return response.data;
+}
+
+export const getTotalNumberOfFleetsAsync = async (
+    workspaceId: string,
+    FromDate: string,
+    ToDate: string) => {
+    const response = await 
+        apiClient.get(`/workspaces/${workspaceId}/reports/number-of-vehicles?fromDate=${FromDate}&toDate=${ToDate}`);
+    return response.data;
+}
+
+export const getTotalCostOfAccidentRepairsAsync = async (
+    workspaceId: string,
+    FromDate: string,
+    ToDate: string
+) => {
+    const response = await 
+        apiClient.get(`/workspaces/${workspaceId}/reports/total-cost-of-accident-repairs?fromDate=${FromDate}&toDate=${ToDate}`);
+    return response.data;
+}
+
+export const getTotalCostOfFuelConsumedAsync = async (
+    workspaceId: string,
+    FromDate: string,
+    ToDate: string
+) => {
+    const response = await
+        apiClient.get(`/workspaces/${workspaceId}/reports/total-cost-of-fuel-consumed?fromDate=${FromDate}&toDate=${ToDate}`);
+    return response.data;
+}
+
+export const getTotalCostOfMaintenanceAsync = async (
+    workspaceId: string,
+    FromDate: string,
+    ToDate: string
+) => {
+    const response = await
+        apiClient.get(`/workspaces/${workspaceId}/reports/total-cost-of-maintenance?fromDate=${FromDate}&toDate=${ToDate}`);
+    return response.data;
+}

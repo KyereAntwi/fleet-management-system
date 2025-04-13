@@ -18,8 +18,12 @@ public class GetTenantQueryHandler(
             throw new NotFoundException($"Tenant with id {authenticatedUser.UserId} does not exist");
         }
 
-        return new GetTenantQueryDto(tenant.Id.Value, tenant.ConnectionString, tenant.CreatedAt);
+        return new GetTenantQueryDto(
+            tenant.Id.Value, 
+            tenant.ConnectionString,
+            tenant.Subscription.ToString(),
+            tenant.CreatedAt);
     }
 }
 
-public record GetTenantQueryDto(Guid Id, string ConnectionString, DateTime? CreatedAt);
+public record GetTenantQueryDto(Guid Id, string ConnectionString, string SubscriptionType, DateTime? CreatedAt);

@@ -15,6 +15,9 @@ import {
 } from "@chakra-ui/react";
 import {useNavigate} from "react-router";
 import useSelectedWorkspaceStore from "../../store/selectedWorkspaceStore";
+import getTenantQuery from "../../hooks/queries/tenants/getTenantQuery";
+import {TenantSubscription} from "../../models/tenants/tenantRequests";
+import {Badge} from "@chakra-ui/icons";
 
 interface Props {
   drawerState: boolean
@@ -28,7 +31,14 @@ const UserSummary = ({drawerState}: Props) => {
     email: string;
   };
 
+  const {data: tenant, isLoading} = getTenantQuery();
+
   const navigation = useNavigate();
+  
+  if (!isLoading && !tenant) {
+    navigation('/get-started');
+  }
+  
   const restoreSelectedWorkspace = useSelectedWorkspaceStore(
       (state) => state.resetSelectedWorkspace
   );
@@ -39,6 +49,9 @@ const UserSummary = ({drawerState}: Props) => {
         <MenuButton>
           {drawerState ? (
               <HStack>
+                {!isLoading && tenant && tenant?.data?.subscriptionType === TenantSubscription.Free && (
+                    <Badge variant={'solid'} colorScheme='red'>Free</Badge>
+                )}
                 <Avatar mr={2} src={picture} name={name} />
                 <Text>{name}</Text>
               </HStack>
@@ -49,6 +62,9 @@ const UserSummary = ({drawerState}: Props) => {
             <MenuItem>
               <VStack align="start">
                 <HStack>
+                  {!isLoading && tenant && tenant?.data?.subscriptionType === TenantSubscription.Free && (
+                      <Badge variant={'solid'} colorScheme='red'>Free</Badge>
+                  )}
                   <Avatar size="sm" src={picture} name={name} />
                   <Spacer />
                   <Text>{name}</Text>
@@ -63,6 +79,11 @@ const UserSummary = ({drawerState}: Props) => {
               restoreSelectedWorkspace()
               navigation('/workspaces')
             }}>Workspaces</MenuItem>
+            {!isLoading && tenant && tenant?.data?.subscriptionType === TenantSubscription.Free && (
+                <MenuItem>
+                  Upgrade Subscription
+                </MenuItem>
+            )}
           </MenuGroup>
           <MenuDivider />
           <MenuGroup>

@@ -14,6 +14,9 @@ public class Vehicle : BaseEntity<VehicleId>
     private readonly Collection<HirePayment> _hirePayments = [];
     public IReadOnlyList<HirePayment> HirePayments => _hirePayments;
     
+    private readonly Collection<Location> _locations = [];
+    public IReadOnlyList<Location> Locations => _locations;
+    
     public required WorkspaceId WorkspaceId { get; set; }
     public string? BrandAndType { get; set; }
     public double InitialCost { get; set; }
@@ -105,6 +108,12 @@ public class Vehicle : BaseEntity<VehicleId>
         
         var newHirePayment = new HirePayment(Id, payment, createdAt);
         _hirePayments.Add(newHirePayment);
+    }
+
+    public void AddLocation(decimal longitude, decimal latitude, DateTime? createdAt)
+    {
+        var location = new Location(Id, longitude, latitude, createdAt);
+        _locations.Add(location);
     }
     
     public void RemoveHirePayment(Guid hirePaymentId)

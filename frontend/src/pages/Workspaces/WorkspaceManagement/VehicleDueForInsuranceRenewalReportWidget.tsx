@@ -1,5 +1,9 @@
 import {
-    Card, CardBody,
+    useGetVehiclesDueForInsuranceRenewalsPerWorkspace
+} from "../../../hooks/queries/reports/useGetVehiclesDueForInsuranceRenewalsPerWorkspace";
+import {
+    Card,
+    CardBody,
     CardHeader,
     Divider, HStack, Spacer,
     Spinner, StatArrow, StatHelpText, StatLabel,
@@ -10,9 +14,6 @@ import {
     Text,
     Tr
 } from "@chakra-ui/react";
-import {
-    useGetVehiclesDueForRoadworthyRenewalsPerWorkspace
-} from "../../../hooks/queries/reports/useGetVehiclesDueForRoadworthyRenewalsPerWorkspace";
 import {Vehicle} from "../../../models/vehicles/vehicle";
 import {Stat, StatNumber} from "@chakra-ui/icons";
 
@@ -26,7 +27,7 @@ const DisplayStats = ({period, value} : {period: string, value: number}) => {
         <>
             {period === 'current' ? (
                 <Stat>
-                    <StatLabel>DUE ROADWORTHY RENEWAL</StatLabel>
+                    <StatLabel>DUE INSURANCE RENEWAL</StatLabel>
                     <StatNumber fontSize={'6xl'}>{value}</StatNumber>
                     <StatHelpText>
                         <StatArrow type='increase' />
@@ -34,7 +35,7 @@ const DisplayStats = ({period, value} : {period: string, value: number}) => {
                 </Stat>
             ) : (
                 <Stat>
-                    <StatLabel>PAST ROADWORTHY RENEWAL</StatLabel>
+                    <StatLabel>PAST INSURANCE RENEWAL</StatLabel>
                     <StatNumber fontSize={'6xl'}>{value}</StatNumber>
                     <StatHelpText>
                         <StatArrow type='decrease' />
@@ -45,14 +46,17 @@ const DisplayStats = ({period, value} : {period: string, value: number}) => {
     )
 }
 
-const VehiclesDueForRoadworthyRenewalReportWidget = ({workspaceId, period}: Props) => {
-    const {data, isLoading, error} = useGetVehiclesDueForRoadworthyRenewalsPerWorkspace(workspaceId, period);
-    
+const VehicleDueForInsuranceRenewalReportWidget =  ({workspaceId, period}: Props) => {
+    const {data, isLoading, error} = useGetVehiclesDueForInsuranceRenewalsPerWorkspace({
+        workspaceId: workspaceId,
+        period: period
+    });
+
     if (error) {
         console.log(error);
         throw error;
     }
-    
+
     return (
         <>
             <Card 
@@ -60,7 +64,7 @@ const VehiclesDueForRoadworthyRenewalReportWidget = ({workspaceId, period}: Prop
                 h={'full'} 
                 borderColor={period === 'current' ? 'green' : 'red'}
                 cursor={'pointer'}
-                title={period === 'current' ? 'See vehicles Due For Roadworthy Renewal' : 'See vehicles Past Due For Roadworthy Renewal'}
+                title={period === 'current' ? 'See vehicle Due For Insurance Renewal' : 'See vehicle Past Due For Insurance Renewal'}
             >
                 <CardBody>
                     {isLoading ? (<Spinner />) : (<DisplayStats period={period!} value={data?.data!} />)}
@@ -68,6 +72,6 @@ const VehiclesDueForRoadworthyRenewalReportWidget = ({workspaceId, period}: Prop
             </Card>
         </>
     )
-};
+}
 
-export default VehiclesDueForRoadworthyRenewalReportWidget;
+export default VehicleDueForInsuranceRenewalReportWidget

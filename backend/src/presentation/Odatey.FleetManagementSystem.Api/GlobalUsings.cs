@@ -16,6 +16,7 @@ global using Odatey.FleetManagementSystem.Api.DI;
 global using Odatey.FleetManagementSystem.Api.Middlewares;
 global using Odatey.FleetManagementSystem.Application.DI;
 global using Odatey.FleetManagementSystem.Application.Exceptions;
+global using Odatey.FleetManagementSystem.Application.Features.Reports.Queries;
 global using Odatey.FleetManagementSystem.Application.Features.Tenants.Commands;
 global using Odatey.FleetManagementSystem.Application.Features.Tenants.Queries;
 global using Odatey.FleetManagementSystem.Application.Features.Workspaces.Commands;

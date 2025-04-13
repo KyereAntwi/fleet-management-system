@@ -32,5 +32,10 @@ public class VehicleConfigurations : IEntityTypeConfiguration<Vehicle>
             .HasMany(v => v.HirePayments)
             .WithOne()
             .HasForeignKey(a => a.VehicleId);
+        
+        builder
+            .HasMany(v => v.Locations)
+            .WithOne()
+            .HasForeignKey(a => a.VehicleId);
     }
 }

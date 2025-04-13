@@ -13,4 +13,5 @@ public class FuelConsumed : BaseEntity<FuelConsumedId>
     
     public VehicleId VehicleId { get; protected set; }
     public double FuelConsumedValue { get; protected set; }
+    public int? NumberOfLiters { get; protected set; }
 }

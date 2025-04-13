@@ -21,7 +21,7 @@ const WorkspaceManagementLayout = () => {
     
     return (
         <>
-            <Box bgColor={'white'} mb={5} as='nav' position='fixed' width='100%'>
+            <Box bgColor={'white'} mb={5} as='nav' position='fixed' width='100%' zIndex='999'>
                 <Flex w='80%' mx='auto' flexDirection={'row'} py={4} >
                     {isLoading && (<SkeletonText noOfLines={1} skeletonHeight='2' />)}
                     {data && (

@@ -4,18 +4,18 @@ public class UpdateVehicle(ISender sender) : Endpoint<UpdateVehicleRequest>
 {
     public override void Configure()
     {
-        Put("api/workspaces/{WorkspaceId}/vehicles/{Id}");
+        Put("/api/v1/workspaces/{WorkspaceId}/vehicles/{VehicleId}");
     }
 
     public override async Task HandleAsync(UpdateVehicleRequest req, CancellationToken ct)
     {
         await sender.Send(new UpdateVehicleCommand(
-            req.Id,
+            req.VehicleId,
             req.BrandAndType,
             req.InitialCost,
             req.MileageCovered,
-            req.RoadworthyRenewalDate,
-            req.InsuranceRenewalDate), ct);
+            DateTime.SpecifyKind(req.RoadworthyRenewalDate, DateTimeKind.Utc), 
+            DateTime.SpecifyKind(req.InsuranceRenewalDate, DateTimeKind.Utc)), ct);
 
         await SendNoContentAsync(cancellation: ct);
     }
@@ -43,8 +43,8 @@ public class UpdateVehicleValidator : Validator<UpdateVehicleRequest>
 }
 
 public record UpdateVehicleRequest(
-    [FromRoute] Guid WorkspaceId,
-    [FromRoute] Guid Id,
+    Guid WorkspaceId,
+    Guid VehicleId,
     string BrandAndType,
     double InitialCost,
     string MileageCovered,

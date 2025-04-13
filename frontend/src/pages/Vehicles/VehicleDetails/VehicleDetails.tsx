@@ -30,6 +30,7 @@ import AddVehicleExpenseForm from "./AddVehicleExpenseForm";
 import {useDeleteVehicleCommand} from "../../../hooks/mutations/vehicles/useDeleteVehicleCommand";
 import Swal from 'sweetalert2';
 import HirePayments from "./HirePayments";
+import AddVehicleForm from "../AddVehicleForm";
 
 const VehicleDetails = () => {
     const {vehicleId, workspaceId} = useParams();
@@ -39,7 +40,9 @@ const VehicleDetails = () => {
         isLoading,
         error
     } = useGetVehicleDetails(vehicleId!, workspaceId!);
+    
     const {isOpen, onClose, onOpen} = useDisclosure();
+    const {isOpen: isOpenEdit, onClose: onCloseEdit, onOpen: onOpenEdit} = useDisclosure();
     
     const deleteMutation = useDeleteVehicleCommand({
         vehicleId: vehicleId!,
@@ -121,6 +124,7 @@ const VehicleDetails = () => {
                                             <MenuButton as={IconButton} aria-label='Open operations' icon={<HamburgerIcon />} />
                                             <MenuList>
                                                 <MenuItem onClick={onOpen}>Make an expense</MenuItem>
+                                                <MenuItem onClick={onOpenEdit}>Edit vehicle details</MenuItem>
                                                 <MenuDivider />
                                                 <MenuItem color={'red'} onClick={handleDelete}>Delete this vehicle</MenuItem>
                                             </MenuList>
@@ -232,6 +236,9 @@ const VehicleDetails = () => {
             </Flex>
             
             <AddVehicleExpenseForm workspaceId={workspaceId!} vehicleId={vehicleId!} isOpen={isOpen} onClose={onClose} />
+            <AddVehicleForm isOpen={isOpenEdit} onClose={onCloseEdit} workspaceId={workspaceId!} vehicle={
+                data?.data?.vehicle!
+            } />
         </>
     )
 }

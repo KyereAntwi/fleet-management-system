@@ -13,36 +13,69 @@ import {FormHelperText, InputLeftAddon} from "@chakra-ui/icons";
 import {useAddVehicleCommand} from "../../hooks/mutations/vehicles/useAddVehicleCommand";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z, ZodType} from "zod";
+import {Vehicle} from "../../models/vehicles/vehicle";
+import {useUpdateVehicleCommand} from "../../hooks/mutations/vehicles/useUpdateVehicleCommand";
 
 interface  Props {
     isOpen: boolean;
     onClose: () => void;
     workspaceId: string;
+    vehicle?: Vehicle;
 }
 
 const formSchema: ZodType<AddVehicleRequest> = z.object({
     workspaceId: z.string(),
-    brandAndType: z.string(),
+    brandAndType: z.string().min(2, { message: 'Brand and type should not be less than 2 characters' }),
     initialCost: z.number().min(0.00, { message: 'Initial cost should not be less than 0.00' }),
     mileageCovered: z.string().min(3, { message: 'Mileage covered should not be less than 0.00' }),
-    roadWorthyRenewalDate: z.string().date(),
-    insuranceRenewalDate: z.string().date()
+    roadWorthyRenewalDate: z.string().refine(
+        (date) => new Date(date).toISOString().slice(0, 16) > new Date().toISOString().slice(0, 16),
+        { message: 'Road worthy renewal date must be in the future' }
+    ),
+    insuranceRenewalDate: z.string().refine(
+        (date) => new Date(date).toISOString().slice(0, 16) > new Date().toISOString().slice(0, 16),
+        { message: 'Insurance renewal date must be in the future' }
+    )
 });
 
-const AddVehicleForm = ({isOpen, onClose, workspaceId}: Props) => {
-    const mutation = useAddVehicleCommand({onClose: onClose});
-    const {register, handleSubmit, formState: {errors, isValid}, reset, setValue} = useForm<AddVehicleRequest>({ resolver: zodResolver(formSchema) });
+const AddVehicleForm = ({isOpen, onClose, workspaceId, vehicle}: Props) => {
+    
+    const addMutation = useAddVehicleCommand({onClose: onClose});
+    const updateMutation = useUpdateVehicleCommand({
+        onClose: onClose, 
+        workspaceId: workspaceId, 
+        vehicleId: vehicle?.vehicleId!
+    });
+    
+    const {register, handleSubmit, formState: {errors, isValid}, reset, setValue} = useForm<AddVehicleRequest>(
+        { 
+            resolver: zodResolver(formSchema),
+            defaultValues: {
+                workspaceId: vehicle?.workspaceId ?? '',
+                brandAndType: vehicle?.brandAndType ?? '',
+                initialCost: vehicle?.initialCost ?? 0,
+                mileageCovered: vehicle?.mileageCovered ?? '',
+                roadWorthyRenewalDate: new Date(vehicle?.roadworthyRenewalDate ?? Date.now()).toISOString().slice(0, 16),
+                insuranceRenewalDate: new Date(vehicle?.insuranceRenewalDate ?? Date.now()).toISOString().slice(0, 16),
+            }
+        });
     
     const onSubmit = handleSubmit(data => {
-        mutation.mutateAsync(data);
-        reset();
+        if (vehicle) {
+            updateMutation.mutateAsync({
+                ...data,
+                vehicleId: vehicle.vehicleId
+            }).then(() => reset());
+        } else {
+            addMutation.mutateAsync(data).then(() => reset());
+        }
     });
     
     useEffect(() => {
         if (workspaceId) {
             setValue('workspaceId', workspaceId);
         }
-    }, [workspaceId])
+    }, [workspaceId]);
     
     return (
         <>
@@ -54,8 +87,8 @@ const AddVehicleForm = ({isOpen, onClose, workspaceId}: Props) => {
             >
                 <DrawerOverlay />
                 <DrawerContent>
-                    <DrawerCloseButton />
-                    <DrawerHeader>Add a vehicle to your fleets</DrawerHeader>
+                    {!addMutation.isPending || !updateMutation.isPending ? <DrawerCloseButton /> : null}
+                    <DrawerHeader>{vehicle ? 'Edit Selected Vehicle' : 'Add a vehicle to your fleets'}</DrawerHeader>
                     <DrawerBody>
                         <Flex flexDirection={'column'} w={'full'}>
                             <form onSubmit={onSubmit}>
@@ -69,7 +102,14 @@ const AddVehicleForm = ({isOpen, onClose, workspaceId}: Props) => {
                                     <FormLabel>Initial Cost</FormLabel>
                                     <InputGroup>
                                         <InputLeftAddon>GHC</InputLeftAddon>
-                                        <Input type={'number'} onChange={(e) => setValue('initialCost', Number(e.target.value))} placeholder={'Initial Cost'} required />
+                                        <Input 
+                                            type={'number'}  
+                                            placeholder={'Initial Cost'} 
+                                            required
+                                            {...register('initialCost', {
+                                                valueAsNumber: true
+                                            })}
+                                        />
                                         {errors?.initialCost && <FormHelperText color={'red.500'}>{errors.initialCost.message}</FormHelperText>}
                                     </InputGroup>
                                 </FormControl>
@@ -82,17 +122,25 @@ const AddVehicleForm = ({isOpen, onClose, workspaceId}: Props) => {
 
                                 <FormControl my={4}>
                                     <FormLabel>Road worthy renewal date</FormLabel>
-                                    <Input type={'date'}  {...register('roadWorthyRenewalDate')} />
+                                    <Input 
+                                        type={'datetime-local'}
+                                        {...register('roadWorthyRenewalDate')} />
                                     {errors?.roadWorthyRenewalDate && <FormHelperText color={'red.500'}>{errors.roadWorthyRenewalDate.message}</FormHelperText>}
                                 </FormControl>
 
                                 <FormControl my={4}>
                                     <FormLabel>Insurance renewal date</FormLabel>
-                                    <Input type={'date'}  {...register('insuranceRenewalDate')} />
+                                    <Input 
+                                        type={'datetime-local'}
+                                        {...register('insuranceRenewalDate')}
+                                    />
                                     {errors?.insuranceRenewalDate && <FormHelperText color={'red.500'}>{errors.insuranceRenewalDate.message}</FormHelperText>}
                                 </FormControl>
                                 
-                                <Button isDisabled={!isValid} isLoading={mutation.isPending} type="submit">Add Vehicle</Button>
+                                <Button 
+                                    isDisabled={!isValid} 
+                                    isLoading={addMutation.isPending || updateMutation.isPending} 
+                                    type="submit">{vehicle ? 'Update Vehicle' : 'Add Vehicle'}</Button>
                             </form>
                         </Flex>
                     </DrawerBody>
