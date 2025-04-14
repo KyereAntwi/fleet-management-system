@@ -1,5 +1,5 @@
 import {NavLink, Outlet, useParams} from "react-router";
-import {Box, Button, Flex, Heading, SkeletonText, Spacer} from "@chakra-ui/react";
+import {Avatar, Box, Button, Flex, Heading, SkeletonText, Spacer} from "@chakra-ui/react";
 import useSelectedWorkspaceStore from "../../../store/selectedWorkspaceStore";
 import {ButtonGroup} from "@chakra-ui/icons";
 import {getAWorkspaceQuery} from "../../../hooks/queries/workspaces/getAWorkspaceQuery";
@@ -32,9 +32,12 @@ const WorkspaceManagementLayout = () => {
                 <Flex w='80%' mx='auto' flexDirection={'row'} py={2} >
                     {isLoading && (<SkeletonText noOfLines={1} skeletonHeight='2' />)}
                     {data && (
-                        <Heading color={'teal.500'} size='lg' as={NavLink} to={`/workspaces/${workspaceId}/management/vehicles`}>
-                            {data?.data?.workspaceTitle}
-                        </Heading>
+                        <Box flexDir={'row'} justifyContent={'center'} alignItems={'center'}>
+                            <Avatar mr={2} name={data?.data?.workspaceTitle} />
+                            <Heading color={'teal.500'} size='lg' as={NavLink} to={`/workspaces/${workspaceId}/management/vehicles`}>
+                                {data?.data?.workspaceTitle}
+                            </Heading>
+                        </Box>
                     )}
                     <Spacer />
                     <Flex flexDirection={'row'} alignItems={'center'} justifyContent={'end'} display={{ base: 'none', md: 'flex' } as const}>

@@ -14,7 +14,8 @@ public class Tenant : BaseEntity<TenantId>
         {
             Id = TenantId.of(Guid.NewGuid()),
             ConnectionString = connectionString,
-            Subscription = subscription
+            Subscription = subscription,
+            CreatedBy = userId
         };
         
         tenant._applicationUsers.Add(new ApplicationUser(tenant.Id, userId));
@@ -22,8 +23,13 @@ public class Tenant : BaseEntity<TenantId>
         return tenant;
     }
 
-    public void UpdateSubscription(Subscription subscription)
+    public void UpdateSubscription(Subscription subscription, string userId)
     {
+        if (userId != CreatedBy)
+        {
+            throw new DomainExceptions("Only the creator can update the subscription.");
+        }
+        
         Subscription = subscription;
     }
 

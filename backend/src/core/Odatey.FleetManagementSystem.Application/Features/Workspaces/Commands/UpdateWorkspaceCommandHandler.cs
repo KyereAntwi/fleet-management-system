@@ -16,6 +16,17 @@ public class UpdateWorkspaceCommandHandler(IAsyncRepository<Workspace> context, 
         {
             throw new NotFoundException($"Workspace with id {workspaceId} does not exist");
         }
+        
+        var existingTitle = await workspaceRepository.GetByTitleAsync(command.Title);
+        if (existingTitle is not null)
+        {
+            throw new BadRequestException($"Workspace with title {command.Title} already exists");
+        }
+        
+        if (workspace.WorkspaceTitle == command.Title)
+        {
+            return Unit.Value;
+        }
 
         workspace.Update(command.Title);
         await context.SaveChangesAsync();

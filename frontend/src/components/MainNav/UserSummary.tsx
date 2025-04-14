@@ -80,7 +80,7 @@ const UserSummary = ({drawerState}: Props) => {
               navigation('/workspaces')
             }}>Workspaces</MenuItem>
             {!isLoading && tenant && tenant?.data?.subscriptionType === TenantSubscription.Free && (
-                <MenuItem>
+                <MenuItem onClick={() => navigation('/upgrade-tenant')}>
                   Upgrade Subscription
                 </MenuItem>
             )}

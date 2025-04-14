@@ -1,4 +1,4 @@
-import { CreateWorkspaceRequest } from '../models/workspaces/workspaceRequests';
+import {CreateWorkspaceRequest, UpdateWorkspaceRequest} from '../models/workspaces/workspaceRequests';
 import apiClient from './ApiClient';
 
 export const createWorkspaceAsync = async (data: CreateWorkspaceRequest) => {
@@ -19,3 +19,7 @@ export const getSingleWorkspaceAsync = async (id: string) => {
 export const deleteWorkspaceAsync = async (id: string) => {
   return await apiClient.delete(`/workspaces/${id}`);
 };
+
+export const updateWorkspaceAsync = async (data: UpdateWorkspaceRequest) => {
+  return await apiClient.put(`/workspaces/${data.workspaceId}`, data);
+}

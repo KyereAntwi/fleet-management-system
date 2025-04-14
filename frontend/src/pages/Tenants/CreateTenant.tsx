@@ -23,6 +23,7 @@ import ErrorDisplay, { ErrorTypes } from '../../components/UI/Error';
 import { createWorkspaceMutation } from '../../hooks/mutations/workspaces/createWorkspaceCommand';
 import InfoBanner from '../../components/UI/InfoBanner';
 import { useNavigate } from 'react-router';
+import getTenantQuery from "../../hooks/queries/tenants/getTenantQuery";
 
 const CreateTenant = () => {
   const { user } = useAuth0();
@@ -32,6 +33,7 @@ const CreateTenant = () => {
 
   const [serverError, setServerError] = useState<string>('');
   const [processingStage, setProcessingStage] = useState<string>('');
+  
   const navigation = useNavigate();
 
   const createDefaultWorkspace = createWorkspaceMutation({

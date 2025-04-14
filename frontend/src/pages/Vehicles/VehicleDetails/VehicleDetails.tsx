@@ -1,5 +1,4 @@
 import {
-    Box,
     Card,
     CardBody,
     CardHeader, Divider,
@@ -10,27 +9,19 @@ import {
     HStack, IconButton,
     Menu,
     MenuButton, MenuDivider, MenuItem, MenuList,
-    Spacer, Table, TableContainer, Tbody, Td, Text, Tr, useDisclosure
+    Spacer, Tab, Table, TableContainer, Tbody, Td, Text, Tr, useDisclosure
 } from "@chakra-ui/react";
 import {
-    Accordion,
-    AccordionButton,
-    AccordionIcon,
-    AccordionItem,
-    AccordionPanel,
-    HamburgerIcon, Tag
+    HamburgerIcon, TabList, TabPanel, TabPanels, Tabs, Tag
 } from "@chakra-ui/icons";
 import {useParams} from "react-router";
 import {useGetVehicleDetails} from "../../../hooks/queries/vehicles/useGetVehicleDetails";
 import FullPageLoading from "../../../components/UI/FullPageLoading";
-import FuelConsumptionExpenses from "./FuelConsumptionExpenses";
-import MaintenanceExpenses from "./MaintenanceExpenses";
-import AccidentRepairExpenses from "./AccidentRepairExpenses";
 import AddVehicleExpenseForm from "./AddVehicleExpenseForm";
 import {useDeleteVehicleCommand} from "../../../hooks/mutations/vehicles/useDeleteVehicleCommand";
 import Swal from 'sweetalert2';
-import HirePayments from "./HirePayments";
 import AddVehicleForm from "../AddVehicleForm";
+import VehicleExpensesDetails from "./VehicleExpensesDetails";
 
 const VehicleDetails = () => {
     const {vehicleId, workspaceId} = useParams();
@@ -174,63 +165,18 @@ const VehicleDetails = () => {
                         )}
                     </GridItem>
                     <GridItem colSpan={3}>
-                        <Accordion defaultIndex={[0]} allowMultiple w={'full'}>
-                            <AccordionItem>
-                                <h2>
-                                    <AccordionButton>
-                                        <Box as='span' flex='1' textAlign='left' fontWeight={'bold'}>
-                                            Fuel Consumption Expenses
-                                        </Box>
-                                        <AccordionIcon />
-                                    </AccordionButton>
-                                </h2>
-                                <AccordionPanel pb={4}>
-                                    <FuelConsumptionExpenses expenses={data?.data?.fuelConsumed!} />
-                                </AccordionPanel>
-                            </AccordionItem>
-
-                            <AccordionItem>
-                                <h2>
-                                    <AccordionButton>
-                                        <Box as='span' flex='1' textAlign='left' fontWeight={'bold'}>
-                                            Maintenance Expenses
-                                        </Box>
-                                        <AccordionIcon />
-                                    </AccordionButton>
-                                </h2>
-                                <AccordionPanel pb={4}>
-                                    <MaintenanceExpenses expenses={data?.data?.maintenanceCosts!} />
-                                </AccordionPanel>
-                            </AccordionItem>
-
-                            <AccordionItem>
-                                <h2>
-                                    <AccordionButton>
-                                        <Box as='span' flex='1' textAlign='left' fontWeight={'bold'}>
-                                            Accident Repair Expenses
-                                        </Box>
-                                        <AccordionIcon />
-                                    </AccordionButton>
-                                </h2>
-                                <AccordionPanel pb={4}>
-                                    <AccidentRepairExpenses expenses={data?.data?.accidentRepairCosts!} />
-                                </AccordionPanel>
-                            </AccordionItem>
-
-                            <AccordionItem>
-                                <h2>
-                                    <AccordionButton>
-                                        <Box as='span' flex='1' textAlign='left' fontWeight={'bold'}>
-                                            Hire Payments Received
-                                        </Box>
-                                        <AccordionIcon />
-                                    </AccordionButton>
-                                </h2>
-                                <AccordionPanel pb={4}>
-                                    <HirePayments expenses={data?.data?.hirePayments!} />
-                                </AccordionPanel>
-                            </AccordionItem>
-                        </Accordion>
+                        <Tabs>
+                            <TabList>
+                                <Tab>Vehicle Details</Tab>
+                                <Tab>Reports and Key Metrics</Tab>
+                            </TabList>
+                            <TabPanels>
+                                <TabPanel>
+                                    <VehicleExpensesDetails data={data!} />
+                                </TabPanel>
+                                <TabPanel></TabPanel>
+                            </TabPanels>
+                        </Tabs>
                     </GridItem>
                 </Grid>
             </Flex>

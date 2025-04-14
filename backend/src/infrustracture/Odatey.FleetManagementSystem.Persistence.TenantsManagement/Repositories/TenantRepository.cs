@@ -50,7 +50,6 @@ public class TenantRepository(TenantsDbContext tenantsDbContext, IServiceScopeFa
             .Tenants
             .Include(t => t.ApplicationUsers)
             .AsSplitQuery()
-            .AsNoTracking()
             .FirstOrDefaultAsync(t => t.ApplicationUsers.Select(a => a.UserId).Contains(userId));
     }
 
