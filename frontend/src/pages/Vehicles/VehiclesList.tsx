@@ -114,7 +114,7 @@ const VehiclesList = () => {
                                 </Thead>
                                 <Tbody>
                                     {data?.data?.data.map((vehicle: Vehicle) => (
-                                        <VehicleItem vehicle={vehicle} />
+                                        <VehicleItem key={vehicle.vehicleId} vehicle={vehicle} />
                                     ))}
                                 </Tbody>
                             </Table>

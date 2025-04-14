@@ -14,7 +14,7 @@ import {
 import {
     HamburgerIcon, TabList, TabPanel, TabPanels, Tabs, Tag
 } from "@chakra-ui/icons";
-import {useParams} from "react-router";
+import {Outlet, useNavigate, useParams} from "react-router";
 import {useGetVehicleDetails} from "../../../hooks/queries/vehicles/useGetVehicleDetails";
 import FullPageLoading from "../../../components/UI/FullPageLoading";
 import AddVehicleExpenseForm from "./AddVehicleExpenseForm";
@@ -25,6 +25,7 @@ import VehicleExpensesDetails from "./VehicleExpensesDetails";
 
 const VehicleDetails = () => {
     const {vehicleId, workspaceId} = useParams();
+    const navigation = useNavigate();
     
     const {
         data,
@@ -168,13 +169,15 @@ const VehicleDetails = () => {
                         <Tabs>
                             <TabList>
                                 <Tab>Vehicle Details</Tab>
-                                <Tab>Reports and Key Metrics</Tab>
+                                <Tab onClick={() => navigation('reports')}>Reports and Key Metrics</Tab>
                             </TabList>
                             <TabPanels>
                                 <TabPanel>
                                     <VehicleExpensesDetails data={data!} />
                                 </TabPanel>
-                                <TabPanel></TabPanel>
+                                <TabPanel>
+                                    <Outlet />
+                                </TabPanel>
                             </TabPanels>
                         </Tabs>
                     </GridItem>

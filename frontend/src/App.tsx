@@ -13,6 +13,8 @@ import WorkspaceManagementLayout from "./pages/Workspaces/WorkspaceManagement/Wo
 import VehiclesList from "./pages/Vehicles/VehiclesList";
 import VehicleDetails from "./pages/Vehicles/VehicleDetails/VehicleDetails";
 import UpgradeTenant from "./pages/Tenants/UpgradeTenant";
+import VehicleReports from "./pages/Vehicles/VehicleDetails/VehicleReports";
+import {Tr} from "@chakra-ui/react";
 
 function App() {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
@@ -37,7 +39,10 @@ function App() {
           <Route path="/workspaces/:workspaceId/management" element={<WorkspaceManagementLayout />}>
             <Route index={true} path={"dashboard"} element={<WorkspaceDashboard />} />
             <Route path={"vehicles"} element={<VehiclesList />} />
-            <Route path={"vehicles/:vehicleId"} element={<VehicleDetails />} />
+            <Route path={"vehicles/:vehicleId"} element={<VehicleDetails />}>
+              <Route index={true} element={<></>} />
+              <Route path={"reports"} element={<VehicleReports />} />
+            </Route>
           </Route>
           <Route
             path="/workspaces/:id/settings"
