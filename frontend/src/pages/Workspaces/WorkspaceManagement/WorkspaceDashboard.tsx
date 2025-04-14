@@ -38,8 +38,6 @@ const WorkspaceDashboard = () => {
         toDate: ''
     });
     
-    console.log(totalFleets);
-    
   return (
       <Flex flexDirection="column" w={'full'} as={'section'}>
         <Flex 

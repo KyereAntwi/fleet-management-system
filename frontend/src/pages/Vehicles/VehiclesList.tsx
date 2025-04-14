@@ -14,7 +14,7 @@ import {AddIcon, AttachmentIcon, ButtonGroup, SearchIcon, SettingsIcon, Th, Thea
 import {getVehiclesQuery} from "../../hooks/queries/vehicles/getVehiclesQuery";
 import FullPageLoading from "../../components/UI/FullPageLoading";
 import InfoBanner from "../../components/UI/InfoBanner";
-import {useParams} from "react-router";
+import {useParams, useSearchParams} from "react-router";
 import {Vehicle} from "../../models/vehicles/vehicle";
 import VehicleItem from "./VehicleItem";
 import AddVehicleForm from "./AddVehicleForm";
@@ -23,6 +23,7 @@ import AddVehicleBulkForm from "./AddVehicleBulkForm";
 
 const VehiclesList = () => {
     const {workspaceId} = useParams();
+    const [searchParams, setSearchParams] = useSearchParams();
     
     const [keyword, setKeyword] = useState<string>('')
     const [pageSize, setPageSize] = useState<number>(20)
@@ -41,6 +42,9 @@ const VehiclesList = () => {
     if (isLoading) {
         return <FullPageLoading />
     }
+    
+    const dueRoadRenewals = searchParams.get("dueRoadRenewals") ?? '';
+    const dueInsuranceRenewals = searchParams.get("dueInsuranceRenewals") ?? '';
     
     return (
         <>

@@ -15,6 +15,7 @@ import {
 } from "../../../hooks/queries/reports/useGetVehiclesDueForRoadworthyRenewalsPerWorkspace";
 import {Vehicle} from "../../../models/vehicles/vehicle";
 import {Stat, StatNumber} from "@chakra-ui/icons";
+import {useNavigate} from "react-router";
 
 interface Props {
     workspaceId: string;
@@ -47,11 +48,14 @@ const DisplayStats = ({period, value} : {period: string, value: number}) => {
 
 const VehiclesDueForRoadworthyRenewalReportWidget = ({workspaceId, period}: Props) => {
     const {data, isLoading, error} = useGetVehiclesDueForRoadworthyRenewalsPerWorkspace(workspaceId, period);
+    const navigation = useNavigate();
     
     if (error) {
         console.log(error);
         throw error;
     }
+    
+    const onRoute = () => navigation(`/workspaces/${workspaceId}/management/vehicles?dueRoadRenewals=${period}`);
     
     return (
         <>
@@ -61,6 +65,7 @@ const VehiclesDueForRoadworthyRenewalReportWidget = ({workspaceId, period}: Prop
                 borderColor={period === 'current' ? 'green' : 'red'}
                 cursor={'pointer'}
                 title={period === 'current' ? 'See vehicles Due For Roadworthy Renewal' : 'See vehicles Past Due For Roadworthy Renewal'}
+                onClick={onRoute}
             >
                 <CardBody>
                     {isLoading ? (<Spinner />) : (<DisplayStats period={period!} value={data?.data!} />)}

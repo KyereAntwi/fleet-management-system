@@ -16,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import {Vehicle} from "../../../models/vehicles/vehicle";
 import {Stat, StatNumber} from "@chakra-ui/icons";
+import {useNavigate} from "react-router";
 
 interface Props {
     workspaceId: string;
@@ -52,10 +53,14 @@ const VehicleDueForInsuranceRenewalReportWidget =  ({workspaceId, period}: Props
         period: period
     });
 
+    const navigation = useNavigate();
+
     if (error) {
         console.log(error);
         throw error;
     }
+
+    const onRoute = () => navigation(`/workspaces/${workspaceId}/management/vehicles?dueInsuranceRenewals=${period}`);
 
     return (
         <>
@@ -65,6 +70,7 @@ const VehicleDueForInsuranceRenewalReportWidget =  ({workspaceId, period}: Props
                 borderColor={period === 'current' ? 'green' : 'red'}
                 cursor={'pointer'}
                 title={period === 'current' ? 'See vehicle Due For Insurance Renewal' : 'See vehicle Past Due For Insurance Renewal'}
+                onClick={onRoute}
             >
                 <CardBody>
                     {isLoading ? (<Spinner />) : (<DisplayStats period={period!} value={data?.data!} />)}
