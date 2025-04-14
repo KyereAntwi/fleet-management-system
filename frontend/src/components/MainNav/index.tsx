@@ -16,7 +16,7 @@ import {
   VStack,
   FormControl,
   FormLabel,
-  Switch, MenuButton, Menu, MenuList, MenuItem,
+  Switch, MenuButton, Menu, MenuList, MenuItem, HStack,
 } from '@chakra-ui/react';
 import {ChevronDownIcon, HamburgerIcon} from '@chakra-ui/icons';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -51,70 +51,73 @@ const MainNav = () => {
   }, [isAuthenticated]);
 
   return (
-    <Box
-      as='nav'
-      position='fixed'
-      width='100%'
-      bgColor={colorMode === 'light' ? 'teal.500' : 'teal.800'}
-      p={4}
-      zIndex='1000'
-      mb={5}
-    >
-      <Flex w='80%' mx='auto'>
-        <Heading as={NavLink} size='lg' color='white' to='/'>
-          Fleets Management
-        </Heading>
-        <Spacer />
-        <Flex flexDirection={'row'} alignItems={'center'} justifyContent={'end'} display={{ base: 'none', md: 'flex' } as const}>
-          {selectedWorkspace && (
-            <>
-              <Menu>
-                <MenuButton w={'lg'} as={Button} variant={'outline'} rightIcon={<ChevronDownIcon />} mr={4}>
-                  {selectedWorkspace.workspaceTitle}
-                </MenuButton>
-                <MenuList>
-                  {!isLoading && data?.data!.map((workspace: Workspace) => (
-                      <MenuItem key={workspace.id} onClick={() => {
-                        setSelectedWorkspace(workspace)
-                        navigation(`/workspaces/${workspace.id}/management/dashboard`)
-                      }}>{workspace.workspaceTitle}</MenuItem>
-                  )) }
-                </MenuList>
-              </Menu>
-            </>
-          )}
-          {isAuthenticated ? (
-            <UserSummary drawerState={false} />
-          ) : (
-            <Button
-              colorScheme='teal'
-              variant='outline'
-              mr={4}
-              onClick={() => loginWithRedirect()}
-            >
-              Login
-            </Button>
-          )}
-          <FormControl display='flex' alignItems='center'>
-            <FormLabel htmlFor='theme-toggle' mb='0' color='white'>
-              {colorMode === 'light' ? 'Dark' : 'Light'} Mode
-            </FormLabel>
-            <Switch
-              id='theme-toggle'
-              isChecked={colorMode === 'dark'}
-              onChange={toggleColorMode}
-              colorScheme='teal'
-            />
-          </FormControl>
+    <>
+      <Box
+          as='nav'
+          position='fixed'
+          width='100%'
+          bgColor={colorMode === 'light' ? 'teal.500' : 'teal.800'}
+          p={4}
+          zIndex='1000'
+          mb={5}
+      >
+        <Flex w='80%' mx='auto' flexDirection={'row'}>
+          <Heading as={NavLink} size='lg' color='white' to='/'>
+            Fleets Management
+          </Heading>
+          <Spacer />
+          <Flex flexDirection={'row'} alignItems={'center'} justifyContent={'end'} display={{ base: 'none', md: 'flex' } as const}>
+            {selectedWorkspace && (
+                <>
+                  <Menu>
+                    <MenuButton w={'lg'} as={Button} variant={'outline'} rightIcon={<ChevronDownIcon />} mr={4}>
+                      {selectedWorkspace.workspaceTitle}
+                    </MenuButton>
+                    <MenuList>
+                      {!isLoading && data?.data!.map((workspace: Workspace) => (
+                          <MenuItem key={workspace.id} onClick={() => {
+                            setSelectedWorkspace(workspace)
+                            navigation(`/workspaces/${workspace.id}/management/dashboard`)
+                          }}>{workspace.workspaceTitle}</MenuItem>
+                      )) }
+                    </MenuList>
+                  </Menu>
+                </>
+            )}
+            {isAuthenticated ? (
+                <UserSummary drawerState={false} />
+            ) : (
+                <Button
+                    colorScheme='teal'
+                    variant='outline'
+                    mr={4}
+                    onClick={() => loginWithRedirect()}
+                >
+                  Login
+                </Button>
+            )}
+            <Box>
+              <HStack>
+                <FormLabel htmlFor='theme-toggle' mb='0' color='white'>
+                  {colorMode === 'light' ? 'Dark' : 'Light'} Mode
+                </FormLabel>
+                <Switch
+                    id='theme-toggle'
+                    isChecked={colorMode === 'dark'}
+                    onChange={toggleColorMode}
+                    colorScheme='teal'
+                />
+              </HStack>
+            </Box>
+          </Flex>
+          <IconButton
+              aria-label='Open Menu'
+              icon={<HamburgerIcon />}
+              display={{ base: 'flex', md: 'none' } as { base: string; md: string }}
+              onClick={onOpen}
+          />
         </Flex>
-        <IconButton
-          aria-label='Open Menu'
-          icon={<HamburgerIcon />}
-          display={{ base: 'flex', md: 'none' } as { base: string; md: string }}
-          onClick={onOpen}
-        />
-      </Flex>
-
+      </Box>
       <Drawer placement='right' onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent>
@@ -151,10 +154,10 @@ const MainNav = () => {
                   </Button>
               )}
               <Button
-                w='100%'
-                onClick={toggleColorMode}
-                colorScheme='teal'
-                variant='outline'
+                  w='100%'
+                  onClick={toggleColorMode}
+                  colorScheme='teal'
+                  variant='outline'
               >
                 {colorMode === 'light' ? 'Dark' : 'Light'} Mode
               </Button>
@@ -162,7 +165,7 @@ const MainNav = () => {
           </DrawerBody>
         </DrawerContent>
       </Drawer>
-    </Box>
+    </>
   );
 };
 
