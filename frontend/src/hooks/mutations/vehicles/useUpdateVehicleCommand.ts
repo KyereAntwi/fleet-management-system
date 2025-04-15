@@ -1,8 +1,8 @@
-import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {useToast} from "@chakra-ui/react";
-import {UpdateVehicleRequest} from "../../../models/vehicles/vehicleRequests";
-import {updateVehicleAsync} from "../../../services/vehicleServices";
-import {AxiosError} from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useToast } from "@chakra-ui/react";
+import { UpdateVehicleRequest } from "../../../models/vehicles/vehicleRequests";
+import { updateVehicleAsync } from "../../../services/vehicleServices";
+import { AxiosError } from "axios";
 
 interface Props {
     onClose: () => void;
@@ -10,10 +10,10 @@ interface Props {
     vehicleId: string;
 }
 
-export const useUpdateVehicleCommand = ({onClose, workspaceId, vehicleId}: Props) => {
+export const useUpdateVehicleCommand = ({ onClose, workspaceId, vehicleId }: Props) => {
     const queryClient = useQueryClient();
     const toast = useToast();
-    
+
     return useMutation({
         mutationFn: async (data: UpdateVehicleRequest) => {
             const response = await updateVehicleAsync(data);
@@ -21,7 +21,7 @@ export const useUpdateVehicleCommand = ({onClose, workspaceId, vehicleId}: Props
         },
 
         onSuccess: (response: BaseResponse<string>) => {
-            queryClient.invalidateQueries({ queryKey: ['vehicle-details', {workspaceId: workspaceId, vehicleId: vehicleId}] });
+            queryClient.invalidateQueries({ queryKey: ['vehicle-details', vehicleId] });
             toast({
                 title: 'Success.',
                 description: "Vehicle updated successfully.",
