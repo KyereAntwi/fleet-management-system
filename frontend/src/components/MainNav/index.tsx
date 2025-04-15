@@ -45,7 +45,7 @@ const MainNav = () => {
   const { data, isLoading } = getWorkspacesQuery(loadWorkspaces);
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && selectedWorkspace) {
       setLoadWorkspaces(true);
     }
   }, [isAuthenticated]);
