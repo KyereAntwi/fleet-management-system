@@ -24,7 +24,7 @@ public class CreateATenantCommandHandler(
         var newDatabase = authenticatedUser.UserId!;
         
         var connectionString =
-            $"Host={databaseSettings.Server};Port={databaseSettings.Port};Database={newDatabase};User Id={databaseSettings.Username};Password={databaseSettings.Password};";
+            $"Host={databaseSettings.Server};Port={databaseSettings.Port};Database={newDatabase};User Id={databaseSettings.Username};Password={databaseSettings.Password};SSL Mode=Require;Trust Server Certificate=true;";
         var newTenant = Tenant.Create(authenticatedUser.UserId!, connectionString, command.Subscription);
 
         await repository.CreateAsync(newTenant);

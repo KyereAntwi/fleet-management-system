@@ -5,7 +5,6 @@ public class CreateATenant(ISender sender) : Endpoint<CreateATenantRequest, Base
     public override void Configure()
     {
         Post("/api/v1/tenants");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(CreateATenantRequest req, CancellationToken ct)

@@ -45,7 +45,7 @@ const CreateTenant = () => {
   const createTenant = createTenantMutation({
     createDefaultWorkspace: () =>
       createDefaultWorkspace.mutateAsync({
-        title: 'Default Workspace',
+        title: 'Default Workspace'
       }),
 
     displayOnError: setServerError,

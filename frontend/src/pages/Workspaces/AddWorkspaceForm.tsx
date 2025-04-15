@@ -48,14 +48,14 @@ const AddWorkspaceForm = ({ isOpen, onClose, workspace }: Props) => {
   });
   
   const updateWorkspace = useUpdateWorkspaceCommand({
-    workspaceId: workspace?.id ?? '',
+    workspaceId: workspace?.data?.workspaceTitle ?? '',
     onSuccess: () => onClose(),
   })
 
   const onSubmit: SubmitHandler<CreateWorkspaceRequest> = (data) => {
     if (workspace) {
       updateWorkspace.mutateAsync({
-        workspaceId: workspace?.data?.id,
+        workspaceId: workspace?.data?.id!,
         title: data.title,
       })
     } else {

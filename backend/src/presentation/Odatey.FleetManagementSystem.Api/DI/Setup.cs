@@ -12,7 +12,7 @@ public static class Setup
         
         builder.Services.RegisterApplication();
         builder.Services.AddPersistenceDependencies(builder.Configuration);
-        builder.Services.AddTenantsPersistenceDependencies();
+        builder.Services.AddTenantsPersistenceDependencies(builder.Configuration);
         builder.Services.RegisterExternalServices();
         
         builder.Services.AddHttpContextAccessor();
