@@ -6,7 +6,9 @@ import {
 } from "../models/vehicles/vehicleRequests";
 
 export const getWorkspaceVehiclesAsync = async (request: GetVehiclesRequest) => {
-    const response = await apiClient.get(`/workspaces/${request.workspaceId}/vehicles`, {...request});
+    const response = await apiClient
+        .get(`/workspaces/${request.workspaceId}/vehicles?keyword=${request.keyword}&initialCostFrom=${request.initialCostFrom}&initialCostTo=${request.initialCostTo}&annualDepreciationFrom=${request.annualDepreciationFrom}&annualDepreciationTo=${request.annualDepreciationTo}&mileageCovered=${request.mileageCovered}&roadWorthyRenewalDateFrom=${request.roadWorthyRenewalDateFrom}&roadWorthyRenewalDateTo=${request.roadWorthyRenewalDateTo}&insuranceRenewalDateFrom=${request.insuranceRenewalDateFrom}&insuranceRenewalDateTo=${request.insuranceRenewalDateTo}&page=${request.page}&pageSize=${request.pageSize}`, 
+            {...request});
     return response.data;
 }
 

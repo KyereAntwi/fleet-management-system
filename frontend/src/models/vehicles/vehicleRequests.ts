@@ -38,6 +38,15 @@ export enum VehicleExpenditureType {
 export interface GetVehiclesRequest {
     workspaceId: string;
     keyword: string;
+    initialCostFrom: number;
+    initialCostTo: number;
+    annualDepreciationFrom: number;
+    annualDepreciationTo: number;
+    mileageCovered: string;
+    roadWorthyRenewalDateFrom: string;
+    roadWorthyRenewalDateTo: string;
+    insuranceRenewalDateFrom: string;
+    insuranceRenewalDateTo: string;
     page: number;
     pageSize: number;
 }

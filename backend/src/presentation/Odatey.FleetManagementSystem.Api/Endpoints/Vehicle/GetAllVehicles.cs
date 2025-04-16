@@ -9,7 +9,21 @@ public class GetAllVehicles(ISender sender) : Endpoint<GetAllVehiclesRequest, Ba
 
     public override async Task HandleAsync(GetAllVehiclesRequest req, CancellationToken ct)
     {
-        var vehicles = await sender.Send(new GetAllVehiclesQuery(req.WorkspaceId, req.Keyword, req.Page, req.PageSize), ct);
+        var vehicles = await sender
+            .Send(new GetAllVehiclesQuery(
+                req.WorkspaceId, 
+                req.Keyword, 
+                req.InitialCostFrom,
+                req.InitialCostTo,
+                req.AnnualDepreciationFrom,
+                req.AnnualDepreciationTo,
+                req.MileageCovered,
+                string.IsNullOrWhiteSpace(req.RoadworthyRenewalDateFrom) ? DateTime.MinValue : DateTime.SpecifyKind(DateTime.Parse(req.RoadworthyRenewalDateFrom), DateTimeKind.Utc),
+                string.IsNullOrWhiteSpace(req.RoadworthyRenewalDateTo) ? DateTime.MinValue : DateTime.SpecifyKind(DateTime.Parse(req.RoadworthyRenewalDateTo), DateTimeKind.Utc),
+                string.IsNullOrWhiteSpace(req.InsuranceRenewalDateFrom) ? DateTime.MinValue : DateTime.SpecifyKind(DateTime.Parse(req.InsuranceRenewalDateFrom), DateTimeKind.Utc),
+                string.IsNullOrWhiteSpace(req.InsuranceRenewalDateTo) ? DateTime.MinValue : DateTime.SpecifyKind(DateTime.Parse(req.InsuranceRenewalDateTo), DateTimeKind.Utc),
+                req.Page, 
+                req.PageSize), ct);
         
         await SendAsync(new BaseResponse<PagedResponse<GetAllVehicleQueryDto>>
         {

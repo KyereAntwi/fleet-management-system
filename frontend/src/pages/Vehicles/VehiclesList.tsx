@@ -1,50 +1,86 @@
 import {
-    Button,
+    Button, Center,
     Divider,
-    Flex,
-    Heading, Input, InputGroup, InputLeftElement,
+    Flex, FormControl, FormLabel,
+    Heading,
+    Input,
+    InputGroup,
+    InputLeftElement,
     Menu,
     MenuButton,
     MenuItem,
-    MenuList,
-    Spacer, Table,
-    TableContainer, Tbody, useDisclosure
+    MenuList, MenuOptionGroup,
+    Spacer, Spinner,
+    Table,
+    TableContainer,
+    Tbody,
+    useDisclosure
 } from "@chakra-ui/react";
-import {AddIcon, AttachmentIcon, ButtonGroup, SearchIcon, SettingsIcon, Th, Thead} from "@chakra-ui/icons";
+import {
+    AddIcon,
+    AttachmentIcon,
+    ButtonGroup,
+    MenuItemOption,
+    SearchIcon,
+    SettingsIcon,
+    Th,
+    Thead
+} from "@chakra-ui/icons";
 import {getVehiclesQuery} from "../../hooks/queries/vehicles/getVehiclesQuery";
-import FullPageLoading from "../../components/UI/FullPageLoading";
 import InfoBanner from "../../components/UI/InfoBanner";
 import {useParams, useSearchParams} from "react-router";
 import {Vehicle} from "../../models/vehicles/vehicle";
 import VehicleItem from "./VehicleItem";
 import AddVehicleForm from "./AddVehicleForm";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import AddVehicleBulkForm from "./AddVehicleBulkForm";
+import {GetVehiclesRequest} from "../../models/vehicles/vehicleRequests";
+import ErrorDisplay, {ErrorTypes} from "../../components/UI/Error";
 
 const VehiclesList = () => {
     const {workspaceId} = useParams();
     const [searchParams, setSearchParams] = useSearchParams();
     
-    const [keyword, setKeyword] = useState<string>('')
-    const [pageSize, setPageSize] = useState<number>(20)
-    const [page, setPage] = useState<number>(1)
-    
-    const {data, isLoading, error} = getVehiclesQuery({
+    const [request, setRequest] = useState<GetVehiclesRequest>({
         workspaceId: workspaceId!,
-        page: page,
-        pageSize: pageSize,
-        keyword: keyword
+        keyword: '',
+        initialCostFrom: 0,
+        initialCostTo: 0,
+        annualDepreciationFrom: 0,
+        annualDepreciationTo: 0,
+        mileageCovered: '',
+        roadWorthyRenewalDateFrom: '',
+        roadWorthyRenewalDateTo: '',
+        insuranceRenewalDateFrom: '',
+        insuranceRenewalDateTo: '',
+        page: 1,
+        pageSize: 20
     });
+    
+    const [keywordFilter, setKeywordFilter] = useState<boolean>(false);
+    const [initialCost, setInitialCost] = useState<boolean>(false);
+    const [annualDepreciation, setAnnualDepreciation] = useState<boolean>(false);
+    const [mileageCovered, setMileageCovered] = useState<boolean>(false);
+    const [roadworthy, setRoadworthy] = useState<boolean>(false);
+    const [insurance, setInsurance] = useState<boolean>(false);
+    
+    const {data, isLoading, error} = getVehiclesQuery(request);
     
     const {isOpen, onOpen, onClose} = useDisclosure();
     const {isOpen: isOpenBulk, onOpen: onOpenBulk, onClose: onCloseBulk} = useDisclosure();
-    
-    if (isLoading) {
-        return <FullPageLoading />
-    }
-    
+
     const dueRoadRenewals = searchParams.get("dueRoadRenewals") ?? '';
     const dueInsuranceRenewals = searchParams.get("dueInsuranceRenewals") ?? '';
+    
+    useEffect(() => {
+        if (dueRoadRenewals) setRoadworthy(true);
+        if (dueInsuranceRenewals) setInsurance(true);
+    }, [dueRoadRenewals, dueInsuranceRenewals])
+
+    if (error) {
+        console.error(error);
+        return <ErrorDisplay message={error.message} type={ErrorTypes.SERVER} />
+    }
     
     return (
         <>
@@ -80,50 +116,220 @@ const VehiclesList = () => {
             <Divider />
 
             <Flex as={'section'} flexDirection={'column'} w={'80%'} mx={'auto'} py={4}>
-                {data?.data?.count! == 0 && (
-                    <InfoBanner message={'There are no records found'} />
-                )}
+                <Flex flexDirection={'row'} w={'full'} mx={'auto'} py={4} alignItems={'space-between'}>
+                    <Flex flexDirection={'row'} justifyContent={'center'} alignItems={'center'}>
+                        <Menu closeOnSelect={false}>
+                            <MenuButton as={Button} mr={2} minW={100}>Filter</MenuButton>
+                            <MenuList>
+                                <MenuOptionGroup 
+                                    defaultValue={dueRoadRenewals ? ['roadworthy'] :  dueInsuranceRenewals ? ['insurance'] : []}
+                                    title='Filter list by:' 
+                                    type='checkbox'>
+                                    <MenuItemOption value='keyword' onClick={() => setKeywordFilter(!keywordFilter)}>Brand and Type</MenuItemOption>
+                                    <MenuItemOption value='initialCost' onClick={() => setInitialCost(!initialCost)}>Initial Cost</MenuItemOption>
+                                    <MenuItemOption value='annualDepreciation' onClick={() => setAnnualDepreciation(!annualDepreciation)}>Annual Depreciation</MenuItemOption>
+                                    <MenuItemOption value='mileage' onClick={() => setMileageCovered(!mileageCovered)}>Mileage Covered</MenuItemOption>
+                                    <MenuItemOption value='roadworthy' onClick={() => setRoadworthy(!roadworthy)}>Roadworthy Renewal Date</MenuItemOption>
+                                    <MenuItemOption value='insurance' onClick={() => setInsurance(!insurance)}>Insurance Renewal Date</MenuItemOption>
+                                </MenuOptionGroup>
+                            </MenuList>
+                        </Menu>
 
-                {data?.data?.count! > 0 && (
+                        {keywordFilter && (
+                            <FormControl gap={2} mr={4}>
+                                <FormLabel>Brand and Type</FormLabel>
+                                <InputGroup size={'sm'}>
+                                    <InputLeftElement pointerEvents='none'>
+                                        <SearchIcon color='gray.300' />
+                                    </InputLeftElement>
+                                    <Input
+                                        type='text'
+                                        placeholder='search brand and type here ...'
+                                        onChange={(e) => setRequest({
+                                            ...request,
+                                            keyword: e.target.value
+                                        })}
+                                    />
+                                </InputGroup>
+                            </FormControl>
+                        )}
+
+                        {initialCost && (
+                            <FormControl gap={2} mr={4}>
+                                <FormLabel>Initial Cost</FormLabel>
+                                <InputGroup size={'sm'} mb={4}>
+                                    <Input
+                                        type='number'
+                                        placeholder='initial cost from ...'
+                                        onChange={(e) => setRequest({
+                                            ...request,
+                                            initialCostFrom: Number(e.target.value)
+                                        })}
+                                    />
+                                </InputGroup>
+
+                                <InputGroup size={'sm'}>
+                                    <Input
+                                        type='number'
+                                        placeholder='initial cost to ...'
+                                        onChange={(e) => setRequest({
+                                            ...request,
+                                            initialCostTo: Number(e.target.value)
+                                        })}
+                                    />
+                                </InputGroup>
+                            </FormControl>
+                        )}
+
+                        {annualDepreciation && (
+                            <FormControl gap={2} mr={4}>
+                                <FormLabel>Annual Depreciation</FormLabel>
+                                <InputGroup size={'sm'} mb={4}>
+                                    <Input
+                                        type='number'
+                                        placeholder='Annual depreciation from ...'
+                                        onChange={(e) => setRequest({
+                                            ...request,
+                                            annualDepreciationFrom: Number(e.target.value)
+                                        })}
+                                    />
+                                </InputGroup>
+
+                                <InputGroup size={'sm'}>
+                                    <Input
+                                        type='number'
+                                        placeholder='Annual depreciation to ...'
+                                        onChange={(e) => setRequest({
+                                            ...request,
+                                            annualDepreciationTo: Number(e.target.value)
+                                        })}
+                                    />
+                                </InputGroup>
+                            </FormControl>
+                        )}
+
+                        {mileageCovered && (
+                            <FormControl gap={2} mr={4}>
+                                <FormLabel>Mileage Covered</FormLabel>
+                                <InputGroup size={'sm'}>
+                                    <InputLeftElement pointerEvents='none'>
+                                        <SearchIcon color='gray.300' />
+                                    </InputLeftElement>
+                                    <Input
+                                        type='text'
+                                        placeholder='search mileage covered ...'
+                                        onChange={(e) => setRequest({
+                                            ...request,
+                                            mileageCovered: e.target.value
+                                        })}
+                                    />
+                                </InputGroup>
+                            </FormControl>
+                        )}
+
+                        {roadworthy && (
+                            <FormControl gap={2} mr={4}>
+                                <FormLabel>Roadworthy Renewal</FormLabel>
+                                <InputGroup size={'sm'} mb={4}>
+                                    <Input
+                                        type='date'
+                                        title='Roadworthy Renewal from ...'
+                                        onChange={(e) => setRequest({
+                                            ...request,
+                                            roadWorthyRenewalDateFrom: e.target.value
+                                        })}
+                                    />
+                                </InputGroup>
+
+                                <InputGroup size={'sm'}>
+                                    <Input
+                                        type='datetime-local'
+                                        title='Roadworthy Renewal to ...'
+                                        onChange={(e) => setRequest({
+                                            ...request,
+                                            roadWorthyRenewalDateTo: e.target.value
+                                        })}
+                                    />
+                                </InputGroup>
+                            </FormControl>
+                        )}
+
+                        {insurance && (
+                            <FormControl gap={2} mr={4}>
+                                <FormLabel>Insurance Renewal</FormLabel>
+                                <InputGroup size={'sm'} mb={4}>
+                                    <Input
+                                        type='date'
+                                        title='Insurance Renewal from ...'
+                                        onChange={(e) => setRequest({
+                                            ...request,
+                                            insuranceRenewalDateFrom: e.target.value
+                                        })}
+                                    />
+                                </InputGroup>
+
+                                <InputGroup size={'sm'}>
+                                    <Input
+                                        type='date'
+                                        title='Insurance Renewal to ...'
+                                        onChange={(e) => setRequest({
+                                            ...request,
+                                            insuranceRenewalDateTo: e.target.value
+                                        })}
+                                    />
+                                </InputGroup>
+                            </FormControl>
+                        )}
+                    </Flex>
+
+                    <Spacer />
+
+                    <ButtonGroup size={'sm'} isAttached>
+                        <Button 
+                            disabled={isLoading || request.page === 1 || data?.data?.count === 0}
+                            onClick={() => setRequest({
+                            ...request,
+                            page: request.page === 1 ? 1 : request.page - 1,
+                        })}>Prev</Button>
+                        <Button 
+                            disabled={isLoading || data?.data?.count === 0 || data?.data?.count! <= request.pageSize}
+                            onClick={() => setRequest({
+                            ...request,
+                            page: data?.data?.count === request.pageSize ? 1 : request.page + 1,
+                        })}>Next</Button>
+                    </ButtonGroup>
+                </Flex>
+                
+                <Divider />
+
+                {isLoading ? (
+                    <Center>
+                        <Spinner />
+                    </Center>
+                ) : data?.data?.count! === 0 ? (
                     <>
-                        <Flex flexDirection={'row'} w={'full'} mx={'auto'} py={4} alignItems={'space-between'}>
-                            <InputGroup size={'sm'} mr={4}>
-                                <InputLeftElement pointerEvents='none'>
-                                    <SearchIcon color='gray.300' />
-                                </InputLeftElement>
-                                <Input 
-                                    type='tel' 
-                                    placeholder='search vehicle here ...'
-                                    onChange={(e) => setKeyword(e.target.value)}
-                                />
-                            </InputGroup>
-                            
-                            <Spacer />
-                            
-                            <ButtonGroup size={'sm'} isAttached>
-                                <Button>Prev</Button>
-                                <Button>Next</Button>
-                            </ButtonGroup>
-                        </Flex>
-                        
-                        <TableContainer w={'full'}>
-                            <Table variant={'simple'}>
-                                <Thead>
-                                    <Th>Created At</Th>
-                                    <Th>Type and Brand</Th>
-                                    <Th>Initial Cost</Th>
-                                    <Th>Insurance Renewal Date</Th>
-                                    <Th>Mileage Covered</Th>
-                                    <Th>Road Worthy Renewal Date</Th>
-                                </Thead>
-                                <Tbody>
-                                    {data?.data?.data.map((vehicle: Vehicle) => (
-                                        <VehicleItem key={vehicle.vehicleId} vehicle={vehicle} />
-                                    ))}
-                                </Tbody>
-                            </Table>
-                        </TableContainer>
+                        <Center>
+                            <InfoBanner message={'No records found'} />
+                        </Center>
                     </>
+                ) : (
+                    <TableContainer w={'full'}>
+                        <Table variant={'simple'}>
+                            <Thead>
+                                <Th>Created At</Th>
+                                <Th>Type and Brand</Th>
+                                <Th>Initial Cost</Th>
+                                <Th>Insurance Renewal Date</Th>
+                                <Th>Mileage Covered</Th>
+                                <Th>Road Worthy Renewal Date</Th>
+                            </Thead>
+                            <Tbody>
+                                {data?.data?.data.map((vehicle: Vehicle) => (
+                                    <VehicleItem key={vehicle.vehicleId} vehicle={vehicle} />
+                                ))}
+                            </Tbody>
+                        </Table>
+                    </TableContainer>
                 )}
             </Flex>
             
