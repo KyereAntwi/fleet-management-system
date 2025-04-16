@@ -16,6 +16,7 @@ import UpgradeTenant from "./pages/Tenants/UpgradeTenant";
 import VehicleReports from "./pages/Vehicles/VehicleDetails/VehicleReports";
 
 import "./app.css";
+import { Box } from "@chakra-ui/react";
 
 function App() {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
