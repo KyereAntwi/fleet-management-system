@@ -31,7 +31,7 @@ function App() {
 
   return (
     <>
-      <MainNav />
+      {/* <MainNav /> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route element={<AuthLayout />}>

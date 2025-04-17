@@ -1,27 +1,17 @@
+import { useEffect, useState } from "react";
 import {
   Box,
   Flex,
   Heading,
   Spacer,
   Button,
-  useColorMode,
   IconButton,
-  useDisclosure,
-  Drawer,
-  DrawerBody,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  VStack,
-  FormControl,
-  FormLabel,
-  Switch,
   MenuButton,
   Menu,
   MenuList,
   MenuItem,
   HStack,
+  useColorMode,
 } from "@chakra-ui/react";
 import {
   ChevronDownIcon,
@@ -30,24 +20,25 @@ import {
   SunIcon,
 } from "@chakra-ui/icons";
 import { useAuth0 } from "@auth0/auth0-react";
-import UserSummary from "./UserSummary";
-import { NavLink, useNavigate } from "react-router";
-import useSelectedWorkspaceStore from "../../store/selectedWorkspaceStore";
-import { useEffect, useState } from "react";
-import getWorkspacesQuery from "../../hooks/queries/workspaces/getWorkspacesQuery";
-import { Workspace } from "../../models/workspaces/workspace";
+import SideDrawer from "./SideDrawer";
 
-const MainNav = () => {
-  const [loadWorkspaces, setLoadWorkspaces] = useState<boolean>(false);
+import { NavLink, useNavigate } from "react-router";
+import { Workspace } from "../../models/workspaces/workspace";
+import useSelectedWorkspaceStore from "../../store/selectedWorkspaceStore";
+import getWorkspacesQuery from "../../hooks/queries/workspaces/getWorkspacesQuery";
+
+const MainNav = ({
+  selectedWorkspace,
+  mainDrawer,
+}: {
+  selectedWorkspace?: Workspace;
+  mainDrawer?: any;
+}) => {
+  const { user, isAuthenticated, loginWithRedirect } = useAuth0();
   const { colorMode, toggleColorMode } = useColorMode();
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const navigation = useNavigate();
 
-  const { loginWithRedirect, isAuthenticated } = useAuth0();
-
-  const selectedWorkspace: Workspace = useSelectedWorkspaceStore(
-    (state: any) => state.workspace
-  );
+  const [loadWorkspaces, setLoadWorkspaces] = useState<boolean>(false);
   const setSelectedWorkspace = useSelectedWorkspaceStore(
     (state) => state.setSelectedWorkspace
   );
@@ -62,6 +53,14 @@ const MainNav = () => {
 
   return (
     <>
+      {/* Side Drawer */}
+      {mainDrawer && (
+        <SideDrawer
+          user={user}
+          mainDrawer={mainDrawer}
+          selectedWorkspace={selectedWorkspace}
+        />
+      )}
       <Box
         as="nav"
         position="fixed"
@@ -72,10 +71,21 @@ const MainNav = () => {
         bgColor={colorMode === "light" ? "teal.500" : "teal.800"}
         zIndex="1000"
         boxShadow="sm"
+        height={20}
         py={4}
         // mb={5}
       >
         <Flex w="80%" mx="auto" flexDirection={"row"}>
+          {isAuthenticated && mainDrawer && (
+            <IconButton
+              icon={<HamburgerIcon />}
+              aria-label="Open menu"
+              variant="outline"
+              onClick={mainDrawer.onOpen}
+              display={{ base: "inline-flex", lg: "none" }}
+              mr={2}
+            />
+          )}
           <Heading as={NavLink} size="lg" color={"white"} to="/">
             FleetPro
           </Heading>
@@ -117,9 +127,9 @@ const MainNav = () => {
                 </Menu>
               </>
             )}
-            {isAuthenticated ? (
-              <UserSummary drawerState={false} />
-            ) : (
+            {/* {isAuthenticated ? (
+              <UserSummary drawerState={false} /> */}
+            {!isAuthenticated && (
               <Button
                 variant="outline"
                 rounded={"full"}
@@ -140,76 +150,8 @@ const MainNav = () => {
               </HStack>
             </Box>
           </Flex>
-          <IconButton
-            aria-label="Open Menu"
-            icon={<HamburgerIcon />}
-            display={
-              { base: "flex", md: "none" } as { base: string; md: string }
-            }
-            onClick={onOpen}
-          />
         </Flex>
       </Box>
-      <Drawer placement="right" onClose={onClose} isOpen={isOpen}>
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader>Menu</DrawerHeader>
-          <DrawerBody>
-            {selectedWorkspace && (
-              <>
-                <Menu>
-                  <MenuButton
-                    as={Button}
-                    variant={"outline"}
-                    rightIcon={<ChevronDownIcon />}
-                    my={4}
-                  >
-                    {selectedWorkspace.workspaceTitle}
-                  </MenuButton>
-                  <MenuList>
-                    {!isLoading &&
-                      data?.data!.map((workspace: Workspace) => (
-                        <MenuItem
-                          key={workspace.id}
-                          onClick={() => {
-                            setSelectedWorkspace(workspace);
-                            navigation(
-                              `/workspaces/${workspace.id}/management/dashboard`
-                            );
-                          }}
-                        >
-                          {workspace.workspaceTitle}
-                        </MenuItem>
-                      ))}
-                  </MenuList>
-                </Menu>
-              </>
-            )}
-            <VStack spacing={4}>
-              {isAuthenticated ? (
-                <UserSummary drawerState={true} />
-              ) : (
-                <Button
-                  colorScheme="teal"
-                  variant="outline"
-                  onClick={() => loginWithRedirect()}
-                >
-                  Login
-                </Button>
-              )}
-              <Button
-                w="100%"
-                onClick={toggleColorMode}
-                colorScheme="teal"
-                variant="outline"
-              >
-                {colorMode === "light" ? "Dark" : "Light"} Mode
-              </Button>
-            </VStack>
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
     </>
   );
 };

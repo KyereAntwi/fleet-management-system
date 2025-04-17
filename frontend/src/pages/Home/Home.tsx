@@ -14,18 +14,14 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { NavLink } from "react-router";
-
+import MainNav from "../../components/MainNav";
 const Home = () => {
   return (
-    <Flex
-      height="100vh"
-      direction={"column"}
-      px={{ base: 6, md: 20 }}
-      py={{ base: 32, md: 40 }}
-      // p={4}
-    >
+    <Flex height="100vh" direction={"column"} px={{ base: 6, md: 20 }}>
+      <MainNav />
       {/* Hero Section */}
       <Flex
+        py={{ base: 32, md: 40 }}
         width="100%"
         direction={{ base: "column", md: "row" }}
         align="center"

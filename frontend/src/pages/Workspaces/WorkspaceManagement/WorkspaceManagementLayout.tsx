@@ -1,27 +1,35 @@
-import {NavLink, Outlet, useParams} from "react-router";
-import {Avatar, Box, Button, Flex, Heading, SkeletonText, Spacer} from "@chakra-ui/react";
+import { NavLink, Outlet, useParams } from "react-router";
+import {
+  Avatar,
+  Box,
+  Button,
+  Flex,
+  Heading,
+  SkeletonText,
+  Spacer,
+} from "@chakra-ui/react";
 import useSelectedWorkspaceStore from "../../../store/selectedWorkspaceStore";
-import {ButtonGroup} from "@chakra-ui/icons";
-import {getAWorkspaceQuery} from "../../../hooks/queries/workspaces/getAWorkspaceQuery";
+import { ButtonGroup } from "@chakra-ui/icons";
+import { getAWorkspaceQuery } from "../../../hooks/queries/workspaces/getAWorkspaceQuery";
 
 const WorkspaceManagementLayout = () => {
-    const {workspaceId} = useParams();
+  const { workspaceId } = useParams();
 
-    // const setSelectedWorkspace = useSelectedWorkspaceStore(
-    //     (state) => state.setSelectedWorkspace
-    // );
-    
-    const {data, isLoading} = getAWorkspaceQuery({
-        id: workspaceId!
-    });
-    
-    // if (data) {
-    //     setSelectedWorkspace(data?.data!);
-    // }
-    
-    return (
-        <>
-            <Box 
+  // const setSelectedWorkspace = useSelectedWorkspaceStore(
+  //     (state) => state.setSelectedWorkspace
+  // );
+
+  const { data, isLoading } = getAWorkspaceQuery({
+    id: workspaceId!,
+  });
+
+  // if (data) {
+  //     setSelectedWorkspace(data?.data!);
+  // }
+
+  return (
+    <>
+      {/* <Box 
                 bgColor={'white'} 
                 mb={5} 
                 as='nav' 
@@ -47,12 +55,12 @@ const WorkspaceManagementLayout = () => {
                         </ButtonGroup>
                     </Flex>
                 </Flex>
-            </Box>
-            <Flex as={'section'} flexDirection='column' w='full' pt={20}>
-                <Outlet />
-            </Flex>
-        </>
-    )
-}
+            </Box> */}
+      <Flex as={"section"} flexDirection="column" w="full" pt={4}>
+        <Outlet />
+      </Flex>
+    </>
+  );
+};
 
-export default WorkspaceManagementLayout
+export default WorkspaceManagementLayout;
