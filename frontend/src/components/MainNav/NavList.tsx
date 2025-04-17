@@ -1,4 +1,4 @@
-import { Button, Stack } from "@chakra-ui/react";
+import { Button, Divider, Heading, Stack } from "@chakra-ui/react";
 
 import { NavLink } from "react-router";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -22,17 +22,35 @@ export default function NavList({
   return (
     <Stack spacing={4}>
       {selectedWorkspace && (
-        <NavLink
-          to={`/workspaces/${selectedWorkspace.id}/management/dashboard`}
-        >
-          {({ isActive }) => (
-            <LinkItem
-              isActive={isActive}
-              label={"Dashboard"}
-              icon={<AdjustmentsVerticalIcon width={20} height={20} />}
-            />
-          )}
-        </NavLink>
+        <>
+          <Heading fontSize={"sm"} fontWeight={"normal"}>
+            {selectedWorkspace.workspaceTitle}
+          </Heading>
+          <Divider />
+          <NavLink
+            to={`/workspaces/${selectedWorkspace.id}/management/dashboard`}
+          >
+            {({ isActive }) => (
+              <LinkItem
+                isActive={isActive}
+                label={"Dashboard"}
+                icon={<AdjustmentsVerticalIcon width={20} height={20} />}
+              />
+            )}
+          </NavLink>
+          <NavLink
+            to={`/workspaces/${selectedWorkspace.id}/management/vehicles`}
+          >
+            {({ isActive }) => (
+              <LinkItem
+                isActive={isActive}
+                label={"Vehicles"}
+                icon={<TruckIcon width={20} height={20} />}
+              />
+            )}
+          </NavLink>
+          <Divider />
+        </>
       )}
       <NavLink to="/workspaces">
         {({ isActive }) => (
@@ -43,17 +61,6 @@ export default function NavList({
           />
         )}
       </NavLink>
-      {selectedWorkspace && (
-        <NavLink to={`/workspaces/${selectedWorkspace.id}/management/vehicles`}>
-          {({ isActive }) => (
-            <LinkItem
-              isActive={isActive}
-              label={"Vehicles"}
-              icon={<TruckIcon width={20} height={20} />}
-            />
-          )}
-        </NavLink>
-      )}
       <NavLink to={`/upgrade-tenant`}>
         {({ isActive }) => (
           <LinkItem
