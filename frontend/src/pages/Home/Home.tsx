@@ -14,11 +14,9 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { NavLink } from "react-router";
-import MainNav from "../../components/MainNav";
 const Home = () => {
   return (
     <Flex direction={"column"} px={{ base: 6, md: 20 }}>
-      <MainNav />
       {/* Hero Section */}
       <Flex
         py={{ base: 32, md: 40 }}
@@ -43,7 +41,7 @@ const Home = () => {
           <Text
             fontSize={{ base: "md", md: "lg" }}
             textAlign="center"
-            maxW="600px"
+            maxW="800px"
           >
             Manage your fleet efficiently with our comprehensive and easy-to-use
             platform. Track vehicles, schedule maintenance, and optimize routes
