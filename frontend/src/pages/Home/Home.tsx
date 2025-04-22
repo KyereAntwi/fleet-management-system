@@ -17,7 +17,7 @@ import { NavLink } from "react-router";
 import MainNav from "../../components/MainNav";
 const Home = () => {
   return (
-    <Flex height="100vh" direction={"column"} px={{ base: 6, md: 20 }}>
+    <Flex direction={"column"} px={{ base: 6, md: 20 }}>
       <MainNav />
       {/* Hero Section */}
       <Flex

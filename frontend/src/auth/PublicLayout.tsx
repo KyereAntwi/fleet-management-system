@@ -8,7 +8,7 @@ const PublicLayout = () => {
       <MainNav />
       <Flex mt={24}>
         <Flex ml={{ base: 0 }} p={4} w="full" overflowX="auto">
-          <Box h="100vh" width="full">
+          <Box width="full">
             <Outlet />
           </Box>
         </Flex>

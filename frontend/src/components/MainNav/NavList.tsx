@@ -63,7 +63,7 @@ export default function NavList() {
         </>
       )}
       <Spacer />
-      <Button
+      {/* <Button
         colorScheme="teal"
         size={"md"}
         w={"220px"}
@@ -75,7 +75,7 @@ export default function NavList() {
         }
       >
         Log Out
-      </Button>
+      </Button> */}
     </Stack>
   );
 }

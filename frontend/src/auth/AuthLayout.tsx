@@ -18,7 +18,7 @@ const AuthLayout = () => {
       <Flex mt={24}>
         <SideBar />
         <Flex ml={{ base: 0, lg: "250px" }} p={4} w="full" overflowX="auto">
-          <Box h="100vh" width="full">
+          <Box width="full">
             <ProtectedOutlet />
           </Box>
         </Flex>
