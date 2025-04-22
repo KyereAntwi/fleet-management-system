@@ -36,7 +36,9 @@ public static class Setup
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("Open", b =>
-                b.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
+                b.SetIsOriginAllowed(origin => 
+                        new Uri(origin).Host == "fleetpro.netlify.app" ||
+                        new Uri(origin).Host == "localhost")
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials());

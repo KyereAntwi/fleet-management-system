@@ -3,6 +3,7 @@ import {VehicleExpenditureType} from "../../../models/vehicles/vehicleRequests";
 import {removeConsumptionCostAsync} from "../../../services/vehicleServices";
 import {useToast} from "@chakra-ui/react";
 import {AxiosError} from "axios";
+import {BaseResponse} from "../../../models/BaseResponse";
 
 interface Props {
     workspaceId: string,

@@ -3,6 +3,7 @@ import {
     getVehiclesDueForRoadworthyRenewalsPerWorkspaceAsync
 } from "../../../services/vehicleServices";
 import {Vehicle} from "../../../models/vehicles/vehicle";
+import {BaseResponse} from "../../../models/BaseResponse";
 
 export const useGetVehiclesDueForRoadworthyRenewalsPerWorkspace = (workspaceId: string, period?: string) => {
     return useQuery<BaseResponse<number>>({

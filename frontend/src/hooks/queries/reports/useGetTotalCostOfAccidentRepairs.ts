@@ -1,5 +1,6 @@
 import {useQuery} from "@tanstack/react-query";
 import {getTotalCostOfAccidentRepairsAsync} from "../../../services/vehicleServices";
+import {BaseResponse} from "../../../models/BaseResponse";
 
 interface Props {
     workspaceId: string;

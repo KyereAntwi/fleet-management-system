@@ -19,6 +19,7 @@ import {useUpdateWorkspaceCommand} from "../../hooks/mutations/workspaces/useUpd
 import {z, ZodType} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {FormHelperText} from "@chakra-ui/icons";
+import {BaseResponse} from "../../models/BaseResponse";
 
 interface Props {
   isOpen: boolean;

@@ -1,6 +1,7 @@
 import {useQuery} from "@tanstack/react-query";
 import {getVehiclesDueForInsuranceRenewalsPerWorkspaceAsync} from "../../../services/vehicleServices";
 import {Vehicle} from "../../../models/vehicles/vehicle";
+import {BaseResponse} from "../../../models/BaseResponse";
 
 interface Props {
     workspaceId: string;

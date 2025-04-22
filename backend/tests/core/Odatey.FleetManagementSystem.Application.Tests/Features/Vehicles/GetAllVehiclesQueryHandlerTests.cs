@@ -13,6 +13,15 @@ public class GetAllVehiclesQueryHandlerTests
             new GetAllVehiclesQuery(
                 new Guid("11111111-1111-1111-1111-111111111111"),
                 string.Empty,
+                0,
+                0,
+                0,
+                0,
+                string.Empty,
+                DateTime.MinValue,
+                DateTime.MinValue,
+                DateTime.MinValue,
+                DateTime.MinValue,
                 1,
                 20),
             CancellationToken.None);
@@ -31,6 +40,15 @@ public class GetAllVehiclesQueryHandlerTests
             new GetAllVehiclesQuery(
                 new Guid("22222222-1111-1111-1111-111111111111"),
                 string.Empty,
+                0,
+                0,
+                0,
+                0,
+                string.Empty,
+                DateTime.MinValue,
+                DateTime.MinValue,
+                DateTime.MinValue,
+                DateTime.MinValue,
                 1,
                 20),
             CancellationToken.None);

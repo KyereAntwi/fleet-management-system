@@ -3,6 +3,7 @@ import {UpdateVehicleExpenditureRequest} from "../../../models/vehicles/vehicleR
 import {updateVehicleExpenditureAsync} from "../../../services/vehicleServices";
 import {useToast} from "@chakra-ui/react";
 import {AxiosError} from "axios";
+import {BaseResponse} from "../../../models/BaseResponse";
 
 interface Props {
     onClose: () => void;
