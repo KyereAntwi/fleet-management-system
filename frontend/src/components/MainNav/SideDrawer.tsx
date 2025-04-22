@@ -7,19 +7,10 @@ import {
   DrawerBody,
 } from "@chakra-ui/react";
 
-import { Workspace } from "../../models/workspace/workspace";
 import SideBarHeader from "./SideBarHeader";
 import NavList from "./NavList";
 
-export default function SideDrawer({
-  mainDrawer,
-  user,
-  selectedWorkspace,
-}: {
-  mainDrawer: any;
-  user: any;
-  selectedWorkspace: Workspace;
-}) {
+export default function SideDrawer({ mainDrawer }: { mainDrawer: any }) {
   return (
     <Drawer
       placement="left"
@@ -30,10 +21,10 @@ export default function SideDrawer({
       <DrawerContent>
         <DrawerCloseButton />
         <DrawerHeader>
-          <SideBarHeader user={user} />
+          <SideBarHeader />
         </DrawerHeader>
         <DrawerBody>
-          <NavList selectedWorkspace={selectedWorkspace} />
+          <NavList />
         </DrawerBody>
       </DrawerContent>
     </Drawer>
