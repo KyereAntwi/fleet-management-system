@@ -36,10 +36,10 @@ function App() {
       <Routes>
         <Route element={<PublicLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/get-started" element={<CreateTenant />} />
-          <Route path="/upgrade-tenant" element={<UpgradeTenant />} />
         </Route>
         <Route element={<AuthLayout />}>
+          <Route path="/get-started" element={<CreateTenant />} />
+          <Route path="/upgrade-tenant" element={<UpgradeTenant />} />
           <Route path="/workspaces" element={<Workspaces />} />
           <Route
             path="/workspaces/:workspaceId/management"

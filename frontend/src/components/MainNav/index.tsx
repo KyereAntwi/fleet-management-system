@@ -12,17 +12,18 @@ import { HamburgerIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { useAuth0 } from "@auth0/auth0-react";
 import SideDrawer from "./SideDrawer";
 
-import { NavLink } from "react-router";
+import {NavLink, useParams} from "react-router";
 import UserSummary from "./UserSummary";
 
 const MainNav = ({ mainDrawer }: { mainDrawer?: any }) => {
   const { isAuthenticated, loginWithRedirect } = useAuth0();
   const { colorMode, toggleColorMode } = useColorMode();
+  const { workspaceId } = useParams();
 
   return (
     <>
       {/* Side Drawer */}
-      {mainDrawer && <SideDrawer mainDrawer={mainDrawer} />}
+      {(workspaceId && mainDrawer) && <SideDrawer mainDrawer={mainDrawer} />}
       <Box
         as="nav"
         position="fixed"
