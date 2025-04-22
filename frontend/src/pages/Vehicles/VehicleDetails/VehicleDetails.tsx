@@ -92,11 +92,6 @@ const VehicleDetails = () => {
     return (
         <>
             <Flex
-                w={{
-                    sm: 'full',
-                    md:  '80%'
-                }}
-                mx='auto'
                 pt={4}
             >
                 <Grid templateColumns='repeat(5, 1fr)' gap={4} w={'full'}>

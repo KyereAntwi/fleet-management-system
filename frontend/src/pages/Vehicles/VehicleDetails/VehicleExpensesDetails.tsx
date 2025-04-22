@@ -5,6 +5,7 @@ import MaintenanceExpenses from "./MaintenanceExpenses";
 import AccidentRepairExpenses from "./AccidentRepairExpenses";
 import HirePayments from "./HirePayments";
 import {VehicleDetails} from "../../../models/vehicles/vehicle";
+import {BaseResponse} from "../../../models/BaseResponse";
 
 interface Props {
     data: BaseResponse<VehicleDetails>

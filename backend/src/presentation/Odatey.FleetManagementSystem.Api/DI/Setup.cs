@@ -48,8 +48,8 @@ public static class Setup
 
     public static WebApplication AddPipeline(this WebApplication app)
     {
-        if (app.Environment.IsDevelopment())
-        {
+       // if (app.Environment.IsDevelopment())
+        //{
             app.UseSwagger(options =>
             {
                 options.RouteTemplate = "openapi/{documentName}.json";
@@ -62,7 +62,7 @@ public static class Setup
                     .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient)
                     .WithApiKeyAuthentication(x => x.Token = "my-api-key");
             });
-        }
+       // }
 
         app.UseCustomExceptionHandler();
         app.UseCors("Open");

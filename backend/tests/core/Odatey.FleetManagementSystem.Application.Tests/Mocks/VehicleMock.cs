@@ -31,7 +31,20 @@ public static class VehicleMock
             .ReturnsAsync((Guid id) => vehicles.FirstOrDefault(x => x.Id.Value == id));
 
         mockVehicleRepository.Setup(repo => repo
-                .GetPagedListAsync(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()))
+                .GetPagedListAsync(
+                    It.IsAny<Guid>(), 
+                    It.IsAny<string>(), 
+                    It.IsAny<double>(),
+                    It.IsAny<double>(),
+                    It.IsAny<decimal>(),
+                    It.IsAny<decimal>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<int>(), 
+                    It.IsAny<int>()))
             .ReturnsAsync(
                 (Guid workspaceId, string searchTerm, int page, int pageSize) =>
                 {

@@ -118,7 +118,6 @@ const AddVehicleForm = ({ isOpen, onClose, workspaceId, vehicle }: Props) => {
         placement="right"
         onClose={onClose}
         size={"md"}
-        zIndex={2000}
       >
         <DrawerOverlay />
         <DrawerContent>

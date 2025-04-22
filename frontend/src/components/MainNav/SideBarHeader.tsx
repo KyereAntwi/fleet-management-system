@@ -36,6 +36,7 @@ export default function SideBarHeader() {
           as={Button}
           variant={"outline"}
           rightIcon={<ChevronDownIcon />}
+          w={'full'}
         >
           {selectedWorkspace
             ? selectedWorkspace.workspaceTitle

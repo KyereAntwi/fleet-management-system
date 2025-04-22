@@ -16,6 +16,7 @@ import WorkspaceItem from "./WorkspaceItem";
 import AddWorkspaceForm from "./AddWorkspaceForm";
 import getTenantQuery from "../../hooks/queries/tenants/getTenantQuery";
 import { TenantSubscription } from "../../models/tenants/tenantRequests";
+import {Workspace} from "../../models/workspaces/workspace";
 
 export default function Workspaces() {
   const { data, isLoading, isError, error } = getWorkspacesQuery(true);
@@ -69,11 +70,11 @@ export default function Workspaces() {
 
       <Divider my={3} />
 
-      <TableContainer as={"section"} w={"80%"} mx={"auto"}>
+      <TableContainer as={"section"}>
         <Table variant={"simple"}>
           <Tbody>
             {data &&
-              data.data?.map((workspace) => (
+              data.data?.map((workspace: Workspace) => (
                 <WorkspaceItem key={workspace.id} workspace={workspace} />
               ))}
           </Tbody>
