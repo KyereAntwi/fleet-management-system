@@ -20,7 +20,7 @@ export default function SideBar() {
       w="250px"
       h="100vh"
       px={3}
-      overflow="auto" // or 'auto' if you want sidebar scrolling
+      overflow="hidden" // or 'auto' if you want sidebar scrolling
     >
       <SideBarHeader />
       <NavList />
