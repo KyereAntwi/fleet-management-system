@@ -36,7 +36,9 @@ public static class Setup
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("Open", b =>
-                b.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
+                b.SetIsOriginAllowed(origin => 
+                        new Uri(origin).Host == "fleetpro.netlify.app" ||
+                        new Uri(origin).Host == "localhost")
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials());
@@ -48,8 +50,8 @@ public static class Setup
 
     public static WebApplication AddPipeline(this WebApplication app)
     {
-        if (app.Environment.IsDevelopment())
-        {
+       // if (app.Environment.IsDevelopment())
+        //{
             app.UseSwagger(options =>
             {
                 options.RouteTemplate = "openapi/{documentName}.json";
@@ -62,7 +64,7 @@ public static class Setup
                     .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient)
                     .WithApiKeyAuthentication(x => x.Token = "my-api-key");
             });
-        }
+       // }
 
         app.UseCustomExceptionHandler();
         app.UseCors("Open");

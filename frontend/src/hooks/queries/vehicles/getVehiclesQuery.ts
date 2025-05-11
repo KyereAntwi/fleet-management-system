@@ -3,6 +3,7 @@ import {useQuery} from "@tanstack/react-query";
 import {PagedResponse} from "../../../models/PagedResponse";
 import {Vehicle} from "../../../models/vehicles/vehicle";
 import {getWorkspaceVehiclesAsync} from "../../../services/vehicleServices";
+import {BaseResponse} from "../../../models/BaseResponse";
 
 export const getVehiclesQuery = (request: GetVehiclesRequest) => {
     return useQuery<BaseResponse<PagedResponse<Vehicle>>>({

@@ -1,9 +1,9 @@
-import { Button, Stack } from "@chakra-ui/react";
+import { Button, Divider, Heading, Spacer, Stack } from "@chakra-ui/react";
 
 import { NavLink } from "react-router";
 import { useAuth0 } from "@auth0/auth0-react";
 
-import { Workspace } from "../../models/workspace/workspace";
+import useSelectedWorkspaceStore from "../../store/selectedWorkspaceStore";
 import {
   AdjustmentsVerticalIcon,
   TruckIcon,
@@ -13,28 +13,14 @@ import {
 
 import LinkItem from "./LinkItem";
 
-export default function NavList({
-  selectedWorkspace,
-}: {
-  selectedWorkspace: Workspace;
-}) {
+export default function NavList() {
+  const selectedWorkspace = useSelectedWorkspaceStore(
+    (state) => state.workspace
+  );
   const { logout } = useAuth0();
   return (
-    <Stack spacing={4}>
-      {selectedWorkspace && (
-        <NavLink
-          to={`/workspaces/${selectedWorkspace.id}/management/dashboard`}
-        >
-          {({ isActive }) => (
-            <LinkItem
-              isActive={isActive}
-              label={"Dashboard"}
-              icon={<AdjustmentsVerticalIcon width={20} height={20} />}
-            />
-          )}
-        </NavLink>
-      )}
-      <NavLink to="/workspaces">
+    <Stack spacing={4} h={"100%"}>
+      <NavLink to="/workspaces" end>
         {({ isActive }) => (
           <LinkItem
             isActive={isActive}
@@ -44,30 +30,41 @@ export default function NavList({
         )}
       </NavLink>
       {selectedWorkspace && (
-        <NavLink to={`/workspaces/${selectedWorkspace.id}/management/vehicles`}>
-          {({ isActive }) => (
-            <LinkItem
-              isActive={isActive}
-              label={"Vehicles"}
-              icon={<TruckIcon width={20} height={20} />}
-            />
-          )}
-        </NavLink>
+        <>
+          <Heading fontSize={"sm"} fontWeight={"medium"} mt={5} mb={2}>
+            {selectedWorkspace.workspaceTitle}
+          </Heading>
+          <Divider />
+          <NavLink
+            to={`/workspaces/${selectedWorkspace.id}/management/dashboard`}
+            end
+          >
+            {({ isActive }) => (
+              <LinkItem
+                isActive={isActive}
+                label={"Dashboard"}
+                icon={<AdjustmentsVerticalIcon width={20} height={20} />}
+              />
+            )}
+          </NavLink>
+          <NavLink
+            to={`/workspaces/${selectedWorkspace.id}/management/vehicles`}
+            end
+          >
+            {({ isActive }) => (
+              <LinkItem
+                isActive={isActive}
+                label={"Vehicles"}
+                icon={<TruckIcon width={20} height={20} />}
+              />
+            )}
+          </NavLink>
+          <Divider />
+        </>
       )}
-      <NavLink to={`/upgrade-tenant`}>
-        {({ isActive }) => (
-          <LinkItem
-            isActive={isActive}
-            label={"Upgrade Subscripttion"}
-            icon={<ShieldCheckIcon width={20} height={20} />}
-          />
-        )}
-      </NavLink>
-      <Button
+      <Spacer />
+      {/* <Button
         colorScheme="teal"
-        position="fixed"
-        bottom={5}
-        left={5}
         size={"md"}
         w={"220px"}
         variant="outline"
@@ -78,7 +75,7 @@ export default function NavList({
         }
       >
         Log Out
-      </Button>
+      </Button> */}
     </Stack>
   );
 }

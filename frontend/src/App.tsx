@@ -17,6 +17,7 @@ import VehicleReports from "./pages/Vehicles/VehicleDetails/VehicleReports";
 
 import "./app.css";
 import { Box } from "@chakra-ui/react";
+import PublicLayout from "./auth/PublicLayout";
 
 function App() {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
@@ -33,7 +34,9 @@ function App() {
     <>
       {/* <MainNav /> */}
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route element={<PublicLayout />}>
+          <Route path="/" element={<Home />} />
+        </Route>
         <Route element={<AuthLayout />}>
           <Route path="/get-started" element={<CreateTenant />} />
           <Route path="/upgrade-tenant" element={<UpgradeTenant />} />

@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { CreateATenantRequest } from "../../../models/tenants/tenantRequests";
 import { createTenantAsync } from "../../../services/tenantsServices";
 import { AxiosError } from "axios";
+import {BaseResponse} from "../../../models/BaseResponse";
 
 interface Props {
   createDefaultWorkspace: () => void;

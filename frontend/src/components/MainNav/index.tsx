@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -6,61 +5,25 @@ import {
   Spacer,
   Button,
   IconButton,
-  MenuButton,
-  Menu,
-  MenuList,
-  MenuItem,
   HStack,
   useColorMode,
 } from "@chakra-ui/react";
-import {
-  ChevronDownIcon,
-  HamburgerIcon,
-  MoonIcon,
-  SunIcon,
-} from "@chakra-ui/icons";
+import { HamburgerIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { useAuth0 } from "@auth0/auth0-react";
 import SideDrawer from "./SideDrawer";
 
-import { NavLink, useNavigate } from "react-router";
-import { Workspace } from "../../models/workspaces/workspace";
-import useSelectedWorkspaceStore from "../../store/selectedWorkspaceStore";
-import getWorkspacesQuery from "../../hooks/queries/workspaces/getWorkspacesQuery";
+import {NavLink, useParams} from "react-router";
+import UserSummary from "./UserSummary";
 
-const MainNav = ({
-  selectedWorkspace,
-  mainDrawer,
-}: {
-  selectedWorkspace?: Workspace;
-  mainDrawer?: any;
-}) => {
-  const { user, isAuthenticated, loginWithRedirect } = useAuth0();
+const MainNav = ({ mainDrawer }: { mainDrawer?: any }) => {
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
   const { colorMode, toggleColorMode } = useColorMode();
-  const navigation = useNavigate();
-
-  const [loadWorkspaces, setLoadWorkspaces] = useState<boolean>(false);
-  const setSelectedWorkspace = useSelectedWorkspaceStore(
-    (state) => state.setSelectedWorkspace
-  );
-
-  const { data, isLoading } = getWorkspacesQuery(loadWorkspaces);
-
-  useEffect(() => {
-    if (isAuthenticated && selectedWorkspace) {
-      setLoadWorkspaces(true);
-    }
-  }, [isAuthenticated]);
+  const { workspaceId } = useParams();
 
   return (
     <>
       {/* Side Drawer */}
-      {mainDrawer && (
-        <SideDrawer
-          user={user}
-          mainDrawer={mainDrawer}
-          selectedWorkspace={selectedWorkspace}
-        />
-      )}
+      {(workspaceId && mainDrawer) && <SideDrawer mainDrawer={mainDrawer} />}
       <Box
         as="nav"
         position="fixed"
@@ -75,7 +38,7 @@ const MainNav = ({
         py={4}
         // mb={5}
       >
-        <Flex w="80%" mx="auto" flexDirection={"row"}>
+        <Flex px="15px" flexDirection={"row"}>
           {isAuthenticated && mainDrawer && (
             <IconButton
               icon={<HamburgerIcon />}
@@ -96,40 +59,9 @@ const MainNav = ({
             justifyContent={"end"}
             display={{ base: "none", md: "flex" } as const}
           >
-            {selectedWorkspace && (
-              <>
-                <Menu>
-                  <MenuButton
-                    w={"lg"}
-                    as={Button}
-                    variant={"outline"}
-                    rightIcon={<ChevronDownIcon />}
-                    mr={4}
-                  >
-                    {selectedWorkspace.workspaceTitle}
-                  </MenuButton>
-                  <MenuList>
-                    {!isLoading &&
-                      data?.data!.map((workspace: Workspace) => (
-                        <MenuItem
-                          key={workspace.id}
-                          onClick={() => {
-                            setSelectedWorkspace(workspace);
-                            navigation(
-                              `/workspaces/${workspace.id}/management/dashboard`
-                            );
-                          }}
-                        >
-                          {workspace.workspaceTitle}
-                        </MenuItem>
-                      ))}
-                  </MenuList>
-                </Menu>
-              </>
-            )}
-            {/* {isAuthenticated ? (
-              <UserSummary drawerState={false} /> */}
-            {!isAuthenticated && (
+            {isAuthenticated ? (
+              <UserSummary drawerState={false} />
+            ) : (
               <Button
                 variant="outline"
                 rounded={"full"}

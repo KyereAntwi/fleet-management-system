@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getSingleWorkspaceAsync } from "../../../services/workspaceServices";
 import { Workspace } from "../../../models/workspaces/workspace";
+import {BaseResponse} from "../../../models/BaseResponse";
 
 interface Props {
   id: string;

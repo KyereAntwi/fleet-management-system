@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import { useToast } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router';
+import {BaseResponse} from "../../../models/BaseResponse";
 
 export const deleteWorkspaceCommand = () => {
   const toast = useToast();

@@ -13,17 +13,17 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import {useNavigate} from "react-router";
+import { useNavigate } from "react-router";
 import useSelectedWorkspaceStore from "../../store/selectedWorkspaceStore";
 import getTenantQuery from "../../hooks/queries/tenants/getTenantQuery";
-import {TenantSubscription} from "../../models/tenants/tenantRequests";
-import {Badge} from "@chakra-ui/icons";
+import { TenantSubscription } from "../../models/tenants/tenantRequests";
+import { Badge } from "@chakra-ui/icons";
 
 interface Props {
-  drawerState: boolean
+  drawerState: boolean;
 }
 
-const UserSummary = ({drawerState}: Props) => {
+const UserSummary = ({ drawerState }: Props) => {
   const { logout, user } = useAuth0();
   const { name, picture, email } = user as {
     name: string;
@@ -31,16 +31,16 @@ const UserSummary = ({drawerState}: Props) => {
     email: string;
   };
 
-  const {data: tenant, isLoading} = getTenantQuery();
+  const { data: tenant, isLoading } = getTenantQuery();
 
   const navigation = useNavigate();
-  
+
   if (!isLoading && !tenant) {
-    navigation('/get-started');
+    navigation("/get-started");
   }
-  
+
   const restoreSelectedWorkspace = useSelectedWorkspaceStore(
-      (state) => state.resetSelectedWorkspace
+    (state) => state.resetSelectedWorkspace
   );
 
   return (
@@ -48,23 +48,34 @@ const UserSummary = ({drawerState}: Props) => {
       <Menu>
         <MenuButton>
           {drawerState ? (
-              <HStack>
-                {!isLoading && tenant && tenant?.data?.subscriptionType === TenantSubscription.Free && (
-                    <Badge variant={'solid'} colorScheme='red'>Free</Badge>
+            <HStack>
+              {!isLoading &&
+                tenant &&
+                tenant?.data?.subscriptionType === TenantSubscription.Free && (
+                  <Badge variant={"solid"} colorScheme="red">
+                    Free
+                  </Badge>
                 )}
-                <Avatar mr={2} src={picture} name={name} />
-                <Text>{name}</Text>
-              </HStack>
-          ) : <Avatar src={picture} name={name} />}
+              <Avatar mr={2} src={picture} name={name} />
+              <Text>{name}</Text>
+            </HStack>
+          ) : (
+            <Avatar src={picture} name={name} />
+          )}
         </MenuButton>
         <MenuList>
           <MenuGroup title="Profile">
             <MenuItem>
               <VStack align="start">
                 <HStack>
-                  {!isLoading && tenant && tenant?.data?.subscriptionType === TenantSubscription.Free && (
-                      <Badge variant={'solid'} colorScheme='red'>Free</Badge>
-                  )}
+                  {!isLoading &&
+                    tenant &&
+                    tenant?.data?.subscriptionType ===
+                      TenantSubscription.Free && (
+                      <Badge variant={"solid"} colorScheme="red">
+                        Free
+                      </Badge>
+                    )}
                   <Avatar size="sm" src={picture} name={name} />
                   <Spacer />
                   <Text>{name}</Text>
@@ -75,15 +86,21 @@ const UserSummary = ({drawerState}: Props) => {
           </MenuGroup>
           <MenuDivider />
           <MenuGroup title="Settings">
-            <MenuItem onClick={() => {
-              restoreSelectedWorkspace()
-              navigation('/workspaces')
-            }}>Workspaces</MenuItem>
-            {!isLoading && tenant && tenant?.data?.subscriptionType === TenantSubscription.Free && (
-                <MenuItem onClick={() => navigation('/upgrade-tenant')}>
+            <MenuItem
+              onClick={() => {
+                restoreSelectedWorkspace();
+                navigation("/workspaces");
+              }}
+            >
+              Workspaces
+            </MenuItem>
+            {!isLoading &&
+              tenant &&
+              tenant?.data?.subscriptionType === TenantSubscription.Free && (
+                <MenuItem onClick={() => navigation("/upgrade-tenant")}>
                   Upgrade Subscription
                 </MenuItem>
-            )}
+              )}
           </MenuGroup>
           <MenuDivider />
           <MenuGroup>

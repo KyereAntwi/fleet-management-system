@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { CreateWorkspaceRequest } from '../../../models/workspaces/workspaceRequests';
 import { createWorkspaceAsync } from '../../../services/workspaceServices';
 import { AxiosError } from 'axios';
+import {BaseResponse} from "../../../models/BaseResponse";
 
 interface Props {
   displayOnError: (message: string) => void;

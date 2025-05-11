@@ -3,6 +3,7 @@ import {deleteVehicleAsync} from "../../../services/vehicleServices";
 import {AxiosError} from "axios";
 import {useToast} from "@chakra-ui/react";
 import {useNavigate} from "react-router";
+import {BaseResponse} from "../../../models/BaseResponse";
 
 interface Props {
     vehicleId: string;

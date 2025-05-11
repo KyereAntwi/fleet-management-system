@@ -404,3 +404,4 @@ obj/
 
 #environment variables
 *.env
+dist/

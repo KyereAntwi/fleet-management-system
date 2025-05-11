@@ -1,21 +1,28 @@
-import {AxiosError, AxiosResponse} from 'axios';
+import {AxiosError, AxiosInstance, AxiosResponse} from 'axios';
 import createAxiosInstance from './Axios';
+import {BaseResponse} from '../models/BaseResponse';
 
 export type ErrorResponse = AxiosError<BaseResponse<string>>;
 
-const axiosInstance = await createAxiosInstance();
+let axiosInstance: AxiosInstance;
 
-axiosInstance.interceptors.response.use((config) => {
-  config.headers['X-Tenant-Id'] = localStorage.getItem('tenantId') || '';
-  return config;
-});
+async function initializeAxios() {
+  axiosInstance = await createAxiosInstance()
+
+  axiosInstance.interceptors.response.use((config) => {
+    config.headers['X-Tenant-Id'] = localStorage.getItem('tenantId') || '';
+    return config;
+  });
+}
+
+initializeAxios();
 
 const apiClient = {
   async get<TRequest, TResponse>(
     url: string,
     data?: TRequest
   ): Promise<AxiosResponse<BaseResponse<TResponse>>> {
-    return await axiosInstance.get<BaseResponse<TResponse>>(url, {
+    return axiosInstance.get<BaseResponse<TResponse>>(url, {
       method: 'GET',
     });
   },
