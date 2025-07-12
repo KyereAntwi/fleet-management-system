@@ -9,6 +9,7 @@ import {
   MenuGroup,
   MenuItem,
   MenuList,
+  SkeletonCircle,
   Spacer,
   Text,
   VStack,
@@ -31,9 +32,13 @@ const UserSummary = ({ drawerState }: Props) => {
     email: string;
   };
 
-  const { data: tenant, isLoading } = getTenantQuery();
+  const { data: tenant, isLoading, error } = getTenantQuery();
 
   const navigation = useNavigate();
+
+  if (error) {
+    navigation("/get-started");
+  }
 
   if (!isLoading && !tenant) {
     navigation("/get-started");
@@ -46,18 +51,28 @@ const UserSummary = ({ drawerState }: Props) => {
   return (
     <Box mr={4}>
       <Menu>
-        <MenuButton>
+        <MenuButton disabled={isLoading}>
           {drawerState ? (
             <HStack>
+              {isLoading && (
+                <SkeletonCircle
+                  size="10"
+                  startColor="gray.200"
+                  endColor="gray.300"
+                />
+              )}
+
               {!isLoading &&
                 tenant &&
                 tenant?.data?.subscriptionType === TenantSubscription.Free && (
-                  <Badge variant={"solid"} colorScheme="red">
-                    Free
-                  </Badge>
+                  <>
+                    <Badge variant={"solid"} colorScheme="red">
+                      Free
+                    </Badge>
+                    <Avatar mr={2} src={picture} name={name} />
+                    <Text>{name}</Text>
+                  </>
                 )}
-              <Avatar mr={2} src={picture} name={name} />
-              <Text>{name}</Text>
             </HStack>
           ) : (
             <Avatar src={picture} name={name} />
